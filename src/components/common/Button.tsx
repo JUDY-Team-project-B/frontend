@@ -19,7 +19,7 @@ const Button = ({
   return (
     <button
       className={classNames(
-        'text-white flex font-semibold justify-center items-center text-[0.9rem] w-32 px-3 py-2 gap-4 bg-[#1DC071] rounded-full border-2  hover:opacity-75 active:scale-90 duration-300',
+        'text-white flex font-semibold justify-center items-center text-1 w-32 px-3 py-2 gap-4 bg-[#1DC071] rounded-full border-2  hover:opacity-75 active:scale-90 duration-300',
         className,
       )}
       type={type}
