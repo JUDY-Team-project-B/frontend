@@ -41,6 +41,7 @@ const PostEditor = ({ onChangeEditor }: IProps) => {
         toolbar: [
           `undo redo | bold italic underline | image link | forecolor backcolor removeformat | alignleft aligncentre alignright alignjustify | indent outdent | bullist numlist | preview`,
         ],
+        content_css: '/Editor.css',
       }}
     />
   );

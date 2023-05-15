@@ -7,10 +7,12 @@ interface IProps {
 }
 export const Layout = ({ children }: IProps) => {
   return (
-    <div>
+    <main className="flex flex-col h-screen">
       <Header />
-      <main className="relative py-9 | w-f-full relative px-4">{children}</main>
+      <section className="flex-grow max-w-6xl mx-auto py-12 sm:px-6 lg:px-8">
+        {children}
+      </section>
       <Footer />
-    </div>
+    </main>
   );
 };

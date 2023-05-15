@@ -1,7 +1,7 @@
 import Button from '@/components/common/Button';
 import { Layout } from '@/components/common/Layout';
 import PostEditor from '@/components/post/Editor';
-import Hashtag from '@/components/post/Hashtag';
+import HashTag from '@/components/post/Hashtag';
 import { PostCardList } from '@/components/post/PostCardList';
 import { PostTitleInput } from '@/components/post/PostTitleInput';
 import React, { useState } from 'react';
@@ -31,13 +31,17 @@ const CreatePostPage = () => {
       <PostCardList />
       <PostTitleInput />
       <PostEditor onChangeEditor={handleEditorChange} />
-      <Button onClick={handleClick} type="submit" children={'작성완료'} />
-      {/* TODO hashtag 수정 */}
-      <Hashtag
-        hashtag={''}
-        onChageHashtag={function (content: string): void {
+      <HashTag
+        hashTags={[]}
+        setHashTags={function (value: React.SetStateAction<string[]>): void {
           throw new Error('Function not implemented.');
         }}
+      />
+      <Button
+        className="ml-auto mt-5"
+        onClick={handleClick}
+        type="submit"
+        children={'작성완료'}
       />
     </Layout>
   );
