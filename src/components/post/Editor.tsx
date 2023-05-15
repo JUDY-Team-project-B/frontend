@@ -21,10 +21,26 @@ const PostEditor = ({ onChangeEditor }: IProps) => {
         placeholder: '게시글을 작성해주세요.',
         height: 500,
         menubar: false,
-        plugins: ['image'],
-        toolbar:
-          'undo redo | image | styles | styleselect  | fontsizeselect  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent ',
-        // todo image upload handler
+        language: 'ko_KR',
+        plugins: [
+          'lists',
+          'advlist',
+          'autolink',
+          'link',
+          'image',
+          'preview',
+          'searchreplace',
+          'visualblocks',
+          'fullscreen',
+          'importcss',
+          'insertdatetime',
+          'table',
+          'help',
+          'wordcount',
+        ],
+        toolbar: [
+          `undo redo | bold italic underline | image link | forecolor backcolor removeformat | alignleft aligncentre alignright alignjustify | indent outdent | bullist numlist | preview`,
+        ],
       }}
     />
   );
