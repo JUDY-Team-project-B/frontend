@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import user from '../../assets/image/image1.png';
+import titleImg from '../../assets/image/image1.png';
+import user from '../../assets/image/user.png';
 
 function Profile() {
   return (
     <Bg>
       <TitleImg></TitleImg>
       <Container>
-        <Container1>
+        <LeftContainer>
           <Title>6/28 ~ 7/1 제주도 같이 돌아다니실분 구해요!</Title>
           <DestinationContainer>
             <Destination>여행지역</Destination>
@@ -35,8 +36,14 @@ function Profile() {
             <PostView>조회수 33</PostView>
             <PostComment>댓글 2</PostComment>
           </PostContainer>
-        </Container1>
-        <Container2></Container2>
+        </LeftContainer>
+        <RightContainer>
+          <ProfileImg>
+            <ProfileName>사진작가 이씨</ProfileName>
+            <ProfileInfo>20대 남자</ProfileInfo>
+            <ProfileIntroduce>사진찍는 걸 좋아해요!</ProfileIntroduce>
+          </ProfileImg>
+        </RightContainer>
       </Container>
     </Bg>
   );
@@ -45,12 +52,12 @@ function Profile() {
 export default Profile;
 
 const Bg = styled.div`
-  background-color: #dae3ef;
+  background-color: #eaf0f8;
   height: 100rem;
 `;
 
 const TitleImg = styled.div`
-  background-image: url(${user});
+  background-image: url(${titleImg});
   height: 22.5rem;
   width: 70rem;
   text-align: center;
@@ -66,7 +73,7 @@ const Container = styled.div`
   display: flex;
 `;
 
-const Container1 = styled.div`
+const LeftContainer = styled.div`
   width: 50rem;
 
   display: block;
@@ -216,11 +223,54 @@ const PostComment = styled.div`
   display: flex;
 `;
 
-const Container2 = styled.div`
+const RightContainer = styled.div`
   width: 30rem;
-
   justify-content: center;
-  background-color: blue;
 
+  display: flex;
+`;
+
+const ProfileImg = styled.div`
+  background: url(${user});
+  width: 20rem;
+  height: 15rem;
+  background-size: 8rem 8rem;
+  background-repeat: no-repeat;
+
+  background-position-y: 6rem;
+
+  display: block;
+`;
+const ProfileName = styled.div`
+  font-size: 1.3rem;
+  height: 1rem;
+  width: 20rem;
+  overflow: visible;
+  margin-top: 7.5rem;
+  margin-left: 10rem;
+  color: black;
+  font-weight: 750;
+  display: flex;
+`;
+const ProfileInfo = styled.div`
+  font-size: 0.9rem;
+  height: 1rem;
+  width: 20rem;
+  overflow: visible;
+  margin-top: 1.5rem;
+  margin-left: 10rem;
+  color: gray;
+  font-weight: 750;
+  display: flex;
+`;
+const ProfileIntroduce = styled.div`
+  font-size: 0.9rem;
+  height: 1rem;
+  width: 20rem;
+  overflow: visible;
+  margin-top: 0.5rem;
+  margin-left: 10rem;
+  color: gray;
+  font-weight: 750;
   display: flex;
 `;
