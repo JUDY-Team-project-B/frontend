@@ -3,9 +3,9 @@ import './contentpage.scss';
 
 const Contentpage = () => {
   return (
-    <div className="mapPageBackground">
-      <div>여행가고 싶은곳을 눌러보세요</div>
-      <div>mappage</div>
+    <div className="contentpageBackground">
+      <div>곧 출발하는 여행</div>
+      <div>결과</div>
     </div>
   );
 };
