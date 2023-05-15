@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom';
 const Main = lazy(() => import('./pages/main'));
 const Result = lazy(() => import('./pages/result'));
 const Register = lazy(() => import('./pages/register'));
+const Mypage = lazy(() => import('./pages/mypage'));
 export const routes = [
   {
     path: '/',
@@ -13,6 +14,7 @@ export const routes = [
       { path: '/', element: <Main />, index: true },
       { path: '/result', element: <Result />, index: true },
       { path: '/register', element: <Register />, index: true },
+      { path: '/mypage', element: <Mypage />, index: true },
     ],
   },
 ];
