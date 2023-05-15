@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 import Mappage from '@/components/main/mappage';
-import Nav from '@/components/common/nav';
+import Nav from '@/components/common/nav/nav';
 import Contentpage from '@/components/main/contentpage';
 
 const Main = () => {
