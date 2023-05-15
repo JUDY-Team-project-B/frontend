@@ -3,27 +3,30 @@ import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState } from 'react';
 
 const TravelDatePicker = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
 
   return (
-    <div className="flex flex-row items-center justify-between">
-      <div className="flex items-center w-1/2 mr-4">
+    <div className="flex space-x-2 z-2">
+      <div className="flex items-center">
         <DatePicker
           id="start-date-picker"
-          className="p-2 border border-gray-400 rounded text-gray-700 text-sm w-full"
+          className="z-9999 p-2 border border-gray-300 rounded text-gray-700 text-sm w-72"
           selected={startDate}
           onChange={(date: Date) => setStartDate(date)}
-          placeholderText="Select start date"
+          dateFormat="yyyy-MM-dd"
+          placeholderText="날짜 선택"
         />
       </div>
-      <div className="flex items-center w-1/2">
+      <div className="flex items-center">-</div>
+      <div className="flex items-center">
         <DatePicker
           id="end-date-picker"
-          className="p-2 border border-gray-400 rounded text-gray-700 text-sm w-full"
+          className="z-9999 p-2 border border-gray-300 rounded text-gray-700 text-sm w-72"
           selected={endDate}
           onChange={(date: Date) => setEndDate(date)}
-          placeholderText="Select end date"
+          dateFormat="yyyy-MM-dd"
+          placeholderText="날짜 선택"
         />
       </div>
     </div>
