@@ -6,5 +6,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
+}
+
+.mapdetail {
+  width: 530px;
+  height: 90%;
+  flex-direction: column;
+  .line {
+    transform: scale(0.54);
+    justify-self: center;
+  }
 }
