@@ -1,4 +1,27 @@
 .contentBackground {
   width: 75%;
-  background-color: gray;
+  height: auto; 
+  background-color: red; 
+} 
+ 
+.content{ 
+  width: 20%; 
+  height: 300px; 
+  background-color: blue; 
+} 
+ 
+.img{ 
+  width: 100%; 
+  height: 66%; 
+  background-image: url('../../assets/image/user.png'); 
+  display: flex; 
+  flex-direction: row; 
+  align-items: flex-start; 
+} 
+ 
+.name{ 
+  justify-self: flex-end; 
+}
+.destination{ 
+   
 }
