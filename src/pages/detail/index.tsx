@@ -45,6 +45,10 @@ function Profile() {
           </ProfileImg>
         </RightContainer>
       </Container>
+      <Container2>
+        <CommentInput></CommentInput>
+        <Button>게시</Button>
+      </Container2>
     </Bg>
   );
 }
@@ -84,7 +88,7 @@ const Title = styled.div`
   width: 40rem;
   overflow: visible;
   margin-top: 2rem;
-  margin-left: 2rem;
+
   color: #73a1ec;
   border-bottom: 2px solid #afbdd3;
   font-weight: 750;
@@ -100,7 +104,7 @@ const Destination = styled.div`
   width: 4rem;
   overflow: visible;
   margin-top: 2rem;
-  margin-left: 2rem;
+
   color: #9f9e9e;
   font-weight: 750;
   display: flex;
@@ -126,7 +130,7 @@ const People = styled.div`
   height: 2rem;
   width: 4rem;
   overflow: visible;
-  margin-left: 2rem;
+
   color: #9f9e9e;
   font-weight: 750;
 `;
@@ -149,7 +153,7 @@ const Date = styled.div`
   height: 2rem;
   width: 4rem;
   overflow: visible;
-  margin-left: 2rem;
+
   color: #9f9e9e;
   font-weight: 750;
 `;
@@ -175,7 +179,7 @@ const Content = styled.div`
   width: 38rem;
   overflow: visible;
   margin-top: 3rem;
-  margin-left: 2rem;
+  margin-left: 1rem;
   color: #3c3a3a;
   font-weight: 750;
   line-height: 1.6rem;
@@ -192,7 +196,6 @@ const HashtagContainer = styled.div`
 const PostContainer = styled.div`
   width: 50rem;
   display: flex;
-  line-height: 3rem;
 `;
 const PostDate = styled.div`
   font-size: 1.1rem;
@@ -273,4 +276,36 @@ const ProfileIntroduce = styled.div`
   color: gray;
   font-weight: 750;
   display: flex;
+`;
+const Container2 = styled.div`
+  width: 70rem;
+  height: 30rem;
+  margin-left: 12rem;
+  display: flex;
+`;
+
+const CommentInput = styled.input`
+  margin-top: 2rem;
+  height: 3rem;
+  width: 40rem;
+  border: 0.1px solid #cdcaca;
+  border-radius: 0.7rem;
+  padding: 1rem;
+`;
+
+const Button = styled.button`
+  height: 3rem;
+  width: 4rem;
+  background-color: #8db5f6;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 1rem;
+  margin-top: 2rem;
+  margin-left: 0.5rem;
+  &:hover {
+    background-color: skyblue;
+    color: white;
+    cursor: pointer;
+  }
 `;
