@@ -3,6 +3,8 @@ import './maincontent.scss';
 import Preview from '@/components/common/preview/preview';
 
 const Maincontent = () => {
+
+
   return (
     <div className="contentBackground">
       <div className='ment'>
