@@ -106,7 +106,7 @@ const Destination = styled.div`
   margin-top: 2rem;
 
   color: #9f9e9e;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 const DestinationValue = styled.div`
@@ -117,7 +117,7 @@ const DestinationValue = styled.div`
   margin-top: 2rem;
   margin-left: 2rem;
   color: #73a1ec;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 
@@ -132,7 +132,7 @@ const People = styled.div`
   overflow: visible;
 
   color: #9f9e9e;
-  font-weight: 750;
+  font-weight: 600;
 `;
 const PeopleValue = styled.div`
   font-size: 1.1rem;
@@ -141,7 +141,7 @@ const PeopleValue = styled.div`
   overflow: visible;
   margin-left: 2rem;
   color: #73a1ec;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 const DateContainer = styled.div`
@@ -155,7 +155,7 @@ const Date = styled.div`
   overflow: visible;
 
   color: #9f9e9e;
-  font-weight: 750;
+  font-weight: 600;
 `;
 const Dates = styled.div`
   font-size: 1.1rem;
@@ -164,7 +164,7 @@ const Dates = styled.div`
   overflow: visible;
   margin-left: 2rem;
   color: #73a1ec;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 const ContentsContainer = styled.div`
@@ -181,13 +181,13 @@ const Content = styled.div`
   margin-top: 3rem;
   margin-left: 1rem;
   color: #3c3a3a;
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.6rem;
 `;
 const HashtagContainer = styled.div`
   width: 43.5rem;
   height: 2rem;
-  font-weight: 750;
+  font-weight: 600;
   line-height: 2rem;
   display: flex;
   overflow: visible;
@@ -203,7 +203,7 @@ const PostDate = styled.div`
   width: 9rem;
   overflow: visible;
   color: #9f9e9e;
-  font-weight: 750;
+  font-weight: 600;
 `;
 const PostView = styled.div`
   font-size: 1.1rem;
@@ -212,7 +212,7 @@ const PostView = styled.div`
   overflow: visible;
   margin-left: 2rem;
   color: #9f9e9e;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 const PostComment = styled.div`
@@ -222,7 +222,7 @@ const PostComment = styled.div`
   overflow: visible;
   margin-left: rem;
   color: #9f9e9e;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 
@@ -263,7 +263,7 @@ const ProfileInfo = styled.div`
   margin-top: 1.5rem;
   margin-left: 10rem;
   color: gray;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 const ProfileIntroduce = styled.div`
@@ -274,7 +274,7 @@ const ProfileIntroduce = styled.div`
   margin-top: 0.5rem;
   margin-left: 10rem;
   color: gray;
-  font-weight: 750;
+  font-weight: 600;
   display: flex;
 `;
 const Container2 = styled.div`
