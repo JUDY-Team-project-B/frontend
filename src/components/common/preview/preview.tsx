@@ -13,16 +13,21 @@ const Preview = () => {
     
   );
 
-  const res = data
-
-
-
   console.log(data);
 
 
   return (
-    <div className='content'>
 
+    <div className='content'>
+      <div>
+        <div>
+          {data?.map(()=>{
+            return(
+              <div>hello</div>
+            )
+          })}
+        </div>
+      </div>
         <div className='img'>
           <div className='destiantion'> 
             제주
