@@ -27,6 +27,14 @@ const postList: postInform[] = [
     travel_at: "대구",
     travel_member: 1
   },
+  {
+    poat_id: "2",
+    post_image: "img",
+    travel_gender: "남성",
+    travel_age: "20대",
+    travel_at: "대구",
+    travel_member: 1
+  },
 ];
 
 export const handlers = [
