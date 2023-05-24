@@ -22,15 +22,6 @@ const Preview = () => {
 
   return (
     <div className='content'>
-      <div>
-        {res?.map((item, index)=>{
-          return(
-            
-          )
-        })}
-      </div>
-
-
 
         <div className='img'>
           <div className='destiantion'> 
