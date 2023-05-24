@@ -1,9 +1,37 @@
 import React from 'react';
 import './preview.scss';
+import { useQuery } from '@tanstack/react-query';
+import { restFetcher } from '@/queryClient';
 
 const Preview = () => {
+
+  const{data,isLoading,isError,error} = useQuery(['POST'],()=>
+    restFetcher({
+      method:'GET',
+      path:`/api/v1/post/all`,
+    })
+    
+  );
+
+  const res = data
+
+
+
+  console.log(data);
+
+
   return (
-    <div className='content'> 
+    <div className='content'>
+      <div>
+        {res?.map((item, index)=>{
+          return(
+            
+          )
+        })}
+      </div>
+
+
+
         <div className='img'>
           <div className='destiantion'> 
             제주
