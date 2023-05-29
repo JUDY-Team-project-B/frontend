@@ -1,6 +1,6 @@
 import React from 'react';
 import './maincontent.scss';
-import Preview from '@/components/common/preview/preview';
+import Preview from '@/components/main/preview/preview';
 
 
 
