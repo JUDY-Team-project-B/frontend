@@ -35,6 +35,22 @@ const postList: postInform[] = [
     travel_at: "서울",
     travel_member: 2
   },
+  {
+    post_id: "3",
+    post_image: "img",
+    travel_gender: "남성",
+    travel_age: "20대",
+    travel_at: "서울",
+    travel_member: 2
+  },
+  {
+    post_id: "4",
+    post_image: "img",
+    travel_gender: "남성",
+    travel_age: "20대",
+    travel_at: "서울대구부산대전여기",
+    travel_member: 2
+  },
 ];
 
 export const handlers = [

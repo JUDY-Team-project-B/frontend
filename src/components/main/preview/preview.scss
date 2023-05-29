@@ -1,0 +1,70 @@
+.content{ 
+    height: 500px; 
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+} 
+
+.contentlayout{ 
+  width: 100%; 
+  height: auto; 
+  background-color: white; 
+} 
+
+.gridlayout{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr)
+}
+   
+  .img{ 
+    width: 100%; 
+    height: 40%; 
+    background-image: url("/src//assets/image/de.jpg"); 
+    background-size: cover;
+    display: flex; 
+    flex-direction: column; 
+    border-radius: 20px;
+  }
+
+  .imginfo{
+    height: 20%;
+    margin-left: 2%;
+    margin-right:2%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .destination{
+    height: 80%;
+    background-color: white;
+    color: #3db9ff;
+    border: 1px solid #3db9ff;
+    border-radius: 10px; 
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    vertical-align:middle;
+    display: inline-block;
+  }
+
+  .destinationtext{
+    width: 100%;
+    height: auto;
+  }
+   
+
+  .title{
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .date{
+    font-size: 16px;
+  }
+  
+  .how{
+    font-size: 16px;
+  }
+  

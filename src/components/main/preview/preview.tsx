@@ -3,6 +3,7 @@ import './preview.scss';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import { postInform } from '@/mocks/handlers';
+import HeartOn from '@/assets/image/HeartOn.png'
 
 const Preview = () => {
 
@@ -18,25 +19,29 @@ const Preview = () => {
 
   const res = data;
 
-
-
   console.log(data);
 
 
   return (
 
-    <div className='content'>
-      <div>
-        <div>
+    <div className='contentlayout'>
+        <div className='gridlayout'>
+
+
+
           {data?.map((datas: postInform, index:any) =>(
-            <div key={index}>
+            <div className='content' key={index}>
+
+              
               <div className='img'>
-                <div className='destiation'>
-                  {datas.travel_at}
+                <div className='imginfo'>
+                  <div className='destination'>
+                    <div className='destinationtext'>
+                      {datas.travel_at}
+                    </div>
+                  </div>
+                  <img src={HeartOn}></img>
                 </div>
-              <div className='name'> 
-                하트 
-              </div>
             </div>
             <div>
               조회수
@@ -57,7 +62,6 @@ const Preview = () => {
           ))}
         </div>
       </div> 
-    </div>
   );
 };
 
