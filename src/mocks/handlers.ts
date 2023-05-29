@@ -9,7 +9,7 @@ import { rest } from 'msw';
  */
 
 export interface postInform {
-  poat_id: string;
+  post_id: string;
   post_image: string;
   travel_gender: string;
   travel_age: string;
@@ -20,7 +20,7 @@ export interface postInform {
 
 const postList: postInform[] = [
   {
-    poat_id: "1",
+    post_id: "1",
     post_image: "img",
     travel_gender: "남성",
     travel_age: "20대",
@@ -28,12 +28,12 @@ const postList: postInform[] = [
     travel_member: 1
   },
   {
-    poat_id: "2",
+    post_id: "2",
     post_image: "img",
     travel_gender: "남성",
     travel_age: "20대",
-    travel_at: "대구",
-    travel_member: 1
+    travel_at: "서울",
+    travel_member: 2
   },
 ];
 
