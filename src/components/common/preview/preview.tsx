@@ -2,8 +2,11 @@ import React from 'react';
 import './preview.scss';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
+import { postInform } from '@/mocks/handlers';
 
 const Preview = () => {
+
+
 
   const{data,isLoading,isError,error} = useQuery(['POST'],()=>
     restFetcher({
@@ -13,6 +16,10 @@ const Preview = () => {
     
   );
 
+  const res = data;
+
+
+
   console.log(data);
 
 
@@ -21,39 +28,36 @@ const Preview = () => {
     <div className='content'>
       <div>
         <div>
-          {data?.map(()=>{
-            return(
-              <div>hello</div>
-            )
-          })}
+          {data?.map((datas: postInform, index:any) =>(
+            <div key={index}>
+              <div className='img'>
+                <div className='destiation'>
+                  {datas.travel_at}
+                </div>
+              <div className='name'> 
+                하트 
+              </div>
+            </div>
+            <div>
+              조회수
+            </div>
+            <div className='title'>
+              제목
+            </div>
+            <div className='data'>
+              날짜
+            </div>
+            <div className='title'>
+              {datas.travel_age}{datas.travel_gender}
+            </div>
+            <div className='need'>
+              {datas.travel_member}
+            </div>
+          </div>
+          ))}
         </div>
-      </div>
-        <div className='img'>
-          <div className='destiantion'> 
-            제주
-          </div> 
-          <div className='name'> 
-            하트 
-          </div> 
-        </div> 
-        <div> 
-          조회수
-        </div> 
-        <div> 
-          <div className='title'> 
-            title
-          </div> 
-          <div className='date'> 
-            date 
-          </div> 
-          <div className='how'> 
-            how 
-          </div> 
-          <div> 
-            need 
-          </div>        
-        </div> 
       </div> 
+    </div>
   );
 };
 
