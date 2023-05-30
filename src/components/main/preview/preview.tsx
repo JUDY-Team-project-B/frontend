@@ -31,18 +31,17 @@ const Preview = () => {
 
           {data?.map((datas: postInform, index:any) =>(
             <div className='content' key={index}>
-
-              
               <div className='img'>
                 <div className='imginfo'>
+
                   <div className='destination'>
                     <div className='destinationtext'>
                       {datas.travel_at}
                     </div>
+                    <img src={HeartOn}></img>
                   </div>
-                  <img src={HeartOn}></img>
                 </div>
-            </div>
+              </div>
             <div>
               조회수
             </div>
@@ -58,10 +57,10 @@ const Preview = () => {
             <div className='need'>
               {datas.travel_member}
             </div>
-          </div>
-          ))}
         </div>
-      </div> 
+        ))}
+      </div>
+    </div> 
   );
 };
 
