@@ -1,7 +1,10 @@
 .contentBackground {
-  width: 1080px;
+  width: 1200px;
   margin: auto;
-  height: auto; 
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 } 
 
 
@@ -10,5 +13,6 @@
   font-size: 30x;
   font-weight: bold;
   justify-content: flex-start;
+  margin-top: 40px;
 }
  
