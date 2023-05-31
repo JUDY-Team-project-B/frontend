@@ -11,6 +11,7 @@ import { rest } from 'msw';
 export interface postInform {
   post_id: string;
   post_image: string;
+  post_title: string;
   travel_gender: string;
   travel_age: string;
   travel_at: string;
@@ -22,33 +23,37 @@ const postList: postInform[] = [
   {
     post_id: "1",
     post_image: "img",
+    post_title:"제주도 감성 여행 가실분!",
     travel_gender: "남성",
     travel_age: "20대",
-    travel_at: "대구",
+    travel_at: "제주도",
     travel_member: 1
   },
   {
     post_id: "2",
     post_image: "img",
+    post_title:"부산 놀러 가실분!",
     travel_gender: "남성",
     travel_age: "20대",
-    travel_at: "서울",
+    travel_at: "부산",
     travel_member: 2
   },
   {
     post_id: "3",
     post_image: "img",
+    post_title:"강릉 맛집 투어 갈 사람",
     travel_gender: "남성",
     travel_age: "20대",
-    travel_at: "서울",
+    travel_at: "강릉",
     travel_member: 2
   },
   {
     post_id: "4",
     post_image: "img",
+    post_title:"홍성근처 여행 하실분",
     travel_gender: "남성",
     travel_age: "20대",
-    travel_at: "서울대구부산대전여기",
+    travel_at: "충청남도 홍성",
     travel_member: 2
   },
 ];
