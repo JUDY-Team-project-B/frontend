@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import user from '../../assets/image/user.png';
+import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 
 function Profile() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
   return (
     <Bg>
       <Container>
@@ -10,20 +17,15 @@ function Profile() {
           <ProfileImg></ProfileImg>
         </Container1>
         <Container2>
-          <ChangeBtn
-            onClick={() => {
-              console.log('click');
-            }}
-            type="button"
-          >
+          <ChangeBtn onClick={handleModal} type="button">
             프로필 편집
           </ChangeBtn>
           <NickName>사진작가 이씨</NickName>
           <NickName>tester@gmail.com</NickName>
-          {/* <ChangeBtn margin="2rem 14rem 0 auto">변경</ChangeBtn> */}
         </Container2>
         <Introduce>사진찍는 여행을 좋아해요!</Introduce>
       </Container>
+      <ProfileEditModal open={modalOpen} onClose={handleModal} />
     </Bg>
   );
 }
