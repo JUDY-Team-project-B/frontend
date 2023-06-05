@@ -29,7 +29,6 @@ export const Header = () => {
           <button onClick={gotoMain}>
             <img src={SearchIcon} />
           </button>
-
         </div>
         <div className='detailicon' onClick={gotoMain}>
           <button>

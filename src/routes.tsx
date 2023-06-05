@@ -6,7 +6,7 @@ const Main = lazy(() => import('./pages/main'));
 const Result = lazy(() => import('./pages/result'));
 const Register = lazy(() => import('./pages/register'));
 const Mypage = lazy(() => import('./pages/mypage'));
-const Detail = lazy(() => import('./pages/detail'));
+const Travel = lazy(() => import('./pages/travel'));
 export const routes = [
   {
     path: '/',
@@ -17,7 +17,7 @@ export const routes = [
       { path: '/register', element: <Register />, index: true },
       { path: '/create-post', element: <CreatePostPage />, index: true },
       { path: '/mypage', element: <Mypage />, index: true },
-      { path: '/detail', element: <Detail />, index: true },
+      { path: '/travel', element: <Travel />, index: true },
     ],
   },
 ];
