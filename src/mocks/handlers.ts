@@ -1,12 +1,4 @@
 import { rest } from 'msw';
-/**
-  poat_id: string;
-  post_image: string;
-  travel_gender: string;
-  travel_age: string;
-  travel_at: string;
-  travel_member: number;
- */
 
 export interface postInform {
   post_id: string;
