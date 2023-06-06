@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Preview from '@/components/main/preview/preview';
 import SearchIcon from '@/assets/image/Search icon.png'
 import './detailsearch.scss'
+import Destinationmodal from '../destinationmodal/destinationmodal';
+import Datemodal from '../datamodal/datemodal';
 
 const DetailSearch = () => {
 
+    let [destinationmodal,setDestinationModal] = useState(false);
+    let [datemodal,setDateModal] = useState(false);
+
   return (
     <div className='detailsearchlayout'>
+        <button className='detailclicklayout' onClick={()=>setDestinationModal(true)}>
+            여행 지역
+        </button>
+        <div>
+            {destinationmodal === true? <Destinationmodal />:null}
+        </div>
+        <button className='detailclicklayout'   onClick={()=>setDateModal(true)}>
+            여행 기간
+        </button>
+        <div>
+            {datemodal === true? <Datemodal />:null}
+        </div>
         <div className='detailinputlayout'>
             <input placeholder='여행을 찾아보세요' className='input'/>
             <button>
                 <img src={SearchIcon}/>
             </button>
         </div>
-        <div className='detailclicklayout'>
-            여행 지역
-        </div>
-        <div className='detailclicklayout' >
-            여행 기간
-        </div>
+
     </div>
   );
 };
