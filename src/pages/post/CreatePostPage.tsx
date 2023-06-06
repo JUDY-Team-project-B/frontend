@@ -3,6 +3,7 @@ import { Layout } from '@/components/common/Layout';
 import PostEditor from '@/components/post/Editor';
 import HashTag from '@/components/post/Hashtag';
 import { PostCardList } from '@/components/post/PostCardList';
+import PostThumbnailInput from '@/components/post/PostThumbnailInput';
 import { PostTitleInput } from '@/components/post/PostTitleInput';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,6 +18,7 @@ interface ICreatePostFormData {
 const CreatePostPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleEditorChange = (content: string) => {
     setContent(content);
@@ -30,6 +32,7 @@ const CreatePostPage = () => {
     <Layout>
       <PostCardList />
       <PostTitleInput />
+      <PostThumbnailInput />
       <PostEditor onChangeEditor={handleEditorChange} />
       <HashTag
         hashTags={[]}
