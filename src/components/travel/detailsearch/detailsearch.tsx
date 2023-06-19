@@ -8,7 +8,6 @@ import Datemodal from '../datamodal/datemodal';
 const DetailSearch = () => {
     const [destinationmodal,setDestinationModal] = useState(false);
     const [datemodal,setDateModal] = useState(false);
-
   return (
     <div className='detailsearchlayout'>
         <button className='detailclicklayout' onClick={()=> destinationmodal ? setDestinationModal(false) :setDestinationModal(true)}>
