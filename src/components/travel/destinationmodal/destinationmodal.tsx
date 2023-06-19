@@ -1,7 +1,14 @@
+import './destinationmodal.scss'
+
 const Destinationmodal = () =>{
     return(
-        <div>
-            제발
+        <div  className="destinationmodallayout">
+            <div className='destinationlist'>
+
+            </div>
+            <div className='destinationdetaillist'>
+
+            </div>
         </div>
     )
 }

@@ -1,7 +1,21 @@
+import './datemodal.scss'
+
 const Datemodal = () =>{
     return(
-        <div>
-            제발
+        <div className="datemodallayout">
+            해결좀
+            ㅁ
+            ㅁ
+            ㅁ
+            ㅁ
+            ㅁ
+            ㅁ
+            ㅁ
+            ㅁ
+
+            ㅁㅁ
+
+
         </div>
     )
 }
