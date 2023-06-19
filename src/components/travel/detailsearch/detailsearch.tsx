@@ -6,22 +6,21 @@ import Destinationmodal from '../destinationmodal/destinationmodal';
 import Datemodal from '../datamodal/datemodal';
 
 const DetailSearch = () => {
-
-    let [destinationmodal,setDestinationModal] = useState(false);
-    let [datemodal,setDateModal] = useState(false);
+    const [destinationmodal,setDestinationModal] = useState(false);
+    const [datemodal,setDateModal] = useState(false);
 
   return (
     <div className='detailsearchlayout'>
-        <button className='detailclicklayout' onClick={()=>setDestinationModal(true)}>
+        <button className='detailclicklayout' onClick={()=> destinationmodal ? setDestinationModal(false) :setDestinationModal(true)}>
             여행 지역
         </button>
-        <div>
+        <div className='modaltest'>
             {destinationmodal === true? <Destinationmodal />:null}
         </div>
-        <button className='detailclicklayout'   onClick={()=>setDateModal(true)}>
+        <button className='detailclicklayout' onClick={ ()=> datemodal ? setDateModal(false):setDateModal(true)}>
             여행 기간
         </button>
-        <div>
+        <div className='modaltest'>
             {datemodal === true? <Datemodal />:null}
         </div>
         <div className='detailinputlayout'>
@@ -30,7 +29,6 @@ const DetailSearch = () => {
                 <img src={SearchIcon}/>
             </button>
         </div>
-
     </div>
   );
 };
