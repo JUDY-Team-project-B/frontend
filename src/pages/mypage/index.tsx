@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import user from '../../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
+import MypageContents from './Contents';
 
 function Profile() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -11,22 +12,25 @@ function Profile() {
   };
 
   return (
-    <Bg>
-      <Container>
-        <Container1>
-          <ProfileImg></ProfileImg>
-        </Container1>
-        <Container2>
-          <ChangeBtn onClick={handleModal} type="button">
-            프로필 편집
-          </ChangeBtn>
-          <NickName>사진작가 이씨</NickName>
-          <NickName>tester@gmail.com</NickName>
-        </Container2>
-        <Introduce>사진찍는 여행을 좋아해요!</Introduce>
-      </Container>
-      <ProfileEditModal open={modalOpen} onClose={handleModal} />
-    </Bg>
+    <div>
+      <Bg>
+        <Container>
+          <Container1>
+            <ProfileImg></ProfileImg>
+          </Container1>
+          <Container2>
+            <ChangeBtn onClick={handleModal} type="button">
+              프로필 편집
+            </ChangeBtn>
+            <NickName>사진작가 이씨</NickName>
+            <NickName>tester@gmail.com</NickName>
+          </Container2>
+          <Introduce>사진찍는 여행을 좋아해요!</Introduce>
+        </Container>
+        <ProfileEditModal open={modalOpen} onClose={handleModal} />
+      </Bg>
+      <MypageContents />
+    </div>
   );
 }
 
