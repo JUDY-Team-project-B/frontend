@@ -7,18 +7,32 @@ import HeartOn from '@/assets/image/HeartOn.png'
 import View from '@/assets/image/detailView.png'
 import Heart from '@/assets/image/detailHeart.png'
 import Comment from '@/assets/image/detailcomment.png'
+import axios from 'axios';
 
 const Preview = () => {
 
 
+  // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsb0BuYXZlci5jb20iLCJpYXQiOjE2ODY4OTk0OTMsImV4cCI6MTY4Njk4NTg5M30.OI7-i-fARFf1lUTSp4BCRejGU1ynnaKvDYdcqCjmLkQ'; // JWT 토큰 설정
+
+  // const fetchPosts = async () => {
+  //   const headers = {
+  //     Authorization: `Bearer ${token}`,
+  //   };
+
+  //   const response = await axios.get('http://localhost:8080/api/v1/post/all/0', { headers });
+  //   return response.data;
+  // };
+
+
+  // const{data,isLoading,isError,error} = useQuery(['POST'],fetchPosts);
+    
 
   const{data,isLoading,isError,error} = useQuery(['POST'],()=>
     restFetcher({
       method:'GET',
       path:`/api/v1/post/all`,
     })
-    
-  );
+  )
 
   const res = data;
 
@@ -29,13 +43,8 @@ const Preview = () => {
 
     <div className='contentlayout'>
         <div className='gridlayout'>
-
-
-
           {data?.map((datas: postInform, index:any) =>(
             <div className='content' key={index}>
-
-
               <div className='img'>
                 <div className='imginfo'>
                   <div className='destination'>

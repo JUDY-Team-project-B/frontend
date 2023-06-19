@@ -17,11 +17,23 @@
 .destinationdetaillist{
     width: 696px;
     height: 100%;
-    background-color: black;
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr)
+}
+
+.destinationdetailliststyle{
+    height:30px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+    overflow: hidden;
 }
 
 .destinationliststyle{
     width: 100%;
+    height: 40px;
     font-size: 16px;
     overflow: hidden;
     padding: 12px;
