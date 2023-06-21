@@ -8,6 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
+import axios from 'axios';
 
 interface LoginModalProps {
   open: boolean;
@@ -28,9 +29,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     setPassword(event.target.value);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async (e:any) => {
     console.log('Login with useremail:', useremail);
     console.log('Login with password:', password);
+    try{
+      const response = await axios.post('/api',{useremail,password});
+      const { accessToken } = response.data;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    }catch(e){
+      console.log("error")
+    }
   };
 
   const handleGoogleLogin = () => {
