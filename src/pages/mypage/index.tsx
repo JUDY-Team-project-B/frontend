@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import user from '../../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
-import MypageContents from './Contents';
+import Content2 from './Contents';
 
 function Profile() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,7 +29,7 @@ function Profile() {
         </Container>
         <ProfileEditModal open={modalOpen} onClose={handleModal} />
       </Bg>
-      <MypageContents />
+      <Content2 />
     </div>
   );
 }
