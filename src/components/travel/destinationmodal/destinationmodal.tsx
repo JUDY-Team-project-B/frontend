@@ -2,8 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 import './destinationmodal.scss'
 import { restFetcher } from '@/queryClient'
 import { destination } from '@/mocks/handlers'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 const Destinationmodal = () =>{
+    
+    const navigate = useNavigate();
 
     const{data,isLoading,isError,error} = useQuery(['POST'],()=>
     restFetcher({
@@ -12,6 +16,17 @@ const Destinationmodal = () =>{
     })
   )
 
+  const [destination, setDestination] = useState('');
+  const handlerDestination= (e:any) => {
+    setDestination(e.target.value);
+    console.log(destination)
+  }
+
+  const [destinationDetail, setDestinationDetail] = useState('');
+  const handlerDestinationDetail= (e:any) => {
+    setDestinationDetail(e.target.value);
+    console.log(destinationDetail)
+  }
   const res = data;
 
   console.log(data);
@@ -59,16 +74,16 @@ const Destinationmodal = () =>{
         <div  className="destinationmodallayout">
             <div className='destinationlist'>
                 {data?.map((datas:destination,index:any)=>(
-                    <div className='destinationliststyle' >
+                    <button className='destinationliststyle' value={datas.destination} onClick={handlerDestination} >
                         {datas.destination}
-                    </div>
+                    </button>
                 ))}
             </div>
             <div className='destinationdetaillist'>
                 {destinationdetaillist?.map((datas2:destination,index:any)=>(
-                    <div className='destinationdetailliststyle'>
+                    <button className='destinationdetailliststyle' value={datas2.destination} onClick={handlerDestinationDetail}>
                         {datas2.destination}
-                    </div>
+                    </button>
                 ))}
             </div>
         </div>
