@@ -9,6 +9,18 @@ import {
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import axios from 'axios';
+import { atom, useSetRecoilState } from 'recoil';
+// import { JWT, Token } from '@/atom/atom';
+
+interface User {
+  id: number;
+  name: string;
+  password:string;
+}
+const userState = atom({
+  key: 'userState',
+  default: null,
+});
 
 interface LoginModalProps {
   open: boolean;
@@ -18,7 +30,9 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [useremail, setUseremail] = useState('');
   const [password, setPassword] = useState('');
+  // const setJWT = useSetRecoilState<User|null>(userState)
 
+  const token:string = '';
   const handleUseremailChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -33,8 +47,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     console.log('Login with useremail:', useremail);
     console.log('Login with password:', password);
     try{
-      const response = await axios.post('/api',{useremail,password});
-      const { accessToken } = response.data;
+      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{useremail,password});
+      console.log(response.data)
+      const { accessToken } = response.data.accessToken;
+      // setJWT(accessToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     }catch(e){
       console.log("error")
