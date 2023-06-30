@@ -1,9 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import titleImg from '../../assets/image/image1.png';
 import user from '../../assets/image/user.png';
+import { useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { restFetcher } from '@/queryClient';
 
-function Profile() {
+function Detail() {
+
+  const location = useLocation();
+  const queryParems = new URLSearchParams(location.search);
+  const searchTerm = queryParems.get('q');
+  
+  
+  const [PostData, setPostData] = useState<any[]|any>([]);
+  const [postnum, setPostnum] = useState<string|undefined>('');
+
+
+
+  const{data,isLoading,isError,error} = useQuery(['POST'],()=>
+  restFetcher({
+    method:'GET',
+    path:`/api/v1/post/all/${searchTerm}`,
+  })
+  
+)
+
+
+const res = data;
+
+console.log(data);
+
   return (
     <Bg>
       <TitleImg></TitleImg>
@@ -53,7 +80,7 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Detail;
 
 const Bg = styled.div`
   background-color: #eaf0f8;
