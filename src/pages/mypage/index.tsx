@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import user from '../../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
+import Content2 from './Contents';
 
 function Profile() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -11,30 +12,33 @@ function Profile() {
   };
 
   return (
-    <Bg>
-      <Container>
-        <Container1>
-          <ProfileImg></ProfileImg>
-        </Container1>
-        <Container2>
-          <ChangeBtn onClick={handleModal} type="button">
-            프로필 편집
-          </ChangeBtn>
-          <NickName>사진작가 이씨</NickName>
-          <NickName>tester@gmail.com</NickName>
-        </Container2>
-        <Introduce>사진찍는 여행을 좋아해요!</Introduce>
-      </Container>
-      <ProfileEditModal open={modalOpen} onClose={handleModal} />
-    </Bg>
+    <div>
+      <Bg>
+        <Container>
+          <Container1>
+            <ProfileImg></ProfileImg>
+          </Container1>
+          <Container2>
+            <ChangeBtn onClick={handleModal} type="button">
+              프로필 편집
+            </ChangeBtn>
+            <NickName>사진작가 이씨</NickName>
+            <NickName>tester@gmail.com</NickName>
+          </Container2>
+          <Introduce>사진찍는 여행을 좋아해요!</Introduce>
+        </Container>
+        <ProfileEditModal open={modalOpen} onClose={handleModal} />
+      </Bg>
+      <Content2 />
+    </div>
   );
 }
 
 export default Profile;
 
 const Bg = styled.div`
-  background-color: #a1bbe4;
-  height: 37rem;
+  background-color: #529dc8;
+  height: 28rem;
 `;
 
 const Container = styled.div`
@@ -42,11 +46,11 @@ const Container = styled.div`
   z-index: 90;
   width: 36rem;
   position: relative;
-  height: 26rem;
+  height: 23rem;
   border-radius: 5rem;
-  background-color: #7ab0f1;
+  background-color: #3588b8;
   margin: auto;
-  margin-top: 5rem;
+  margin-top: 2.5rem;
 `;
 
 const Container1 = styled.div`
@@ -59,7 +63,7 @@ const Container1 = styled.div`
 const Container2 = styled.div`
   z-index: 90;
   width: 40rem;
-  height: 25rem;
+  height: 18rem;
   justify-content: center;
   margin-top: -1rem;
 `;
@@ -67,7 +71,7 @@ const Container2 = styled.div`
 const ProfileImg = styled.div`
   background-image: url(${user});
   height: 17rem;
-  background-size: 12rem 12rem;
+  background-size: 10rem 10rem;
   background-repeat: no-repeat;
   background-position: center;
   /* margin-top: 20rem; */
@@ -80,12 +84,10 @@ const NickName = styled.div`
   align-text: left;
   margin-top: 3.5rem;
   margin-left: 10rem;
-  height: 3rem;
 `;
 
 const Introduce = styled.div`
   font-size: 1.5rem;
-  margin-top: -5rem;
   overflow: visible;
 `;
 const ChangeBtn = styled.button`
