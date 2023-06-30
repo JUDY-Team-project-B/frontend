@@ -1,22 +1,16 @@
+import { useState } from 'react';
 import './datemodal.scss'
+import DatePicker from "react-datepicker";
+
+
+
+
 
 const Datemodal = () =>{
-    return(
-        <div className="datemodallayout">
-            해결좀
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-            ㅁ
-        </div>
-    )
+    const [startDate, setStartDate] = useState<any>(new Date());
+    return (
+      <DatePicker  selected={startDate} onChange={(date) => setStartDate(date)} />
+    );
 }
 
 export default Datemodal;

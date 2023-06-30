@@ -89,8 +89,6 @@ const Preview = () => {
                   {datas.travel_member}인 모집중
                 </div>
               </div>
-
-
         </div>
         ))}
       </div>

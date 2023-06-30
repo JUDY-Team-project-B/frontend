@@ -36,6 +36,26 @@
     text-align: center;
 }
 
+.dateclicklayout{
+    height: 30px;
+    display: flex;
+    width: 300px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px groove #3DB9FF;
+    border-radius: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.dataPickerLayout{
+    width: 100px;
+}
+
+
 .modaltest{
     position: absolute;
     top: 50px;
