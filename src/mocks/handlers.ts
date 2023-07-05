@@ -193,21 +193,21 @@ export interface profileInform {
 const profileList: profileInform[] = [
   {
     profile_id: '1',
-    profile_image: 'img',
+    profile_image: 'user',
     profile_name: '탐험가',
     profile_email: 'travel@gmail.com',
     profile_introduce: '어느 곳이든 여행가는 것을 좋아합니다.',
   },
   {
     profile_id: '2',
-    profile_image: 'img',
+    profile_image: 'user',
     profile_name: '모험가',
     profile_email: 'adventure@gmail.com',
     profile_introduce: '모험적인 여행을 좋아합니다.',
   },
   {
     profile_id: '3',
-    profile_image: 'img',
+    profile_image: 'user',
     profile_name: '사진작가',
     profile_email: 'photo@gmail.com',
     profile_introduce: '사진찍는 여행을 좋아합니다.',

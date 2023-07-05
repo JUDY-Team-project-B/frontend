@@ -37,7 +37,7 @@ function Profile() {
             <>
               <Container>
                 <Container1>
-                  <ProfileImg></ProfileImg>
+                  <ProfileImg bgImg={user} />
                 </Container1>
                 <Container2>
                   <ChangeBtn onClick={handleModal} type="button">
@@ -92,8 +92,8 @@ const Container2 = styled.div`
   margin-top: -1rem;
 `;
 
-const ProfileImg = styled.div`
-  background-image: url(${user});
+const ProfileImg = styled.div<{ bgImg: string }>`
+  background-image: ${(props) => `url(${props.bgImg})`};
   height: 17rem;
   background-size: 10rem 10rem;
   background-repeat: no-repeat;
