@@ -19,12 +19,22 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   onClose,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [nickname, setNickname] = useState('');
 
   const handleThumbnailUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target?.files?.[0];
     console.log('Uploaded file:', file);
+  };
+
+  const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setNickname(value);
+  };
+
+  const handleNicknameSubmit = () => {
+    console.log('Nickname:', nickname);
   };
 
   return (
@@ -41,7 +51,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       </DialogTitle>
       <DialogContent style={{ overflowX: 'hidden' }}>
         <Caption>
-          <CaptionText>프로필 사진 닉네임 변경</CaptionText>
+          <CaptionText>프로필 사진 변경</CaptionText>
           <ThumbnailUploadButton htmlFor="thumbnailUpload">
             이미지 업로드
             <ThumbnailUploadInput
@@ -55,8 +65,14 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         <Divider />
         <Caption>닉네임 변경</Caption>
         <NicknameBox>
-          <NicknameInput placeholder="닉네임을 입력하세요" />
-          <NicknameChangeButton>변경</NicknameChangeButton>
+          <NicknameInput
+            placeholder="닉네임을 입력하세요"
+            value={nickname}
+            onChange={handleNicknameChange}
+          />
+          <NicknameChangeButton onClick={handleNicknameSubmit}>
+            변경
+          </NicknameChangeButton>
         </NicknameBox>
       </DialogContent>
       <DialogActions>
