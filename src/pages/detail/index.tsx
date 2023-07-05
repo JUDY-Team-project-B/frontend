@@ -2,56 +2,70 @@ import React from 'react';
 import styled from 'styled-components';
 import titleImg from '../../assets/image/image1.png';
 import user from '../../assets/image/user.png';
+import { restFetcher } from '@/queryClient';
+import { useQuery } from '@tanstack/react-query';
 
-function Profile() {
+const Profile = () => {
+  const { data, isLoading, isError, error } = useQuery(['POST'], () =>
+    restFetcher({
+      method: 'GET',
+      path: `/api/v1/post/all`,
+    }),
+  );
+  console.log(data);
+
   return (
     <Bg>
-      <TitleImg></TitleImg>
-      <Container>
-        <LeftContainer>
-          <Title>6/28 ~ 7/1 제주도 같이 돌아다니실분 구해요!</Title>
-          <DestinationContainer>
-            <Destination>여행지역</Destination>
-            <DestinationValue>제주도</DestinationValue>
-          </DestinationContainer>
-          <PeopleContainer>
-            <People>모집인원</People>
-            <PeopleValue>4명</PeopleValue>
-          </PeopleContainer>
-          <DateContainer>
-            <Date>여행날짜</Date>
-            <Dates>2023.06.28 ~ 2023.07.01</Dates>
-          </DateContainer>
-          <ContentsContainer>
-            <Content>
-              제주도 여행 가실 분 찾습니다! <br></br>
-              사진찍는 거 좋아하시는 분이면 좋겠습니다. <br></br>
-              부산에서 비행기타고 출발할 생각입니다 4명에서 갔으면 좋겠고 성별은
-              상관없습니다!!
-            </Content>
-          </ContentsContainer>
-          <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer>
-          <PostContainer>
-            <PostDate>2023.06.11 09:24</PostDate>
-            <PostView>조회수 33</PostView>
-            <PostComment>댓글 2</PostComment>
-          </PostContainer>
-        </LeftContainer>
-        <RightContainer>
-          <ProfileImg>
-            <ProfileName>사진작가 이씨</ProfileName>
-            <ProfileInfo>20대 남자</ProfileInfo>
-            <ProfileIntroduce>사진찍는 걸 좋아해요!</ProfileIntroduce>
-          </ProfileImg>
-        </RightContainer>
-      </Container>
-      <Container2>
-        <CommentInput></CommentInput>
-        <Button>게시</Button>
-      </Container2>
+      {data && (
+        <>
+          <TitleImg></TitleImg>
+          <Container>
+            <LeftContainer>
+              <Title>{Object.values<any>(data[0])[2]}</Title>
+              <DestinationContainer>
+                <Destination>여행지역</Destination>
+                <DestinationValue>
+                  {Object.values<any>(data[0])[5]}
+                </DestinationValue>
+              </DestinationContainer>
+              <PeopleContainer>
+                <People>모집인원</People>
+                <PeopleValue>{Object.values<any>(data[1])[6]}명</PeopleValue>
+              </PeopleContainer>
+              <DateContainer>
+                <Date>여행날짜</Date>
+                <Dates>2023.06.28 ~ 2023.07.01</Dates>
+              </DateContainer>
+              <ContentsContainer>
+                <Content>{Object.values<any>(data[0])[7]}</Content>
+              </ContentsContainer>
+              <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer>
+              <PostContainer>
+                <PostDate>2023.06.11 09:24</PostDate>
+                <PostView>조회수 33</PostView>
+                <PostComment>댓글 2</PostComment>
+              </PostContainer>
+            </LeftContainer>
+            <RightContainer>
+              <ProfileImg>
+                <ProfileName>사진작가 이씨</ProfileName>
+                <ProfileInfo>
+                  {Object.values<any>(data[0])[4]}{' '}
+                  {Object.values<any>(data[0])[3]}
+                </ProfileInfo>
+                <ProfileIntroduce>사진찍는 걸 좋아해요!</ProfileIntroduce>
+              </ProfileImg>
+            </RightContainer>
+          </Container>
+          <Container2>
+            <CommentInput></CommentInput>
+            <Button>게시</Button>
+          </Container2>
+        </>
+      )}
     </Bg>
   );
-}
+};
 
 export default Profile;
 
