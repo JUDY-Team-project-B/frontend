@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import user from '../../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import Content2 from './Contents';
+import { useQuery } from '@tanstack/react-query';
+import { restFetcher } from '@/queryClient';
 
 function Profile() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -10,6 +12,22 @@ function Profile() {
   const handleModal = () => {
     setModalOpen(!modalOpen);
   };
+
+  // const { data, isLoading, isError, error } = useQuery(['POST'], () =>
+  //   restFetcher({
+  //     method: 'GET',
+  //     path: `/api/v1/post/all`,
+  //   }),
+  // );
+
+  const { data, isLoading, isError, error } = useQuery(['POST'], () =>
+    restFetcher({
+      method: 'GET',
+      path: `/api/v1/post/all/profile`,
+    }),
+  );
+  const res = data;
+  console.log(data);
 
   return (
     <div>
