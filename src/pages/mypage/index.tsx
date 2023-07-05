@@ -32,20 +32,24 @@ function Profile() {
   return (
     <div>
       <Bg>
-        <Container>
-          <Container1>
-            <ProfileImg></ProfileImg>
-          </Container1>
-          <Container2>
-            <ChangeBtn onClick={handleModal} type="button">
-              프로필 편집
-            </ChangeBtn>
-            <NickName>사진작가 이씨</NickName>
-            <NickName>tester@gmail.com</NickName>
-          </Container2>
-          <Introduce>사진찍는 여행을 좋아해요!</Introduce>
-        </Container>
-        <ProfileEditModal open={modalOpen} onClose={handleModal} />
+        {data && (
+          <>
+            <Container>
+              <Container1>
+                <ProfileImg></ProfileImg>
+              </Container1>
+              <Container2>
+                <ChangeBtn onClick={handleModal} type="button">
+                  프로필 편집
+                </ChangeBtn>
+                <NickName>{Object.values<any>(data[0])[2]}</NickName>
+                <NickName>{Object.values<any>(data[0])[3]}</NickName>
+              </Container2>
+              <Introduce>{Object.values<any>(data[0])[4]}</Introduce>
+            </Container>
+            <ProfileEditModal open={modalOpen} onClose={handleModal} />
+          </>
+        )}
       </Bg>
       <Content2 />
     </div>
