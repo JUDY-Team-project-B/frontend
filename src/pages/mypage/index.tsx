@@ -29,31 +29,33 @@ function Profile() {
   const res = data;
   console.log(data);
 
-  return (
-    <div>
-      <Bg>
-        {data && (
-          <>
-            <Container>
-              <Container1>
-                <ProfileImg></ProfileImg>
-              </Container1>
-              <Container2>
-                <ChangeBtn onClick={handleModal} type="button">
-                  프로필 편집
-                </ChangeBtn>
-                <NickName>{Object.values<any>(data[0])[2]}</NickName>
-                <NickName>{Object.values<any>(data[0])[3]}</NickName>
-              </Container2>
-              <Introduce>{Object.values<any>(data[0])[4]}</Introduce>
-            </Container>
-            <ProfileEditModal open={modalOpen} onClose={handleModal} />
-          </>
-        )}
-      </Bg>
-      <Content2 />
-    </div>
-  );
+  if (data) {
+    return (
+      <div>
+        <Bg>
+          {data && (
+            <>
+              <Container>
+                <Container1>
+                  <ProfileImg></ProfileImg>
+                </Container1>
+                <Container2>
+                  <ChangeBtn onClick={handleModal} type="button">
+                    프로필 편집
+                  </ChangeBtn>
+                  <NickName>{Object.values<any>(data[0])[2]}</NickName>
+                  <NickName>{Object.values<any>(data[0])[3]}</NickName>
+                </Container2>
+                <Introduce>{Object.values<any>(data[0])[4]}</Introduce>
+              </Container>
+              <ProfileEditModal open={modalOpen} onClose={handleModal} />
+            </>
+          )}
+        </Bg>
+        <Content2 />
+      </div>
+    );
+  }
 }
 
 export default Profile;
