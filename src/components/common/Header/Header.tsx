@@ -33,7 +33,7 @@ export const Header = () => {
             <button
               className="navbutton"
               onClick={gotoMain}
-              style={{ fontFamily: 'RixInooAriDuriR' }}
+              style={{ fontFamily: 'Tenada' }}
             >
               HANG OUT
             </button>
