@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import user from '../../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import Content2 from './Contents';
+import { useQuery } from '@tanstack/react-query';
+import { restFetcher } from '@/queryClient';
 
 function Profile() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -11,27 +13,49 @@ function Profile() {
     setModalOpen(!modalOpen);
   };
 
-  return (
-    <div>
-      <Bg>
-        <Container>
-          <Container1>
-            <ProfileImg></ProfileImg>
-          </Container1>
-          <Container2>
-            <ChangeBtn onClick={handleModal} type="button">
-              프로필 편집
-            </ChangeBtn>
-            <NickName>사진작가 이씨</NickName>
-            <NickName>tester@gmail.com</NickName>
-          </Container2>
-          <Introduce>사진찍는 여행을 좋아해요!</Introduce>
-        </Container>
-        <ProfileEditModal open={modalOpen} onClose={handleModal} />
-      </Bg>
-      <Content2 />
-    </div>
+  // const { data, isLoading, isError, error } = useQuery(['POST'], () =>
+  //   restFetcher({
+  //     method: 'GET',
+  //     path: `/api/v1/post/all`,
+  //   }),
+  // );
+
+  const { data, isLoading, isError, error } = useQuery(['POST'], () =>
+    restFetcher({
+      method: 'GET',
+      path: `/api/v1/post/all/profile`,
+    }),
   );
+  const res = data;
+  console.log(data);
+
+  if (data) {
+    return (
+      <div>
+        <Bg>
+          {data && (
+            <>
+              <Container>
+                <Container1>
+                  <ProfileImg bgImg={user} />
+                </Container1>
+                <Container2>
+                  <ChangeBtn onClick={handleModal} type="button">
+                    프로필 편집
+                  </ChangeBtn>
+                  <NickName>{Object.values<any>(data[0])[2]}</NickName>
+                  <NickName>{Object.values<any>(data[0])[3]}</NickName>
+                </Container2>
+                <Introduce>{Object.values<any>(data[0])[4]}</Introduce>
+              </Container>
+              <ProfileEditModal open={modalOpen} onClose={handleModal} />
+            </>
+          )}
+        </Bg>
+        <Content2 />
+      </div>
+    );
+  }
 }
 
 export default Profile;
@@ -68,8 +92,8 @@ const Container2 = styled.div`
   margin-top: -1rem;
 `;
 
-const ProfileImg = styled.div`
-  background-image: url(${user});
+const ProfileImg = styled.div<{ bgImg: string }>`
+  background-image: ${(props) => `url(${props.bgImg})`};
   height: 17rem;
   background-size: 10rem 10rem;
   background-repeat: no-repeat;
