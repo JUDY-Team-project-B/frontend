@@ -20,7 +20,7 @@ interface ImageContainerProps {
 
 const ImageContainer = styled.div<ImageContainerProps>`
   background-position: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
     url(${(props) => props.imageUrl});
   background-repeat: no-repeat;
   background-size: cover;
@@ -31,10 +31,11 @@ const ImageContainer = styled.div<ImageContainerProps>`
 
 const TitleContainer = styled.div`
   margin-top: 15rem;
-  margin-left: 22rem;
-  width: 50rem;
+
+  width: 100%;
   height: 5rem;
   color: #f9f4f4;
+  justify-content: center;
   line-height: 2rem;
   font-weight: 1000;
   font-size: 1.8rem;
@@ -49,9 +50,8 @@ const Highlight = styled.span`
 `;
 
 const TextContainer = styled.div`
-  margin-left: 22rem;
   margin-top: 2rem;
-  width: 50rem;
+  width: 100%;
   height: 3rem;
   font-size: 1.1rem;
   overflow: visible;
@@ -65,9 +65,10 @@ const TextContainer = styled.div`
 const ImageSlide = () => {
   const settings = {
     dots: true,
-    infinite: true,
-    speed: 700,
-    slidesToShow: 1,
+    infinite: true, //무한 반복 옵션
+    fade: true,
+    speed: 600,
+    slidesToShow: 1, //한 화면에 보여질 컨텐츠 개수
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
