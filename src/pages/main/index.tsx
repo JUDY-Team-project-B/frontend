@@ -79,8 +79,8 @@ const ImageSlide = () => {
         <ImageContainer key={item.id} imageUrl={item.url}>
           <TitleContainer>
             세상의 <Highlight>다양한</Highlight> 곳을
-            <br /> 세상의 <Highlight>다양한</Highlight> 사람들과 함께할 수
-            있도록
+            <br /> 세상의 <Highlight>다양한</Highlight> 사람들과{' '}
+            <Highlight>함께</Highlight>할 수 있도록
           </TitleContainer>
 
           <TextContainer>
