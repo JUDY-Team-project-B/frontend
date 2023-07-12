@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Content from './Contents';
 import trip1 from '../../assets/image/trip1.jpg';
 import trip2 from '../../assets/image/trip2.jpg';
 import trip3 from '../../assets/image/trip3.jpg';
@@ -25,12 +26,12 @@ const ImageContainer = styled.div<ImageContainerProps>`
   background-repeat: no-repeat;
   background-size: cover;
   width: 100rem;
-  height: 35rem;
+  height: 33.5rem;
   overflow: visible;
 `;
 
 const TitleContainer = styled.div`
-  margin-top: 15rem;
+  margin-top: 13rem;
 
   width: 100%;
   height: 5rem;
@@ -62,7 +63,7 @@ const TextContainer = styled.div`
   overflow: visible;
 `;
 
-const ImageSlide = () => {
+const Main = () => {
   const settings = {
     dots: true,
     infinite: true, //무한 반복 옵션
@@ -75,24 +76,27 @@ const ImageSlide = () => {
   };
 
   return (
-    <Slider {...settings}>
-      {items.map((item) => (
-        <ImageContainer key={item.id} imageUrl={item.url}>
-          <TitleContainer>
-            세상의 <Highlight>다양한</Highlight> 곳을
-            <br /> 세상의 <Highlight>다양한</Highlight> 사람들과{' '}
-            <Highlight>함께</Highlight>할 수 있도록
-          </TitleContainer>
+    <div>
+      <Slider {...settings}>
+        {items.map((item) => (
+          <ImageContainer key={item.id} imageUrl={item.url}>
+            <TitleContainer>
+              세상의 <Highlight>다양한</Highlight> 곳을
+              <br /> 세상의 <Highlight>다양한</Highlight> 사람들과{' '}
+              <Highlight>함께</Highlight>할 수 있도록
+            </TitleContainer>
 
-          <TextContainer>
-            새로운 사람과의 만남은 여행의 매력 중 하나입니다. <br />
-            개방적이고 호기심 가득한 마음으로 다양한 사람들과 소통하고
-            동행해보세요.
-          </TextContainer>
-        </ImageContainer>
-      ))}
-    </Slider>
+            <TextContainer>
+              새로운 사람과의 만남은 여행의 매력 중 하나입니다. <br />
+              개방적이고 호기심 가득한 마음으로 다양한 사람들과 소통하고
+              동행해보세요.
+            </TextContainer>
+          </ImageContainer>
+        ))}
+      </Slider>
+      <Content />
+    </div>
   );
 };
 
-export default ImageSlide;
+export default Main;
