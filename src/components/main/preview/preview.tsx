@@ -1,65 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './preview.scss';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
-import { postInform } from '@/mocks/handlers';
 import HeartOn from '@/assets/image/HeartOn.png'
 import View from '@/assets/image/detailView.png'
 import Heart from '@/assets/image/detailHeart.png'
 import Comment from '@/assets/image/detailcomment.png'
-import axios from 'axios';
+
 import { useNavigate } from 'react-router-dom';
+import { PostType } from '@/types/post';
+import axios from 'axios';
 
 const Preview = () => {
+  const navigate = useNavigate();
+  const [PostData, setPostData] = useState<PostType|any>();
+
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsb0BuYXZlci5jb20iLCJpYXQiOjE2ODkxNTI0OTgsImV4cCI6MTY4OTIzODg5OH0.VFGYA5FDWJi5Du5jPtWIOpOO7AlJWBfCBkonlSOwsHc' // JWT 토큰 설
+
+  useEffect(()=>{
+    const postListData =async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/v1/post/all/0')
+            const responseData:PostType[] = response.data;
+            console.log(responseData);
+            setPostData(responseData);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    postListData()
+},[])
 
 
-  // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsb0BuYXZlci5jb20iLCJpYXQiOjE2ODgxMTM4NDQsImV4cCI6MTY4ODIwMDI0NH0.nCiDB0jqdzodZlfMITQmAraK2p59WDHUMj1ntT3pNLE'; // JWT 토큰 설정
 
-  // const fetchPosts = async () => {
-  //   const headers = {
-  //     Authorization: `Bearer ${token}`,
-  //   };
+  // useEffect(()=>{
+  //   const{data,isLoading,isError,error} =useQuery(['POST'],()=>
+  //     restFetcher({
+  //       method:'GET',
+  //       path:`/api/v1/post/all/0`,
+  //       headers: { Authorization: `Bearer ${token}`,'Access-Control-Allow-Origin': '*' }
+  //     })
+  //   );
 
-  //   const response = await axios.get('http://localhost:8080/api/v1/post/all/0', { headers });
-  //   return response.data;
-  // };
-
-
-  // const{data,isLoading,isError,error} = useQuery(['POST'],fetchPosts);
+  //   setPostData(data)
+  // },[])
+  
   
 
-  const navigate = useNavigate();
-
-  const goto = (postnum:string):void =>{
+  const goto = (num:number):void =>{
+    const postnum = String(num)
     const queryParems = new URLSearchParams();
     queryParems.set('q',postnum);
     const queryString = queryParems.toString();
     navigate(`/detail?${queryString}`)
   }
-
-  const{data,isLoading,isError,error} = useQuery(['POST'],()=>
-    restFetcher({
-      method:'GET',
-      path:`/api/v1/post/all`,
-    })
-  )
-
-  const res = data;
-
-  console.log(data);
-
-
+  
   return (
 
     <div className='contentlayout'>
         <div className='gridlayout'>
-          {data?.map((datas: postInform, index:any) =>(
+          {PostData?.map((datas: PostType, index:any) =>(
             <div className='content' key={index} >
-              <button className='img' onClick={() => goto(datas.post_id)}>
+              <button className='img' onClick={() => goto(datas.id)}>
                 <div className='imginfo'>
                   <div className='destination'>
                     <div className='destionationtext'>
-                      {datas.travel_at}
+                      {datas.travelAt}
                     </div>
                   </div>
                   <div className='heartlayout'>
@@ -76,17 +83,17 @@ const Preview = () => {
                   <img src={Heart}></img>
               </div>
               <div className='postinfo'>
-                 <button className='title' onClick={() => goto(datas.post_id)}>
-                  {datas.post_title}
+                 <button className='title' onClick={() => goto(datas.id)}>
+                  {datas.title}
                 </button>
                 <div className='date'>
                   날짜
                 </div>
                 <div className='date'>
-                  {datas.travel_age}{datas.travel_gender}
+                  {datas.travelAge}{datas.travelGender}
                 </div>
                 <div className='date'>
-                  {datas.travel_member}인 모집중
+                  {datas.travelMember}인 모집중
                 </div>
               </div>
         </div>
