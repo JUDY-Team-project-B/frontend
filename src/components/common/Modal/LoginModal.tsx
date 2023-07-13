@@ -10,6 +10,7 @@ import {
 import GoogleIcon from '@mui/icons-material/Google';
 import axios from 'axios';
 import { atom, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 // import { JWT, Token } from '@/atom/atom';
 
 interface User {
@@ -28,9 +29,11 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
-  const [useremail, setUseremail] = useState('');
+  const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
   // const setJWT = useSetRecoilState<User|null>(userState)
+
+  const navigate = useNavigate();
 
   const token:string = '';
   const handleUseremailChange = (
@@ -44,16 +47,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   };
 
   const handleLogin = async (e:any) => {
-    console.log('Login with useremail:', useremail);
+
+    console.log('Login with useremail:', email);
     console.log('Login with password:', password);
     try{
-      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{useremail,password});
+      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
       console.log(response.data)
-      const { accessToken } = response.data.accessToken;
-      // setJWT(accessToken);
+      const accessToken  = response.data;
+      console.log(accessToken)
+      //setJWT(accessToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      navigate('/');
     }catch(e){
-      console.log("error")
+      console.log(e)
     }
   };
 
@@ -84,7 +90,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
           <Input
             type="text"
             placeholder="아이디"
-            value={useremail}
+            value={email}
             onChange={handleUseremailChange}
           />
         </InputBox>
