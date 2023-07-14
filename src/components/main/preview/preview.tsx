@@ -11,43 +11,16 @@ import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
 import axios from 'axios';
 
-const Preview = () => {
+const Preview = (data:any) => {
   const navigate = useNavigate();
-  const [PostData, setPostData] = useState<PostType|any>();
+  const [PostData, setPostData] = useState<PostType[]|undefined>();
 
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsb0BuYXZlci5jb20iLCJpYXQiOjE2ODkxNTI0OTgsImV4cCI6MTY4OTIzODg5OH0.VFGYA5FDWJi5Du5jPtWIOpOO7AlJWBfCBkonlSOwsHc' // JWT 토큰 설
 
   useEffect(()=>{
-    const postListData =async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/api/v1/post/all/0')
-            const responseData:PostType[] = response.data;
-            console.log(responseData);
-            setPostData(responseData);
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    postListData()
-},[])
-
-
-
-  // useEffect(()=>{
-  //   const{data,isLoading,isError,error} =useQuery(['POST'],()=>
-  //     restFetcher({
-  //       method:'GET',
-  //       path:`/api/v1/post/all/0`,
-  //       headers: { Authorization: `Bearer ${token}`,'Access-Control-Allow-Origin': '*' }
-  //     })
-  //   );
-
-  //   setPostData(data)
-  // },[])
-  
-  
-
+    const PostProps = data.data.data
+    setPostData(PostProps)
+    console.log(PostProps)
+  })
   const goto = (num:number):void =>{
     const postnum = String(num)
     const queryParems = new URLSearchParams();
@@ -55,14 +28,13 @@ const Preview = () => {
     const queryString = queryParems.toString();
     navigate(`/detail?${queryString}`)
   }
-  
   return (
 
     <div className='contentlayout'>
         <div className='gridlayout'>
           {PostData?.map((datas: PostType, index:any) =>(
             <div className='content' key={index} >
-              <button className='img' onClick={() => goto(datas.id)}>
+              <button className='img'  onClick={() => goto(datas.id)} >
                 <div className='imginfo'>
                   <div className='destination'>
                     <div className='destionationtext'>
@@ -83,7 +55,7 @@ const Preview = () => {
                   <img src={Heart}></img>
               </div>
               <div className='postinfo'>
-                 <button className='title' onClick={() => goto(datas.id)}>
+                 <button className='title'onClick={() => goto(datas.id)}>
                   {datas.title}
                 </button>
                 <div className='date'>
