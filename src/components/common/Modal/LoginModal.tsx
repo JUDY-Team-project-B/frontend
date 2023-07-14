@@ -9,9 +9,11 @@ import {
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import axios from 'axios';
-import { atom, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { UUid } from '@/atom/atom';
 // import { JWT, Token } from '@/atom/atom';
+
 
 interface User {
   id: number;
@@ -31,7 +33,7 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
-  // const setJWT = useSetRecoilState<User|null>(userState)
+  //const userData = useSetRecoilState<User>(UUid);
 
   const navigate = useNavigate();
 
@@ -47,17 +49,17 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   };
 
   const handleLogin = async (e:any) => {
-
     console.log('Login with useremail:', email);
     console.log('Login with password:', password);
     try{
       const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
-      console.log(response.data)
-      const accessToken  = response.data;
+      //console.log(response.data)
+      const accessToken  = response.data.data.accessToken;
       console.log(accessToken)
-      //setJWT(accessToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      localStorage.setItem('accessToken',accessToken);
       navigate('/');
+      onclose;//모달창 종료 코드 필요
     }catch(e){
       console.log(e)
     }
