@@ -10,8 +10,9 @@ import { restFetcher } from '@/queryClient';
 
 const Maincontent = () => {
 
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsb0BuYXZlci5jb20iLCJpYXQiOjE2ODkzMjMwMTksImV4cCI6MTY4OTQwOTQxOX0.g0nfNhA_Qq2xqQTgGbeS_rn88x3u2KtB3fUsFCfD1o4' // JWT 토큰 설
+  const token:any = localStorage.getItem('accessToken')
 
+  console.log(token)
   const{data,isLoading,isError,error} =useQuery(['POST'],()=>
   restFetcher({
     method:'GET',

@@ -5,10 +5,14 @@ import SearchIcon from '@/assets/image/Search icon.png';
 import LoginIcon from '@/assets/image/login.png';
 import DetailIcon from '@/assets/image/detail.png';
 import LoginModal from '../Modal/LoginModal';
+import { useRecoilState } from 'recoil';
+import { UUid, User } from '@/atom/atom';
 
 export const Header = () => {
   const navigator = useNavigate();
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
+
+  const [userData, setUserData] = useRecoilState<User>(UUid);
 
   const gotoMain = () => {
     navigator('/');
