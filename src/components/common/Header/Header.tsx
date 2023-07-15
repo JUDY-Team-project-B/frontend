@@ -11,23 +11,12 @@ import { Login } from './login';
 
 export const Header = () => {
   const navigator = useNavigate();
-  const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
 
   const gotoMain = () => {
     navigator('/');
   };
-
-  const openLoginModal = () => {
-    setLoginModalOpen(true); // Open the login modal
-  };
-
-  const closeLoginModal = () => {
-    setLoginModalOpen(false); // Close the login modal
-  };
-
-
 
   useEffect(()=>{
     setisLogin(userData.is_active)
@@ -57,16 +46,9 @@ export const Header = () => {
               <img src={DetailIcon} alt="Detail" />
             </button>
           </div>
-
-          <button className="loginbutton" onClick={openLoginModal}>
-            <img src={LoginIcon} alt="Login" />
-            <Login is_loging={isLogin}></Login>
-          </button>
+          <Login></Login>
         </div>
       </div>
-      {isLoginModalOpen && (
-        <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
-      )}
     </div>
   );
 };

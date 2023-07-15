@@ -1,12 +1,47 @@
 import React, { useEffect, useState } from 'react';
+import LoginModal from '../Modal/LoginModal';
+import { useRecoilState } from 'recoil';
+import { UUid, User } from '@/atom/atom';
 
 
-export const Login = (is_login:boolean) =>{
-    const islogin = is_login;
 
-    if (is_login) {
-        return <div>로그아웃</div>;
+export const Login = () =>{
+    const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
+    const [userData, setUserData] = useRecoilState<User>(UUid);
+    const [isLogin, setisLogin] = useState<boolean>(false);
+
+    useEffect(()=>{
+      setisLogin(userData.is_active)
+      console.log(userData.is_active)
+    })
+
+    const openLoginModal = () => {
+      setLoginModalOpen(true); // Open the login modal
+    };
+  
+    const closeLoginModal = () => {
+      setLoginModalOpen(false); // Close the login modal
+    };
+
+    const logout = () => {
+      console.log('로그아웃')
+      //로그아웃을 진행하는 코드를 추가
+    }
+
+    if (isLogin === false) {
+        return (
+          <div>
+            <button onClick={openLoginModal}>
+              로그인
+            </button>
+            {isLoginModalOpen && (<LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />)}
+          </div> 
+        );
       } else {
-        return <div>로그인</div>;
+        return (
+          <button onClick={logout}>
+            로그아웃
+          </button>
+        )
       }
 }
