@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.scss';
 import SearchIcon from '@/assets/image/Search icon.png';
@@ -7,12 +7,12 @@ import DetailIcon from '@/assets/image/detail.png';
 import LoginModal from '../Modal/LoginModal';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { UUid, User } from '@/atom/atom';
+import { Login } from './login';
 
 export const Header = () => {
   const navigator = useNavigate();
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
-
-  //const todoList = useRecoilValue(todoListState);
+  const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
 
   const gotoMain = () => {
@@ -27,7 +27,13 @@ export const Header = () => {
     setLoginModalOpen(false); // Close the login modal
   };
 
-  console.log(userData)
+
+
+  useEffect(()=>{
+    setisLogin(userData.is_active)
+    console.log(userData)
+  })
+
 
   return (
     <div className="navlayout">
@@ -54,8 +60,7 @@ export const Header = () => {
 
           <button className="loginbutton" onClick={openLoginModal}>
             <img src={LoginIcon} alt="Login" />
-            로그인
-            {/* {text} */}
+            <Login is_loging={isLogin}></Login>
           </button>
         </div>
       </div>
