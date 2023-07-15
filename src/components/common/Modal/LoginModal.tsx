@@ -21,7 +21,7 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
-  const userData = useSetRecoilState<User>(UUid);
+  const setUserData = useSetRecoilState<User>(UUid);
 
   const navigate = useNavigate();
   const token:string = '';
@@ -40,12 +40,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     console.log('Login with password:', password);
     try{
       const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
-      //console.log(response.data)
       const accessToken  = response.data.data.accessToken;
       console.log(accessToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       localStorage.setItem('accessToken',accessToken);
-
+      setUserData({
+        id: email,
+        name: '',
+        password: password,
+        is_active: true,
+      })
       navigate('/');
       onclose;//모달창 종료 코드 필요
     }catch(e){

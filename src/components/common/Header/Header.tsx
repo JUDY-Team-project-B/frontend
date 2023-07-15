@@ -13,7 +13,7 @@ export const Header = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
 
   //const todoList = useRecoilValue(todoListState);
-  //const [userData, setUserData] = useRecoilState<User>(UUid);
+  const [userData, setUserData] = useRecoilState<User>(UUid);
 
   const gotoMain = () => {
     navigator('/');
@@ -27,7 +27,7 @@ export const Header = () => {
     setLoginModalOpen(false); // Close the login modal
   };
 
-  //if(userData.is_active ==)
+  console.log(userData)
 
   return (
     <div className="navlayout">
@@ -54,6 +54,7 @@ export const Header = () => {
 
           <button className="loginbutton" onClick={openLoginModal}>
             <img src={LoginIcon} alt="Login" />
+            로그인
             {/* {text} */}
           </button>
         </div>
