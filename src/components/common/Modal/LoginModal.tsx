@@ -11,19 +11,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import axios from 'axios';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { UUid } from '@/atom/atom';
-// import { JWT, Token } from '@/atom/atom';
-
-
-interface User {
-  id: number;
-  name: string;
-  password:string;
-}
-const userState = atom({
-  key: 'userState',
-  default: null,
-});
+import { User, UUid } from '@/atom/atom';
 
 interface LoginModalProps {
   open: boolean;
@@ -33,10 +21,9 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
-  //const userData = useSetRecoilState<User>(UUid);
+  const userData = useSetRecoilState<User>(UUid);
 
   const navigate = useNavigate();
-
   const token:string = '';
   const handleUseremailChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -58,6 +45,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       console.log(accessToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       localStorage.setItem('accessToken',accessToken);
+
       navigate('/');
       onclose;//모달창 종료 코드 필요
     }catch(e){

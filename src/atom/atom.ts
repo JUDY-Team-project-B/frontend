@@ -19,7 +19,7 @@ export const UUid = atom<User>({
     id: '',
     name: '',
     password:'',
-    is_active: true,
+    is_active: false,
   },
   effects_UNSTABLE: [persistAtom],
 });

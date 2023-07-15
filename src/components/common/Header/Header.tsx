@@ -5,14 +5,15 @@ import SearchIcon from '@/assets/image/Search icon.png';
 import LoginIcon from '@/assets/image/login.png';
 import DetailIcon from '@/assets/image/detail.png';
 import LoginModal from '../Modal/LoginModal';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 
 export const Header = () => {
   const navigator = useNavigate();
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
 
-  const [userData, setUserData] = useRecoilState<User>(UUid);
+  //const todoList = useRecoilValue(todoListState);
+  //const [userData, setUserData] = useRecoilState<User>(UUid);
 
   const gotoMain = () => {
     navigator('/');
@@ -25,6 +26,8 @@ export const Header = () => {
   const closeLoginModal = () => {
     setLoginModalOpen(false); // Close the login modal
   };
+
+  //if(userData.is_active ==)
 
   return (
     <div className="navlayout">
@@ -51,7 +54,7 @@ export const Header = () => {
 
           <button className="loginbutton" onClick={openLoginModal}>
             <img src={LoginIcon} alt="Login" />
-            로그인
+            {/* {text} */}
           </button>
         </div>
       </div>

@@ -7,9 +7,9 @@ import './index.scss';
 import { getClient } from './queryClient';
 import { worker } from './mocks/workers';
 
-// if(import.meta.env.DEV){
-//   worker.start();
-// }
+if(import.meta.env.DEV){
+  worker.start();
+}
 const queryClient = getClient();
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <RecoilRoot>
