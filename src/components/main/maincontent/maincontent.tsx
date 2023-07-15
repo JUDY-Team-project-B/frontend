@@ -5,30 +5,30 @@ import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
+import axios from 'axios';
 
-
+export interface PostListType{
+  "id": number,
+  "title": String,
+  "nickname": String,
+  "tags": String[],
+  "statusType": String,
+  "travelGender": String,
+  "travelAge": String,
+  "travelAt": String,
+  "travelMember": number,
+  "travelDateStart": String,
+  "travelDateEnd": String
+}
 
 const Maincontent = () => {
-
-  const token:any = localStorage.getItem('accessToken')
-
-  console.log(token)
-  const{data,isLoading,isError,error} =useQuery(['POST'],()=>
-  restFetcher({
-    method:'GET',
-    path:`/api/v1/post/all/0`,
-    headers: { Authorization: `Bearer ${token}`,'Access-Control-Allow-Origin': '*' }
-  })
-
-);
-console.log(data)
 
   return (
     <div className="contentBackground">
       <div className='ment'>
         곧 출발하는 여행
       </div>
-      <Preview data={data}/>
+      <Preview />
     </div>
   );
 };
