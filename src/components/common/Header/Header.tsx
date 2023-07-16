@@ -45,8 +45,8 @@ export const Header = () => {
             <button onClick={gotoMain}></button>
           </div>
           <div className="detailicon" onClick={gotoMain}></div>
-
-          <button
+          <Login></Login>
+          {/* <button
             className="loginbutton"
             onClick={openLoginModal}
             style={{
@@ -79,7 +79,7 @@ export const Header = () => {
             }}
           >
             회원가입
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
