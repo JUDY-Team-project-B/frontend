@@ -24,7 +24,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const setUserData = useSetRecoilState<User>(UUid);
 
   const navigate = useNavigate();
-  const token:string = '';
   const handleUseremailChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -45,9 +44,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       localStorage.setItem('accessToken',accessToken);
       setUserData({
-        id: email,
-        name: '',
-        password: password,
         is_active: true,
       })
       navigate('/');

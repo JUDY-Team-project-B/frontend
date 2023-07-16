@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LoginModal from '../Modal/LoginModal';
 import { useRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -10,6 +11,7 @@ export const Login = () =>{
     const [userData, setUserData] = useRecoilState<User>(UUid);
     const [isLogin, setisLogin] = useState<boolean>(false);
 
+    const navigate = useNavigate();
     useEffect(()=>{
       setisLogin(userData.is_active)
       console.log(userData.is_active)
@@ -25,7 +27,11 @@ export const Login = () =>{
 
     const logout = () => {
       console.log('로그아웃')
-      //로그아웃을 진행하는 코드를 추가
+      setUserData({
+        is_active:false
+      });
+      localStorage.removeItem('accessToken')
+      navigate('/');
     }
 
     if (isLogin === false) {
