@@ -11,16 +11,26 @@ import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
 import axios from 'axios';
 
-const Preview = (data:any) => {
-  const navigate = useNavigate();
-  const [PostData, setPostData] = useState<PostType[]|undefined>();
 
+const Preview = (data:any) => {//url을 받는 코드로 변경
+  const navigate = useNavigate();
+  const [listData, setListData] = useState<PostType[]|undefined>()
 
   useEffect(()=>{
-    const PostProps = data.data.data
-    setPostData(PostProps)
-    console.log(PostProps)
-  })
+    const PostListData =async () => {
+      try{
+        const response = await axios.get('http://localhost:8080/api/v1/post/all/0',{headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,'Access-Control-Allow-Origin': '*'}})
+        const responseData:PostType[] = response.data.data
+        console.log(responseData)
+        setListData(responseData);
+      }catch(error){
+        console.log(error)
+      }
+    }
+    /// 여기서 처리 추가적으로 처리 가능///
+    PostListData();
+  },[])
+
   const goto = (num:number):void =>{
     const postnum = String(num)
     const queryParems = new URLSearchParams();
@@ -32,7 +42,7 @@ const Preview = (data:any) => {
 
     <div className='contentlayout'>
         <div className='gridlayout'>
-          {PostData?.map((datas: PostType, index:any) =>(
+          {listData?.map((datas: PostType, index:any) =>(
             <div className='content' key={index} >
               <button className='img'  onClick={() => goto(datas.id)} >
                 <div className='imginfo'>
