@@ -19,11 +19,10 @@ export const Header = () => {
     navigator('/');
   };
 
-  useEffect(()=>{
-    setisLogin(userData.is_active)
-    console.log(userData)
-  })
-
+  useEffect(() => {
+    setisLogin(userData.is_active);
+    console.log(userData);
+  });
 
   return (
     <div className="navlayout">
@@ -33,7 +32,7 @@ export const Header = () => {
             <button
               className="navbutton"
               onClick={gotoMain}
-              style={{ fontFamily: 'Tenada' }}
+              style={{ fontFamily: 'RixInooAriDuriR' }}
             >
               HANG OUT
             </button>
@@ -45,10 +44,10 @@ export const Header = () => {
             <button onClick={gotoMain}></button>
           </div>
           <div className="detailicon" onClick={gotoMain}></div>
-          <Login></Login>
-          {/* <button
+
+          <button
             className="loginbutton"
-            onClick={openLoginModal}
+            // onClick={openLoginModal}
             style={{
               height: '2.2rem',
               width: '8rem',
@@ -79,7 +78,7 @@ export const Header = () => {
             }}
           >
             회원가입
-          </button> */}
+          </button>
         </div>
       </div>
     </div>

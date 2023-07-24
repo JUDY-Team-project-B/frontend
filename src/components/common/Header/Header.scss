@@ -46,9 +46,8 @@
   align-items: center;
   padding: 8px;
   height: 100%;
-  font-size: 1.5rem;
-  margin-top: 0.2rem;
-  // letter-spacing: 1px; //글자 간격
+  font-size: 1.4rem;
+  letter-spacing: 2px; //글자 간격
 }
 
 .navbutton:hover {
@@ -84,7 +83,7 @@
 .input {
   width: 80%;
   height: 80%;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 .input:focus {

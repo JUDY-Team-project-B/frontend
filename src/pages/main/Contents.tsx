@@ -19,35 +19,36 @@ const Content = () => {
   //   );
 
   return (
-    <ContentsWrap>
+    <Background>
       <Title>인기 여행지</Title>
-      <ContentsImg backgroundImg={jejuBtn} marginLeft="15rem">
-        <BtnName>제주도</BtnName>
-      </ContentsImg>
-      <ContentsImg backgroundImg={gyeongjuBtn} marginLeft="7.5rem">
-        <BtnName>경주</BtnName>
-      </ContentsImg>
-      <ContentsImg backgroundImg={seoulBtn} marginLeft="7.3rem">
-        <BtnName>서울</BtnName>
-      </ContentsImg>
-      <ContentsImg backgroundImg={busanBtn} marginLeft="7.2rem">
-        <BtnName>부산</BtnName>
-      </ContentsImg>
-      <ContentsImg backgroundImg={jeonraBtn} marginLeft="7.2rem">
-        <BtnName>전라도</BtnName>
-      </ContentsImg>
-    </ContentsWrap>
+      <ContentsWrap>
+        <ContentsImg backgroundImg={jejuBtn} marginLeft="-0.1rem">
+          <BtnName>제주도</BtnName>
+        </ContentsImg>
+        <ContentsImg backgroundImg={gyeongjuBtn} marginLeft="7.5rem">
+          <BtnName>경주</BtnName>
+        </ContentsImg>
+        <ContentsImg backgroundImg={seoulBtn} marginLeft="7.3rem">
+          <BtnName>서울</BtnName>
+        </ContentsImg>
+        <ContentsImg backgroundImg={busanBtn} marginLeft="7.2rem">
+          <BtnName>부산</BtnName>
+        </ContentsImg>
+        <ContentsImg backgroundImg={jeonraBtn} marginLeft="7.2rem">
+          <BtnName>전라도</BtnName>
+        </ContentsImg>
+      </ContentsWrap>
+    </Background>
   );
 };
 
 export default Content;
 
-const ContentsWrap = styled.div`
+const Background = styled.div`
   width: 100%;
   height: 100rem;
   justify-content: center;
   font-size: 16px;
-  /* background-color: red; */
 `;
 const Title = styled.div`
   margin-top: 1rem;
@@ -63,18 +64,20 @@ const Title = styled.div`
   font-family: 'SUITE-Regular';
 `;
 
-// const Contents = styled.button`
-//   margin-top: 4rem;
-//   margin-left: 10rem;
-//   width: 17rem;
-//   height: 20rem;
-//   justify-content: center;
-//   overflow: hidden;
-//   font-size: 16px;
-//   border-radius: 1rem;
-//   background-color: #f7f7f8;
-//   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-// `;
+const ContentsWrap = styled.div`
+  width: 100%;
+  height: 11rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  flex-wrap: wrap;
+  overflow: visible;
+
+  @media (max-width: 1050px) {
+    margin-left: -1.4rem;
+  }
+`;
 
 const ContentsImg = styled.button`
   margin-left: ${(props) => props.marginLeft};
@@ -89,12 +92,20 @@ const ContentsImg = styled.button`
   background-repeat: no-repeat;
   transition: transform 0.5s;
   justify-content: center;
-  
 
   &:hover {
     position: center;
-    opacity: 0.9;
-    transform: scale(1.05); 이미지 확대
+    opacity: 0.65;
+    transform: scale(1.1); /* 이미지 확대 */
+  }
+
+  /* 새로 추가한 스타일: 버튼들이 화면 크기에 따라 자동으로 정렬 */
+  @media (max-width: 1050px) {
+    margin-left: 3rem;
+  }
+
+  @media (max-width: 400px) {
+    margin-left: 1rem;
   }
 `;
 

@@ -27,7 +27,7 @@ const ImageContainer = styled.div<ImageContainerProps>`
   background-size: cover;
   width: 100rem;
   height: 33.5rem;
-  overflow: visible;
+  overflow: hidden;
 `;
 
 const TitleContainer = styled.div`
