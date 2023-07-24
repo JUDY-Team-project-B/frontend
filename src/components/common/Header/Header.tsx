@@ -1,30 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.scss';
 import SearchIcon from '@/assets/image/Search icon.png';
 import LoginIcon from '@/assets/image/login.png';
 import DetailIcon from '@/assets/image/detail.png';
 import LoginModal from '../Modal/LoginModal';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { UUid, User } from '@/atom/atom';
+import { Login } from './login';
 
 export const Header = () => {
   const navigator = useNavigate();
-  const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
-
+  const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
 
   const gotoMain = () => {
     navigator('/');
   };
 
-  const openLoginModal = () => {
-    setLoginModalOpen(true); // Open the login modal
-  };
+  useEffect(()=>{
+    setisLogin(userData.is_active)
+    console.log(userData)
+  })
 
-  const closeLoginModal = () => {
-    setLoginModalOpen(false); // Close the login modal
-  };
 
   return (
     <div className="navlayout">
@@ -48,16 +46,9 @@ export const Header = () => {
               <img src={DetailIcon} alt="Detail" />
             </button>
           </div>
-
-          <button className="loginbutton" onClick={openLoginModal}>
-            <img src={LoginIcon} alt="Login" />
-            로그인
-          </button>
+          <Login></Login>
         </div>
       </div>
-      {isLoginModalOpen && (
-        <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
-      )}
     </div>
   );
 };

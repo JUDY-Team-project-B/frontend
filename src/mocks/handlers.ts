@@ -215,7 +215,7 @@ const profileList: profileInform[] = [
 ];
 
 export const handlers = [
-  rest.get('/api/v1/post/all/profile', (req, res, ctx) => {
+  rest.get('/api/v1/post/all/0', (req, res, ctx) => {
     console.log('profile data 호출됨');
     console.log(profileList);
     return res(ctx.status(200), ctx.json(profileList));
