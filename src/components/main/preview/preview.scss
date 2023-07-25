@@ -1,7 +1,15 @@
+.previewoutside{
+  width:  100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .contentlayout{ 
   width: 1080px; 
   height: auto; 
   background-color: white;
+  
 } 
 
 .gridlayout{

@@ -9,6 +9,7 @@ import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
 import seoulBtn from '../../assets/image/seoul-btn.png';
 import busanBtn from '../../assets/image/busan-btn.png';
 import jeonraBtn from '../../assets/image/jeonra-btn.png';
+import Preview from '@/components/main/preview/preview';
 
 const Content = () => {
   //   const { data, isLoading, isError, error } = useQuery(['POST'], () =>
@@ -17,6 +18,9 @@ const Content = () => {
   //       path: `/api/v1/post/all`,
   //     }),
   //   );
+
+  var url = 'all/0'
+
 
   return (
     <Background>
@@ -38,6 +42,7 @@ const Content = () => {
           <BtnName>전라도</BtnName>
         </ContentsImg>
       </ContentsWrap>
+      <Preview  queryString = {url}/>
     </Background>
   );
 };

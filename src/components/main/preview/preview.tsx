@@ -12,14 +12,16 @@ import { PostType } from '@/types/post';
 import axios from 'axios';
 
 
-const Preview = (data:any) => {//url을 받는 코드로 변경
+const Preview = (queryString:any) => {//url을 받는 코드로 변경
+  console.log(queryString)
+  const url = queryString.queryString
   const navigate = useNavigate();
   const [listData, setListData] = useState<PostType[]|undefined>()
 
   useEffect(()=>{
     const PostListData =async () => {
       try{
-        const response = await axios.get('http://localhost:8080/api/v1/post/all/0',{headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,'Access-Control-Allow-Origin': '*'}})
+        const response = await axios.get(`http://localhost:8080/api/v1/post/${url}`,{headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,'Access-Control-Allow-Origin': '*'}})
         const responseData:PostType[] = response.data.data
         console.log(responseData)
         setListData(responseData);
@@ -39,8 +41,8 @@ const Preview = (data:any) => {//url을 받는 코드로 변경
     navigate(`/detail?${queryString}`)
   }
   return (
-
-    <div className='contentlayout'>
+    <div className='previewoutside'>
+      <div className='contentlayout'>
         <div className='gridlayout'>
           {listData?.map((datas: PostType, index:any) =>(
             <div className='content' key={index} >
@@ -82,6 +84,9 @@ const Preview = (data:any) => {//url을 받는 코드로 변경
         ))}
       </div>
     </div> 
+    </div>
+
+    
   );
 };
 
