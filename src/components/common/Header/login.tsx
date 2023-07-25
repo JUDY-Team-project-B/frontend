@@ -49,9 +49,15 @@ export const Login = () =>{
         );
       } else {
         return (
-          <button onClick={logout}>
-            로그아웃
-          </button>
+          <div>
+            <button onClick={logout}>
+              내정보
+            </button>
+            /
+            <button onClick={logout}>
+              로그아웃
+            </button>
+          </div>
         )
       }
 }

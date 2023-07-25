@@ -1,35 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import user from '../../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import Content2 from './Contents';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
+import axios from 'axios';
+
+export interface UserType{
+  age: number
+  description: string
+  email: string
+  gender: string
+  id: number
+  imageUrls: string[]
+  nickname: string
+  role: string
+}
 
 function Profile() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [data, setData] = useState<UserType|undefined>();
 
   const handleModal = () => {
     setModalOpen(!modalOpen);
   };
 
-  // const { data, isLoading, isError, error } = useQuery(['POST'], () =>
-  //   restFetcher({
-  //     method: 'GET',
-  //     path: `/api/v1/post/all`,
-  //   }),
-  // );
+  useEffect(()=>{
+    const PostListData =async () => {
+      try{
+        const response = await axios.get(`http://localhost:8080/api/v1/user/me`,{headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,'Access-Control-Allow-Origin': '*'}})
+        console.log(response)
+        const responseData = response.data.data
+        console.log(responseData)
+        setData(responseData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+    /// 여기서 처리 추가적으로 처리 가능///
+    PostListData();
+  },[])
 
-  const { data, isLoading, isError, error } = useQuery(['POST'], () =>
-    restFetcher({
-      method: 'GET',
-      path: `/api/v1/post/all/profile`,
-    }),
-  );
-  const res = data;
-  console.log(data);
 
-  if (data) {
     return (
       <div>
         <Bg>
@@ -43,10 +56,10 @@ function Profile() {
                   <ChangeBtn onClick={handleModal} type="button">
                     프로필 편집
                   </ChangeBtn>
-                  <NickName>{Object.values<any>(data[0])[2]}</NickName>
-                  <NickName>{Object.values<any>(data[0])[3]}</NickName>
+                  <NickName>{data.nickname}</NickName>
+                  <NickName>{data.id}</NickName>
                 </Container2>
-                <Introduce>{Object.values<any>(data[0])[4]}</Introduce>
+                <Introduce>{data.description}</Introduce>
               </Container>
               <ProfileEditModal open={modalOpen} onClose={handleModal} />
             </>
@@ -56,7 +69,11 @@ function Profile() {
       </div>
     );
   }
-}
+  // return (    
+  // <div>
+  //   hello
+  // </div>)
+
 
 export default Profile;
 
