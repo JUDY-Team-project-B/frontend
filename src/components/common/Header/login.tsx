@@ -34,6 +34,9 @@ export const Login = () =>{
       navigate('/');
     }
 
+    const gotoMypage = ()=>{
+      navigate('/mypage')
+    }
     if (isLogin === false) {
         return (
           <div>
@@ -50,7 +53,7 @@ export const Login = () =>{
       } else {
         return (
           <div>
-            <button onClick={logout}>
+            <button onClick={gotoMypage}>
               내정보
             </button>
             /

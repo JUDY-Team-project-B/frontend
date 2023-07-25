@@ -11,18 +11,31 @@ import { red } from '@mui/material/colors';
 import { Login } from './login';
 
 export const Header = () => {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
+  const [keyword, setKeyword] = useState<string>();
 
   const gotoMain = () => {
-    navigator('/');
+    navigate('/');
   };
 
   useEffect(() => {
     setisLogin(userData.is_active);
     console.log(userData);
   });
+
+  const search = (keyword:string):void =>{
+    const queryParems = new URLSearchParams();
+    queryParems.set('q',keyword);
+    const queryString = queryParems.toString();
+    navigate(`/travel?${queryString}`)
+  }
+
+  const setWord = (e:any)=>{
+    setKeyword(e.target.value)
+    console.log(keyword)
+  }
 
   return (
     <div className="navlayout">
@@ -40,8 +53,8 @@ export const Header = () => {
         </div>
         <div className="leftdiv">
           <div className="inputlayout">
-            <input placeholder="여행지를 검색해보세요" className="input" />
-            <button onClick={gotoMain}></button>
+            <input placeholder="여행지를 검색해보세요" className="input" onChange={setWord} value={keyword} />
+            <button onClick={gotoMain}>검색</button>
           </div>
           <Login/>
         </div>

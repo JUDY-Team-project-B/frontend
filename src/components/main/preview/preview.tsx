@@ -12,16 +12,27 @@ import { PostType } from '@/types/post';
 import axios from 'axios';
 
 
-const Preview = (queryString:any) => {//url을 받는 코드로 변경
+const Preview = (queryString:any) => {
   console.log(queryString)
   const url = queryString.queryString
+  const Type = queryString.searchType.toString()
+  const keyword = queryString.searchKeyword.toString()
   const navigate = useNavigate();
   const [listData, setListData] = useState<PostType[]|undefined>()
 
   useEffect(()=>{
     const PostListData =async () => {
       try{
-        const response = await axios.get(`http://localhost:8080/api/v1/post/${url}`,{headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,'Access-Control-Allow-Origin': '*'}})
+        const response = 
+          await axios.get(`http://localhost:8080/api/v1/post/${url}`,
+          {headers:
+            {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'text/plain; charset=ISO-8859-1',
+              'searchType':`${Type}`,
+              'searchKeyword':`${keyword}`
+            }})
         const responseData:PostType[] = response.data.data
         console.log(responseData)
         setListData(responseData);
@@ -29,7 +40,6 @@ const Preview = (queryString:any) => {//url을 받는 코드로 변경
         console.log(error)
       }
     }
-    /// 여기서 처리 추가적으로 처리 가능///
     PostListData();
   },[])
 
