@@ -1,14 +1,14 @@
 .previewoutside{
   width:  100%;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-content: center;
 }
 
 .contentlayout{ 
   width: 1080px; 
   height: auto; 
   background-color: white;
+  align-self: center;
   
 } 
 

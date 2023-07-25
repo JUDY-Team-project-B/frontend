@@ -40,6 +40,10 @@ export const Login = () =>{
             <button onClick={openLoginModal}>
               로그인
             </button>
+            /
+            <button>
+              회원가입
+            </button>
             {isLoginModalOpen && (<LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />)}
           </div> 
         );

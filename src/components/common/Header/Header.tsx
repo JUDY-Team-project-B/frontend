@@ -43,42 +43,7 @@ export const Header = () => {
             <input placeholder="여행지를 검색해보세요" className="input" />
             <button onClick={gotoMain}></button>
           </div>
-          <div className="detailicon" onClick={gotoMain}></div>
-
-          <button
-            className="loginbutton"
-            // onClick={openLoginModal}
-            style={{
-              height: '2.2rem',
-              width: '8rem',
-              marginLeft: '2rem',
-              justifyContent: 'center',
-              backgroundColor: '#3faaf7',
-              color: 'white',
-              fontSize: '1.1rem',
-              borderRadius: '5rem',
-              fontFamily: 'SUITE-Regular',
-            }}
-          >
-            로그인
-          </button>
-          <button
-            className="loginbutton"
-            // onClick={openLoginModal}
-            style={{
-              height: '2.2rem',
-              width: '10rem',
-              marginLeft: '1rem',
-              justifyContent: 'center',
-              backgroundColor: '#919394',
-              color: 'white',
-              fontSize: '1.1rem',
-              borderRadius: '5rem',
-              fontFamily: 'SUITE-Regular',
-            }}
-          >
-            회원가입
-          </button>
+          <Login/>
         </div>
       </div>
     </div>
