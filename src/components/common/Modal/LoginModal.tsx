@@ -47,7 +47,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         is_active: true,
       })
       navigate('/');
-      onclose;//모달창 종료 코드 필요
+      onClose();
     }catch(e){
       console.log(e)
     }
