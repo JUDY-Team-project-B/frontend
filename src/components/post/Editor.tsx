@@ -10,6 +10,7 @@ const PostEditor = ({ onChangeEditor }: IProps) => {
 
   const handleEditorChange = (content: string) => {
     onChangeEditor(content);
+    console.log(content)
   };
 
   return (

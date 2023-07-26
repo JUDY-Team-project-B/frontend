@@ -14,7 +14,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
-  const [keyword, setKeyword] = useState<string>();
+  const [keyword, setKeyword] = useState<any>();
 
   const gotoMain = () => {
     navigate('/');
@@ -25,7 +25,7 @@ export const Header = () => {
     console.log(userData);
   });
 
-  const search = (keyword:string):void =>{
+  const search = ():void =>{
     const queryParems = new URLSearchParams();
     queryParems.set('q',keyword);
     const queryString = queryParems.toString();
@@ -54,7 +54,7 @@ export const Header = () => {
         <div className="leftdiv">
           <div className="inputlayout">
             <input placeholder="여행지를 검색해보세요" className="input" onChange={setWord} value={keyword} />
-            <button onClick={gotoMain}>검색</button>
+            <button onClick={search}>검색</button>
           </div>
           <Login/>
         </div>

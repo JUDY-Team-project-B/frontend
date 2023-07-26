@@ -1,8 +1,12 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const TravelDatePicker = () => {
+
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 

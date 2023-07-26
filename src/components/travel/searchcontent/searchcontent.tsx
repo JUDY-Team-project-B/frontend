@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './searchcontent.scss';
 import Preview from '@/components/main/preview/preview';
 import DetailSearch from '../detailsearch/detailsearch';
@@ -9,10 +9,11 @@ import { useLocation } from 'react-router-dom';
 
 
 const SearchContent = () => {
-
+  
   const location = useLocation();
   const queryParems = new URLSearchParams(location.search);
   const searchTerm = queryParems.get('q');
+  console.log(searchTerm)
   const [url,setUrl] = useState('all/0')
   
 
@@ -22,7 +23,7 @@ const SearchContent = () => {
         동행
       </div>
       <DetailSearch/>
-      <Preview  queryString = {url} searchType = {"title"} searchKeyword = {"테스트"}/>
+      <Preview  queryString = {url} searchType = {"title"} searchKeyword = {searchTerm}/>
     </div>
   );
 };
