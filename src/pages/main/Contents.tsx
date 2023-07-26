@@ -32,7 +32,8 @@ const Content = () => {
           <BtnName>전라도</BtnName>
         </ContentsImg>
       </ContentsWrap>
-      <Preview  queryString = {url} searchType = {null} searchKeyword = {null}/>
+      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
+      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
     </Background>
   );
 };

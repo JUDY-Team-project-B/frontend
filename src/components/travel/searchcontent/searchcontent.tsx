@@ -22,7 +22,7 @@ const SearchContent = () => {
         동행
       </div>
       <DetailSearch/>
-      <Preview  queryString = {url} searchType = {"title"} searchKeyword = {"검색"}/>
+      <Preview  queryString = {url} searchType = {"title"} searchKeyword = {"테스트"}/>
     </div>
   );
 };

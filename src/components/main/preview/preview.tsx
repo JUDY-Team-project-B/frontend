@@ -16,23 +16,24 @@ const Preview = (queryString:any) => {
   console.log(queryString)
   const url = queryString.queryString
   const Type = queryString.searchType.toString()
-  const keyword = queryString.searchKeyword.toString()
+  const keyword =queryString.searchKeyword.toString()
   const navigate = useNavigate();
   const [listData, setListData] = useState<PostType[]|undefined>()
 
   useEffect(()=>{
     const PostListData =async () => {
+      console.log(Type)
+      console.log(keyword)
       try{
         const response = 
           await axios.get(`http://localhost:8080/api/v1/post/${url}`,
-          {headers:
-            {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-              'Content-Type': 'text/plain; charset=ISO-8859-1',
-              'searchType':`${Type}`,
-              'searchKeyword':`${keyword}`
-            }})
+          {
+            params:{
+              searchType:Type,
+              searchKeyword:keyword
+            },
+            headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,'Access-Control-Allow-Origin': '*'}}
+          )
         const responseData:PostType[] = response.data.data
         console.log(responseData)
         setListData(responseData);
