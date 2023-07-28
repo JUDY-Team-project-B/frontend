@@ -56,12 +56,34 @@ const InputTitle = styled.div`
   display: flex;
 `;
 
+const InputWrap = styled.form`
+  display: block;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Input = styled.input`
   margin-bottom: 10px;
   padding: 0.9rem;
   width: 25rem;
   border: 1px solid ${(props) => (props.invalid ? 'red' : '#ccc')};
   border-radius: 5px;
+`;
+
+const DuplicationButton = styled.button`
+  width: 5rem;
+  height: 3.1rem;
+  margin-top: 1.5rem;
+  margin-left: 1rem;
+  padding: 15px 10px;
+  background-color: rgb(34, 176, 242);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const Button = styled.button`
@@ -181,13 +203,17 @@ const SignUpPage: React.FC = () => {
       <Title>HANG OUT</Title>
       <SignUpForm onSubmit={handleSignUp}>
         <InputTitle>이메일</InputTitle>
-        <Input
-          type="text"
-          placeholder="이메일"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          invalid={!isValidEmail}
-        />
+        <InputWrap>
+          <Input
+            type="text"
+            placeholder="이메일"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            invalid={!isValidEmail}
+            style={{ width: '19rem' }}
+          />
+          <DuplicationButton>중복확인</DuplicationButton>
+        </InputWrap>
         <InputTitle>비밀번호</InputTitle>
         <InputTitle
           style={{ color: '#a3a5a5', marginTop: '0.5rem', fontWeight: '100' }}
@@ -201,6 +227,7 @@ const SignUpPage: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           invalid={!isValidPassword}
         />
+
         <InputTitle>비밀번호 확인</InputTitle>
         <Input
           type="password"
@@ -215,13 +242,17 @@ const SignUpPage: React.FC = () => {
         >
           다른 유저와 겹치지 않도록 입력해주세요. (2~10자)
         </InputTitle>
-        <Input
-          type="text"
-          placeholder="닉네임 (2~10자)"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          invalid={!isValidNickname}
-        />
+        <InputWrap>
+          <Input
+            type="text"
+            placeholder="닉네임 (2~10자)"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            invalid={!isValidNickname}
+            style={{ width: '19rem' }}
+          />
+          <DuplicationButton>중복확인</DuplicationButton>
+        </InputWrap>
         <InputTitle>회원정보</InputTitle>
         <Select
           value={gender}
