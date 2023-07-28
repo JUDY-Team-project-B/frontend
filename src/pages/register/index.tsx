@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import '../../assets/font/font.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpContainer = styled.div`
   display: flex;
@@ -80,6 +81,8 @@ const Button = styled.button`
 `;
 
 const SignUpPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -157,18 +160,19 @@ const SignUpPage: React.FC = () => {
       password: password,
       nickname: nickname,
       gender: gender,
-      age: age,
+      age: age.slice(0),
     };
     //회원가입
     axios
       .post('http://localhost:8080/api/v1/auth/signup', sendData)
       .then((response) => {
         // 회원가입 성공
+        console.log(response.data);
         alert('회원가입에 성공하였습니다!');
-        // navigate('/main');
+        navigate('/');
       })
       .catch((error) => {
-        console.log(실패);
+        console.log(error);
       });
   };
 
@@ -225,21 +229,21 @@ const SignUpPage: React.FC = () => {
           invalid={!isValidGender}
         >
           <Option value="">성별</Option>
-          <Option value="남자">남자</Option>
-          <Option value="여자">여자</Option>
+          <Option value="MAN">남성</Option>
+          <Option value="WOMAN">여성</Option>
         </Select>
 
         <Select
-          value={age}
+          value={Number(age)}
           onChange={(e) => setAge(e.target.value)}
           invalid={!isValidAge}
         >
           <Option value="">나이</Option>
-          <Option value="10대">10대</Option>
-          <Option value="20대">20대</Option>
-          <Option value="30대">30대</Option>
-          <Option value="40대">40대</Option>
-          <Option value="50대">50대</Option>
+          <Option value="10">10대</Option>
+          <Option value="20">20대</Option>
+          <Option value="30">30대</Option>
+          <Option value="40">40대</Option>
+          <Option value="50">50대</Option>
         </Select>
         <Button type="submit">회원가입</Button>
       </SignUpForm>
