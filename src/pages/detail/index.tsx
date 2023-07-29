@@ -5,6 +5,7 @@ import user from '../../assets/image/user.png';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
+import axios from 'axios';
 
 function Detail() {
 
@@ -15,17 +16,30 @@ function Detail() {
   
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
+  const [data, setData] = useState<UserType|undefined>();
 
 
 
-  const{data,isLoading,isError,error} = useQuery(['POST'],()=>
-  restFetcher({
-    method:'GET',
-    path:`/api/v1/post/all/${searchTerm}`,
-  })
-  
-)
+  useEffect(()=>{
+    const PostListData =async () => {
+      try{
+        const response = await axios.get(`http://localhost:8080/api/v1/post/${searchTerm}`,
+        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Access-Control-Allow-Origin': '*',
 
+      }})
+        console.log(response)
+        const responseData = response.data.data
+        console.log(responseData)
+        setData(responseData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+    /// 여기서 처리 추가적으로 처리 가능///
+    //레디스 설정후 편집
+    PostListData();
+  },[])
 
 const res = data;
 
@@ -36,14 +50,14 @@ console.log(data);
       <TitleImg></TitleImg>
       <Container>
         <LeftContainer>
-          <Title>6/28 ~ 7/1 제주도 같이 돌아다니실분 구해요!</Title>
+          <Title>{data.title}</Title>
           <DestinationContainer>
             <Destination>여행지역</Destination>
-            <DestinationValue>제주도</DestinationValue>
+            <DestinationValue>{data.travelAt}</DestinationValue>
           </DestinationContainer>
           <PeopleContainer>
             <People>모집인원</People>
-            <PeopleValue>4명</PeopleValue>
+            <PeopleValue>{data.travelMember}명</PeopleValue>
           </PeopleContainer>
           <DateContainer>
             <Date>여행날짜</Date>
@@ -51,10 +65,7 @@ console.log(data);
           </DateContainer>
           <ContentsContainer>
             <Content>
-              제주도 여행 가실 분 찾습니다! <br></br>
-              사진찍는 거 좋아하시는 분이면 좋겠습니다. <br></br>
-              부산에서 비행기타고 출발할 생각입니다 4명에서 갔으면 좋겠고 성별은
-              상관없습니다!!
+              {data.context}
             </Content>
           </ContentsContainer>
           <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer>
@@ -84,7 +95,7 @@ export default Detail;
 
 const Bg = styled.div`
   background-color: #eaf0f8;
-  height: 100rem;
+  height: 100%;
 `;
 
 const TitleImg = styled.div`

@@ -34,20 +34,33 @@ export const Login = () =>{
       navigate('/');
     }
 
+    const gotoMypage = ()=>{
+      navigate('/mypage')
+    }
     if (isLogin === false) {
         return (
           <div>
             <button onClick={openLoginModal}>
               로그인
             </button>
+            /
+            <button>
+              회원가입
+            </button>
             {isLoginModalOpen && (<LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />)}
           </div> 
         );
       } else {
         return (
-          <button onClick={logout}>
-            로그아웃
-          </button>
+          <div>
+            <button onClick={gotoMypage}>
+              내정보
+            </button>
+            /
+            <button onClick={logout}>
+              로그아웃
+            </button>
+          </div>
         )
       }
 }

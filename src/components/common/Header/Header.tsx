@@ -5,24 +5,61 @@ import SearchIcon from '@/assets/image/Search icon.png';
 import LoginIcon from '@/assets/image/login.png';
 import DetailIcon from '@/assets/image/detail.png';
 import LoginModal from '../Modal/LoginModal';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 import { red } from '@mui/material/colors';
 import { Login } from './login';
 
+
+function getItemWithExpireTime(keyName:any) {
+  const setUserData = useSetRecoilState<User>(UUid);
+  
+  const objString = window.localStorage.getItem(keyName);
+  if(!objString) {
+    return null;
+  }
+  
+  const obj = JSON.parse(objString);
+  
+
+  if(Date.now() > obj.expire) {
+    window.localStorage.removeItem(keyName);
+    setUserData({
+      is_active: false,
+    })
+    return null;
+  }
+  return obj.value;
+}
+
 export const Header = () => {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
+  const [keyword, setKeyword] = useState<any>();
+  getItemWithExpireTime('accessToken')
 
   const gotoMain = () => {
-    navigator('/');
+    navigate('/');
   };
 
   useEffect(() => {
+    
     setisLogin(userData.is_active);
     console.log(userData);
   });
+
+  const search = ():void =>{
+    const queryParems = new URLSearchParams();
+    queryParems.set('q',keyword);
+    const queryString = queryParems.toString();
+    navigate(`/travel?${queryString}`)
+  }
+
+  const setWord = (e:any)=>{
+    setKeyword(e.target.value)
+    console.log(keyword)
+  }
 
   return (
     <div className="navlayout">
@@ -40,45 +77,10 @@ export const Header = () => {
         </div>
         <div className="leftdiv">
           <div className="inputlayout">
-            <input placeholder="여행지를 검색해보세요" className="input" />
-            <button onClick={gotoMain}></button>
+            <input placeholder="여행지를 검색해보세요" className="input" onChange={setWord} value={keyword} />
+            <button onClick={search}>검색</button>
           </div>
-          <div className="detailicon" onClick={gotoMain}></div>
-
-          <button
-            className="loginbutton"
-            // onClick={openLoginModal}
-            style={{
-              height: '2.2rem',
-              width: '8rem',
-              marginLeft: '2rem',
-              justifyContent: 'center',
-              backgroundColor: '#3faaf7',
-              color: 'white',
-              fontSize: '1.1rem',
-              borderRadius: '5rem',
-              fontFamily: 'SUITE-Regular',
-            }}
-          >
-            로그인
-          </button>
-          <button
-            className="loginbutton"
-            // onClick={openLoginModal}
-            style={{
-              height: '2.2rem',
-              width: '10rem',
-              marginLeft: '1rem',
-              justifyContent: 'center',
-              backgroundColor: '#919394',
-              color: 'white',
-              fontSize: '1.1rem',
-              borderRadius: '5rem',
-              fontFamily: 'SUITE-Regular',
-            }}
-          >
-            회원가입
-          </button>
+          <Login/>
         </div>
       </div>
     </div>
