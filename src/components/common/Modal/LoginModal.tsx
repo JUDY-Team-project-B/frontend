@@ -18,6 +18,17 @@ interface LoginModalProps {
   onClose: () => void;
 }
 
+function setItemWithExpireTime(keyName:any, keyValue:any, tts:any) {
+  const obj = {
+    value : keyValue,
+    expire : Date.now() + tts
+  }
+
+  const objString = JSON.stringify(obj);
+ 
+  window.localStorage.setItem(keyName, objString);
+}
+
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,12 +49,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     console.log('Login with useremail:', email);
     console.log('Login with password:', password);
     try{
-      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',
-      {email,password});
+      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
       const accessToken  = response.data.data.accessToken;
       console.log(accessToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      localStorage.setItem('accessToken',accessToken);
+      setItemWithExpireTime('accessToken', accessToken, 3600)
       setUserData({
         is_active: true,
       })

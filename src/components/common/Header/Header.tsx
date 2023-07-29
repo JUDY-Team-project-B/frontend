@@ -5,22 +5,46 @@ import SearchIcon from '@/assets/image/Search icon.png';
 import LoginIcon from '@/assets/image/login.png';
 import DetailIcon from '@/assets/image/detail.png';
 import LoginModal from '../Modal/LoginModal';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 import { red } from '@mui/material/colors';
 import { Login } from './login';
+
+
+function getItemWithExpireTime(keyName:any) {
+  const setUserData = useSetRecoilState<User>(UUid);
+  
+  const objString = window.localStorage.getItem(keyName);
+  if(!objString) {
+    return null;
+  }
+  
+  const obj = JSON.parse(objString);
+  
+
+  if(Date.now() > obj.expire) {
+    window.localStorage.removeItem(keyName);
+    setUserData({
+      is_active: false,
+    })
+    return null;
+  }
+  return obj.value;
+}
 
 export const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>();
+  getItemWithExpireTime('accessToken')
 
   const gotoMain = () => {
     navigate('/');
   };
 
   useEffect(() => {
+    
     setisLogin(userData.is_active);
     console.log(userData);
   });
