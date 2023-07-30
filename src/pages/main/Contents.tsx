@@ -5,12 +5,11 @@ import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
 import seoulBtn from '../../assets/image/seoul-btn.png';
 import busanBtn from '../../assets/image/busan-btn.png';
 import jeonraBtn from '../../assets/image/jeonra-btn.png';
-import Preview from '@/components/main/preview/preview';
+// import Preview from '@/components/main/preview/preview';
+import PostList from '@/components/main/postList/postList';
 
 const Content = () => {
-
-  const [url,setUrl] = useState('all/0')
-
+  const [url, setUrl] = useState('all/0');
 
   return (
     <Background>
@@ -32,8 +31,8 @@ const Content = () => {
           <BtnName>전라도</BtnName>
         </ContentsImg>
       </ContentsWrap>
-      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
-      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
+      <PostList queryString={url} searchType={''} searchKeyword={''} />
+      {/* <PostList queryString={url} searchType={''} searchKeyword={''} /> */}
     </Background>
   );
 };
@@ -78,7 +77,7 @@ const ContentsWrap = styled.div`
 const ContentsImg = styled.button`
   margin-left: ${(props) => props.marginLeft};
   opacity: 1;
-  width: 7rem;
+  width: 8.5rem;
   margin-top: 2rem;
   height: 9rem;
   border-radius: 1rem;
