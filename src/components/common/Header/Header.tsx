@@ -11,33 +11,33 @@ import { red } from '@mui/material/colors';
 import { Login } from './login';
 
 
-function getItemWithExpireTime(keyName:any) {
-  const setUserData = useSetRecoilState<User>(UUid);
+// function getItemWithExpireTime(keyName:any) {
+//   const setUserData = useSetRecoilState<User>(UUid);
   
-  const objString = window.localStorage.getItem(keyName);
-  if(!objString) {
-    return null;
-  }
+//   const objString = window.localStorage.getItem(keyName);
+//   if(!objString) {
+//     return null;
+//   }
   
-  const obj = JSON.parse(objString);
+//   const obj = JSON.parse(objString);
   
 
-  if(Date.now() > obj.expire) {
-    window.localStorage.removeItem(keyName);
-    setUserData({
-      is_active: false,
-    })
-    return null;
-  }
-  return obj.value;
-}
+//   if(Date.now() > obj.expire) {
+//     window.localStorage.removeItem(keyName);
+//     setUserData({
+//       is_active: false,
+//     })
+//     return null;
+//   }
+//   return obj.value;
+// }
 
 export const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>();
-  getItemWithExpireTime('accessToken')
+  // getItemWithExpireTime('accessToken')
 
   const gotoMain = () => {
     navigate('/');

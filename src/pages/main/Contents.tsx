@@ -1,22 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-// import user from '../../assets/image/user.png';
-// import { restFetcher } from '@/queryClient';
-// import { postInform } from '@/mocks/handlers';
-// import { useQuery } from '@tanstack/react-query';
 import jejuBtn from '../../assets/image/jeju-btn.png';
 import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
 import seoulBtn from '../../assets/image/seoul-btn.png';
 import busanBtn from '../../assets/image/busan-btn.png';
 import jeonraBtn from '../../assets/image/jeonra-btn.png';
+import Preview from '@/components/main/preview/preview';
 
 const Content = () => {
-  //   const { data, isLoading, isError, error } = useQuery(['POST'], () =>
-  //     restFetcher({
-  //       method: 'GET',
-  //       path: `/api/v1/post/all`,
-  //     }),
-  //   );
+
+  const [url,setUrl] = useState('all/0')
+
 
   return (
     <Background>
@@ -38,6 +32,8 @@ const Content = () => {
           <BtnName>전라도</BtnName>
         </ContentsImg>
       </ContentsWrap>
+      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
+      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
     </Background>
   );
 };
