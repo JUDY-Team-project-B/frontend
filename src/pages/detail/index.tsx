@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
+import { UserType } from '../mypage';
 
 function Detail() {
 

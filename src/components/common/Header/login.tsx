@@ -37,6 +37,10 @@ export const Login = () =>{
     const gotoMypage = ()=>{
       navigate('/mypage')
     }
+
+    const gotoRegister = () =>{
+      navigate('/register')
+    }
     if (isLogin === false) {
         return (
           <div>
@@ -44,7 +48,7 @@ export const Login = () =>{
               로그인
             </button>
             /
-            <button>
+            <button onClick={gotoRegister}>
               회원가입
             </button>
             {isLoginModalOpen && (<LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />)}
