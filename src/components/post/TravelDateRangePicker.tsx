@@ -4,12 +4,9 @@ import React, { useRef, useState } from 'react';
 
 const TravelDatePicker = () => {
 
-  const startDateRef = useRef(null);
-  const endDateRef = useRef(null);
-
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
-
+  
   return (
     <div className="flex space-x-2 z-2">
       <div className="flex items-center">
