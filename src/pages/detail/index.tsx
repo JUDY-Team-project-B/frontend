@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
 import { UserType } from '../mypage';
+import { KakaoMap } from '@/components/detail/map/map';
 
 function Detail() {
 
@@ -74,6 +75,7 @@ console.log(data);
             <PostDate>2023.06.11 09:24</PostDate>
             <PostView>조회수 33</PostView>
             <PostComment>댓글 2</PostComment>
+            <KakaoMap></KakaoMap>
           </PostContainer>
         </LeftContainer>
         <RightContainer>
