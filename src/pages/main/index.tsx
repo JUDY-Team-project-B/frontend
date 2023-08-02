@@ -65,14 +65,14 @@ const TextContainer = styled.div`
 
 const Main = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true, //무한 반복 옵션
     fade: true,
-    speed: 600,
+    speed: 700,
     slidesToShow: 1, //한 화면에 보여질 컨텐츠 개수
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 6000,
   };
 
   return (

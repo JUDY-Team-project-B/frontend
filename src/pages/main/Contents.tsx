@@ -5,38 +5,64 @@ import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
 import seoulBtn from '../../assets/image/seoul-btn.png';
 import busanBtn from '../../assets/image/busan-btn.png';
 import jeonraBtn from '../../assets/image/jeonra-btn.png';
-// import Preview from '@/components/main/preview/preview';
 import PostList from '@/components/main/postList/postList';
 
 const Content = () => {
   const [url, setUrl] = useState('all/0');
+  const [selectedLocation, setSelectedLocation] = useState('');
+
+  const handleLocationClick = (location) => {
+    setSelectedLocation(location);
+  };
 
   return (
     <Background>
       <Title>인기 여행지</Title>
       <ContentsWrap>
-        <ContentsImg backgroundImg={jejuBtn} marginLeft="-0.1rem">
+        <ContentsImg
+          backgroundImg={jejuBtn}
+          marginLeft="-0.1rem"
+          onClick={() => handleLocationClick('제주도')}
+        >
           <BtnName>제주도</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={gyeongjuBtn} marginLeft="7.5rem">
+        <ContentsImg
+          backgroundImg={gyeongjuBtn}
+          marginLeft="7.5rem"
+          onClick={() => handleLocationClick('경주')}
+        >
           <BtnName>경주</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={seoulBtn} marginLeft="7.3rem">
+        <ContentsImg
+          backgroundImg={seoulBtn}
+          marginLeft="7.3rem"
+          onClick={() => handleLocationClick('서울')}
+        >
           <BtnName>서울</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={busanBtn} marginLeft="7.2rem">
+        <ContentsImg
+          backgroundImg={busanBtn}
+          marginLeft="7.2rem"
+          onClick={() => handleLocationClick('부산')}
+        >
           <BtnName>부산</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={jeonraBtn} marginLeft="7.2rem">
+        <ContentsImg
+          backgroundImg={jeonraBtn}
+          marginLeft="7.2rem"
+          onClick={() => handleLocationClick('전라도')}
+        >
           <BtnName>전라도</BtnName>
         </ContentsImg>
       </ContentsWrap>
-      <PostList queryString={url} searchType={''} searchKeyword={''} />
-      {/* <PostList queryString={url} searchType={''} searchKeyword={''} /> */}
+      <PostList
+        queryString={url}
+        searchType={''}
+        searchKeyword={selectedLocation}
+      />
     </Background>
   );
 };
-
 export default Content;
 
 const Background = styled.div`
