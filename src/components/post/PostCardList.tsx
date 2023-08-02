@@ -5,6 +5,8 @@ import TravelRegionSelect from './TravelRegionSelect';
 import TravelGuestSelect from './TravelGuestSelect';
 
 export const PostCardList = () => {
+
+
   return (
     <div>
       <PostCard title="여행 기간">

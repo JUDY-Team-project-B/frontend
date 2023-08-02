@@ -4,6 +4,12 @@ import '@/reset.scss';
 import 'tailwindcss/tailwind.css';
 import { Header } from './components/common/Header/Header';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 function App() {
   const elem = useRoutes(routes);
   return(

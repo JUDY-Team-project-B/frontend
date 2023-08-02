@@ -18,7 +18,7 @@ function Detail() {
   
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
-  const [data, setData] = useState<UserType|undefined>();
+  const [data, setData] = useState<any|undefined>('');
 
 
 
@@ -28,7 +28,6 @@ function Detail() {
         const response = await axios.get(`http://localhost:8080/api/v1/post/${searchTerm}`,
         {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         'Access-Control-Allow-Origin': '*',
-
       }})
         console.log(response)
         const responseData = response.data.data
