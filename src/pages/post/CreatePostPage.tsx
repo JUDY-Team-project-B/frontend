@@ -63,30 +63,53 @@ const CreatePostPage = () => {
 
 
   const handleClick = async () => {
-    try{
-      const response = await axios.post('http://localhost:8080/api/v1/post',
-      {
-        params:{
-          title:"테스트",
-          context:"내용물",
-          tags:["여행"],
-          travelGender:"여성",
-          travelAt:"경기도 수원시",
-          travelAge:"20대",
-          travelDateStart:"2023-05-22",
-          travelDataEnd:"2023-05-22",
-          travelMember:2
-        },
-        headers:{
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          'Access-Control-Allow-Origin': '*'}
-        }
-      )
-      console.log(response)
-    }catch(e){
-      console.log(e)
-    }
-    console.log('버튼 클릭');
+    // try{
+      try{
+        const response = await axios.post('http://localhost:8080/api/v1/post',
+        {
+          params:{
+            title:"테스트",
+            context:"내용물",
+            tags:["여행"],
+            travelGender:"여성",
+            travelAt:"경기도 수원시",
+            travelAge:"20대",
+            travelDateStart:"2023-05-22",
+            travelDataEnd:"2023-05-22",
+            travelMember:2
+          },
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*'
+          }}
+        )
+        console.log(response)
+      }catch(error){
+        console.log(error)
+      }
+    //   const response = await axios.post('http://localhost:8080/api/v1/post',
+    //   {
+    //     params:{
+          // title:"테스트",
+          // context:"내용물",
+          // tags:["여행"],
+          // travelGender:"여성",
+          // travelAt:"경기도 수원시",
+          // travelAge:"20대",
+          // travelDateStart:"2023-05-22",
+          // travelDataEnd:"2023-05-22",
+          // travelMember:2
+    //     },
+    //     headers:{
+    //       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    //       'Access-Control-Allow-Origin': '*'}
+    //     }
+    //   )
+    //   console.log(response)
+    // }catch(e){
+    //   console.log(e)
+    // }
+    // console.log('버튼 클릭');
   };
 
 
