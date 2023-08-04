@@ -167,11 +167,9 @@ const Content = styled.div`
   margin-top: 2rem;
   margin-left: 3rem;
   border-radius: 1rem;
-  box-shadow: 0 0px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.11);
   z-index: 999;
-  height: 27.5rem;
-  display: ${(props) =>
-    props.filtered && props.filtered === true ? 'none' : 'flex'};
+  height: 28rem;
 `;
 const MiddleWrap = styled.div`
   width: 117%;
@@ -194,20 +192,19 @@ const DestinationWrap = styled.div`
 const DestinationText = styled.div`
   height: 2rem;
   padding: 0.2rem;
-  width: 5.5rem;
+  width: 5rem;
   display: flex;
   text-align: center;
   border-radius: 0.6rem;
-  font-weight: 1000;
-  color: #009cf6;
+  font-weight: 750;
+  color: #0792e3;
   z-index: 99;
   font-size: 1.3rem;
   overflow: visible;
-  justify-content: center;
-  margin-left: -1rem;
+  margin-left: 0.2rem;
 `;
 const ImgWrap = styled.div`
-  width: 100%;
+  width: 24rem;
   height: 16rem;
   display: flex;
   flex-direction: column;
@@ -218,7 +215,8 @@ const Img = styled.button`
   display: flex;
   margin-left: -1rem;
   opacity: 0.9;
-  width: 100%;
+  width: 99%;
+  overflow: hidden;
   margin-top: -3rem;
   height: 20rem;
   border-radius: 1rem;
@@ -253,9 +251,10 @@ const HeartLayout = styled.button`
 const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 8.5%;
+  width: 8%;
   margin-top: 0.1rem;
-  margin-left: -0.5rem;
+  margin-left: 0.3rem;
+  margin-right: 0.1rem;
   z-index: 999;
 `;
 
@@ -309,18 +308,18 @@ const Gender = styled.div`
 `;
 
 const PostInfo = styled.div`
-  max-height: 100px;
-  min-height: 90px;
+  height: 120px;
   padding: 8px;
   overflow: hidden;
 `;
 
 const Title = styled.button`
-  font-size: 1.24rem;
+  font-size: 1.15rem;
   font-weight: 1000;
-  height: 16px;
+  height: 20px;
   overflow: visible;
   margin-top: 2rem;
+  text-align: left;
 `;
 const DateWrap = styled.div`
   display: block;
@@ -344,8 +343,10 @@ const Date = styled.div`
 
 const Member = styled.div`
   font-size: 16px;
-  overflow: hidden;
-  margin-top: 0.5rem;
+  overflow: visible;
+  margin-top: 1.4rem;
   color: #1aa5f5;
-  font-weight: 1000;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
 `;

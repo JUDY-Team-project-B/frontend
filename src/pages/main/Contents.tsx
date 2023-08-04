@@ -5,6 +5,7 @@ import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
 import seoulBtn from '../../assets/image/seoul-btn.png';
 import busanBtn from '../../assets/image/busan-btn.png';
 import jeonraBtn from '../../assets/image/jeonra-btn.png';
+import allBtn from '../../assets/image/all-btn.png';
 import PostList from '@/components/main/postList/postList';
 
 const Content = () => {
@@ -53,6 +54,13 @@ const Content = () => {
           onClick={() => handleLocationClick('전라도')}
         >
           <BtnName>전라도</BtnName>
+        </ContentsImg>
+        <ContentsImg
+          backgroundImg={allBtn}
+          marginLeft="7.2rem"
+          onClick={() => handleLocationClick('')}
+        >
+          <BtnName>전체보기</BtnName>
         </ContentsImg>
       </ContentsWrap>
       <PostList

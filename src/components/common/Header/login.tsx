@@ -41,7 +41,7 @@ export const Login = () => {
   };
   if (isLogin === false) {
     return (
-      <div style={{ marginLeft: '15rem', display: 'flex' }}>
+      <div style={{ marginLeft: '9rem', display: 'flex', marginRight: '3rem' }}>
         <div
           style={{
             display: 'flex',
@@ -78,7 +78,7 @@ export const Login = () => {
     );
   } else {
     return (
-      <div style={{ marginLeft: '14rem', display: 'flex' }}>
+      <div style={{ marginLeft: '8rem', display: 'flex', marginRight: '3rem' }}>
         <div
           style={{
             display: 'flex',
