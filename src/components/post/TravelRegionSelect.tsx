@@ -20,17 +20,19 @@ const travelRegions: TravelRegion[] = [
   },
 ];
 
-const TravelRegionSelect = () => {
+const TravelRegionSelect = ({onValueChange}) => {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRegion(e.target.value);
+    console.log(selectedRegion)
     setSelectedCity('');
   };
 
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCity(e.target.value);
+    console.log(selectedCity)
   };
 
   return (

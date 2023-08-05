@@ -8,8 +8,7 @@ export const PostTitleInput = ({ onValueChange }) => {
   const handleTitleChange = (e:any)=>{
     console.log(e.target.value)
     setTitletext(e.target.value);
-    console.log(titletext)
-    onValueChange(titletext);
+    onValueChange(e.target.value);
   }
   
   return (
