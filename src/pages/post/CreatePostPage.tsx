@@ -87,8 +87,8 @@ const CreatePostPage = () => {
             travelGender:'여자',//타입설정
             travelAt:region,
             travelAge:userData.age,
-            travelDateStart:'2023-05-22',
-            travelDataEnd:'2023-05-22',
+            travelDateStart:date[0],
+            travelDataEnd:date[1],
             travelMember:number
           },
           {
