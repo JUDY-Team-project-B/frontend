@@ -8,9 +8,6 @@ const TravelDatePicker = ({onValueChange}) => {
   const [endDate, setEndDate] = useState<Date>();
   const [DateArray, setDateArray] = useState<any[]>([null,null]);
 
-
-
-
   useEffect(()=>{
     DateArray[0] = startDate
     console.log(DateArray)
@@ -23,31 +20,6 @@ const TravelDatePicker = ({onValueChange}) => {
     onValueChange(DateArray)
   },[endDate])
 
-
-  const handleStartDateChange = (date:any)=>{
-    console.log(date)
-    setStartDate(date)
-    console.log(startDate)
-    setDateArray([
-      date,
-      endDate
-    ])
-    console.log(DateArray)
-    onValueChange(DateArray)
-  }
-
-  const handleEndDateChange = (date:any)=>{
-    console.log(date)
-    setEndDate(date)
-    //console.log(endDate)
-    setDateArray([
-      startDate,
-      date
-    ])
-    console.log(DateArray)
-    onValueChange(DateArray)
-  }
-  
   return (
     <div className="flex space-x-2 z-2" >
       <div className="flex items-center">
