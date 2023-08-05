@@ -37,9 +37,26 @@ function Detail() {
         console.log(error)
       }
     }
+    const CommentListData =async () => {
+      try{
+        const response = await axios.get(`http://localhost:8080/api/v1/comment/${searchTerm}`,
+        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Access-Control-Allow-Origin': '*',
+
+      }})
+        console.log(response)
+        const responseData = response.data.data
+        console.log(responseData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
     /// 여기서 처리 추가적으로 처리 가능///
     //레디스 설정후 편집
     PostListData();
+    CommentListData();
+
   },[])
 
 const res = data;
