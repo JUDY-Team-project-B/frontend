@@ -64,21 +64,32 @@ const CreatePostPage = () => {
     console.log(content)
   };
 
+  const [date, setDate] = useState('');
+  const [region, setRegion] = useState('')
+  const [number, setNumber] = useState('')
+
+  const handleCardList = (content: any) =>{
+    console.log(content)
+    setDate(content[0])
+    setRegion(content[1])
+    setNumber(content[2])
+  }
 
   const handleClick = async () => {
     console.log(jwt)
       try{
+        console.log(date[1])
         const response = await axios.post('http://localhost:8080/api/v1/post',
           {
             title:title,
             context:content,
             tags:["여행"],
-            travelGender:"여성",
-            travelAt:"경기도 수원시",
-            travelAge:"20대",
-            travelDateStart:"2023-05-22",
-            travelDataEnd:"2023-05-22",
-            travelMember:2
+            travelGender:'여자',//타입설정
+            travelAt:region,
+            travelAge:userData.age,
+            travelDateStart:'2023-05-22',
+            travelDataEnd:'2023-05-22',
+            travelMember:number
           },
           {
             headers:{
@@ -99,7 +110,7 @@ const CreatePostPage = () => {
 
   return (
     <Layout>
-      <PostCardList />
+      <PostCardList onValueChange={handleCardList} />
       <PostTitleInput onValueChange={handleTitleChange} />
       <PostThumbnailInput />
       <PostEditor onChangeEditor={handleEditorChange} />

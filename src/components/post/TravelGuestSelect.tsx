@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const TravelGuestSelect = () => {
+const TravelGuestSelect = ({onValueChange}) => {
   const [number, setNumber] = useState(1);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setNumber(parseInt(e.target.value));
   };
+
+  useEffect(()=>{
+    console.log(number)
+    onValueChange(number)
+  },[number])
 
   return (
     <div className="flex space-x-2 z-2">

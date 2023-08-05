@@ -9,16 +9,12 @@ const TravelDatePicker = ({onValueChange}) => {
   const [DateArray, setDateArray] = useState<any[]>([null,null]);
 
   useEffect(()=>{
-    DateArray[0] = startDate
-    console.log(DateArray)
-    onValueChange(DateArray)
-  },[startDate])
+    setDateArray([startDate,endDate])
+  },[startDate,endDate])
 
   useEffect(()=>{
-    DateArray[1] = endDate
-    console.log(DateArray)
     onValueChange(DateArray)
-  },[endDate])
+  })
 
   return (
     <div className="flex space-x-2 z-2" >
