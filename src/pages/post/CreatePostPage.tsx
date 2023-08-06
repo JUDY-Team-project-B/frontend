@@ -88,7 +88,7 @@ const CreatePostPage = () => {
             travelAt:region,
             travelAge:userData.age,
             travelDateStart:date[0],
-            travelDataEnd:date[1],
+            travelDateEnd:date[1],
             travelMember:number
           },
           {
