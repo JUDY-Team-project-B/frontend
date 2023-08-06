@@ -24,6 +24,8 @@ const Preview = (queryString: any) => {
   const navigate = useNavigate();
   const [listData, setListData] = useState<PostType[] | undefined>();
 
+  console.log(keyword);
+
   useEffect(() => {
     const PostListData = async () => {
       console.log(Type);
