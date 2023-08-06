@@ -53,7 +53,7 @@ const Preview = (queryString: any) => {
       }
     };
     PostListData();
-  }, []);
+  }, [Type,keyword]);
 
   const goto = (num: number): void => {
     const postnum = String(num);
@@ -67,7 +67,7 @@ const Preview = (queryString: any) => {
     <PreviewBackground>
       <ContentLayout>
         <GridLayout>
-          {filteredData?.map((datas: PostType, index: any) => (
+          {listData?.map((datas: PostType, index: any) => (
             <Content key={index}>
               <TopWarp>
                 <ProfileWrap>

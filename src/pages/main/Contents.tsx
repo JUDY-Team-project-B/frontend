@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import jejuBtn from '../../assets/image/jeju-btn.png';
 import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
@@ -12,7 +12,7 @@ const Content = () => {
   const [url, setUrl] = useState('all/0');
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  const handleLocationClick = (location) => {
+  const handleLocationClick = (location:any) => {
     setSelectedLocation(location);
   };
 
@@ -65,7 +65,7 @@ const Content = () => {
       </ContentsWrap>
       <PostList
         queryString={url}
-        searchType={''}
+        searchType={'title'}
         searchKeyword={selectedLocation}
       />
     </Background>
