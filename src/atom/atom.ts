@@ -2,7 +2,7 @@ import { recoilPersist } from 'recoil-persist';
 import { atom } from 'recoil';
 
 export interface User {
-    is_active: boolean;
+  is_active: boolean;
 }
 
 const { persistAtom } = recoilPersist({

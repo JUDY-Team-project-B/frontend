@@ -14,7 +14,6 @@ const Content = () => {
     }),
   );
   console.log(data);
-  
 
   return (
     <ContentsWrap>
