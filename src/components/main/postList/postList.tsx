@@ -55,10 +55,6 @@ const Preview = (queryString: any) => {
     PostListData();
   }, []);
 
-  const filteredData = listData?.filter((datas: PostType) =>
-    datas.travelAt.includes(keyword),
-  );
-
   const goto = (num: number): void => {
     const postnum = String(num);
     const queryParems = new URLSearchParams();
