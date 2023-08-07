@@ -29,7 +29,7 @@ function Detail() {
       const response = await axios.post('http://localhost:8080/api/v1/comment',
         {
           userId:1,
-          postId:1,
+          postId:searchTerm,
           parentId:"",
           content:comments,
         },
@@ -128,7 +128,7 @@ function Detail() {
           </PeopleContainer>
           <DateContainer>
             <Date>여행날짜</Date>
-            <Dates>2023.06.28 ~ 2023.07.01</Dates>
+            <Dates>{data.travelDateStart} ~ {data.travelDateEnd}</Dates>
           </DateContainer>
           <ContentsContainer>
             <Content>
@@ -151,16 +151,32 @@ function Detail() {
         </RightContainer>
       </Container>
       <Container2>
-        <div>
+        <CommentLayout>
           <CommentInput onChange={onSearch} value={comments}></CommentInput>
           <Button onClick={sendComment}>게시</Button>
-        </div>
+        </CommentLayout>
         <div>
           {commentData?.map((datas:any,index:any)=>(
             <div>
-              <Comment>{datas.content}</Comment>
+              <Comment>
+                <CommentInfo>
+                  작성자 시간
+                </CommentInfo>
+                <CommentContent>
+                  <Text>{datas.content}</Text>
+                  <Text>답글</Text> 
+                </CommentContent>
+              </Comment>
               <div>{datas.children?.map((comment:any,index:any)=>(
-                <ChildrenComments>------{comment.content}</ChildrenComments>
+                <ChildrenComments>
+                  <CommentInfo>
+                    작성자 시간
+                  </CommentInfo>
+                  <CommentContent>
+                    <Text>--{comment.content}</Text>
+                    <Text>답글</Text>
+                  </CommentContent>
+                </ChildrenComments>
             ))}</div>
             </div>
           ))}
