@@ -53,11 +53,7 @@ const Preview = (queryString: any) => {
       }
     };
     PostListData();
-  }, []);
-
-  const filteredData = listData?.filter((datas: PostType) =>
-    datas.travelAt.includes(keyword),
-  );
+  }, [Type,keyword]);
 
   const goto = (num: number): void => {
     const postnum = String(num);
@@ -71,7 +67,7 @@ const Preview = (queryString: any) => {
     <PreviewBackground>
       <ContentLayout>
         <GridLayout>
-          {filteredData?.map((datas: PostType, index: any) => (
+          {listData?.map((datas: PostType, index: any) => (
             <Content key={index}>
               <TopWarp>
                 <ProfileWrap>
