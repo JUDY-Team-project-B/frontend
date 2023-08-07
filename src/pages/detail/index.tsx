@@ -18,6 +18,10 @@ function Detail() {
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
   const [data, setData] = useState<any|undefined>('');
+  const [commentData, setCommentData] = useState<any[]|undefined>(['']);
+  const [userId, setUserId] = useState<any|undefined>('');
+  const [userData, setUserData] = useState<any|undefined>('');
+
 
 
 
@@ -33,6 +37,7 @@ function Detail() {
         const responseData = response.data.data
         console.log(responseData)
         setData(responseData)
+        setUserId(data.nickname)
       }catch(error){
         console.log(error)
       }
@@ -56,12 +61,10 @@ function Detail() {
     //레디스 설정후 편집
     PostListData();
     CommentListData();
+    UserData();
+  },[searchTerm])
 
-  },[])
 
-const res = data;
-
-console.log(data);
 
   return (
     <Bg>
@@ -102,14 +105,38 @@ console.log(data);
         </RightContainer>
       </Container>
       <Container2>
-        <CommentInput></CommentInput>
-        <Button>게시</Button>
+        <div>
+          <CommentInput></CommentInput>
+          <Button>게시</Button>
+        </div>
+        <div>
+          {commentData?.map((datas:any,index:any)=>(
+            <div>
+              <Comment>{datas.content}</Comment>
+              <div>{datas.children?.map((comment:any,index:any)=>(
+                <ChildrenComments>------{comment.content}</ChildrenComments>
+            ))}</div>
+            </div>
+          ))}
+        </div>
       </Container2>
     </Bg>
   );
 }
 
 export default Detail;
+
+const Comment = styled.div`
+  height:40px;
+  width:45rem;
+  background-color:#333333
+`
+
+const ChildrenComments = styled.div`
+  height:40px;
+  width:45rem;
+  background-color:#333333
+`
 
 const Bg = styled.div`
   background-color: #eaf0f8;
@@ -338,6 +365,7 @@ const Container2 = styled.div`
   height: 30rem;
   margin-left: 12rem;
   display: flex;
+  flex-direction:column
 `;
 
 const CommentInput = styled.input`
