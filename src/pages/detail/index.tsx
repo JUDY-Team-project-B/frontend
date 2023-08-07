@@ -21,7 +21,37 @@ function Detail() {
   const [commentData, setCommentData] = useState<any[]|undefined>(['']);
   const [userId, setUserId] = useState<any|undefined>('');
   const [userData, setUserData] = useState<any|undefined>('');
+  const [comments,setComments] = useState<any|undefined>('');
 
+
+  const sendComment = async () =>{
+    try{
+      const response = await axios.post('http://localhost:8080/api/v1/comment',
+        {
+          userId:1,
+          postId:1,
+          parentId:"",
+          content:comments,
+        },
+        {
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*'}
+        }
+  
+      )
+      console.log(response)
+      alert('작성되었습니다')
+    }catch(error){
+      console.log(error)
+    }
+
+  }
+
+  const onSearch = (e:any) => {
+    setComments(e.target.value)
+    console.log(comments);
+  }
 
 
 
@@ -122,8 +152,8 @@ function Detail() {
       </Container>
       <Container2>
         <div>
-          <CommentInput></CommentInput>
-          <Button>게시</Button>
+          <CommentInput onChange={onSearch} value={comments}></CommentInput>
+          <Button onClick={sendComment}>게시</Button>
         </div>
         <div>
           {commentData?.map((datas:any,index:any)=>(
