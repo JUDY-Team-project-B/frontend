@@ -188,16 +188,36 @@ function Detail() {
 
 export default Detail;
 
+const CommentLayout = styled.div`
+  margin:0px;
+  height:100px;
+`
+
 const Comment = styled.div`
-  height:40px;
+  height:50px;
   width:45rem;
-  background-color:#333333
+`
+
+const Text = styled.div`
+  padding:8px;
+`
+
+const CommentInfo = styled.div`
+  overflow:hidden;
+`
+
+const CommentContent = styled.div`
+  display:flex;
+  overflow: hidden;
+  flex-direction: row;
+  justify-content: space-between;
+
 `
 
 const ChildrenComments = styled.div`
-  height:40px;
+  height:50px;
   width:45rem;
-  background-color:#333333
+  background-color:#afbdd3
 `
 
 const Bg = styled.div`
@@ -246,7 +266,7 @@ const DestinationContainer = styled.div`
 const Destination = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 4rem;
+  width: 5rem;
   overflow: visible;
   margin-top: 2rem;
 
@@ -273,7 +293,7 @@ const PeopleContainer = styled.div`
 const People = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 4rem;
+  width: 5rem;
   overflow: visible;
 
   color: #9f9e9e;
@@ -296,7 +316,7 @@ const DateContainer = styled.div`
 const Date = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 4rem;
+  width: 5rem;
   overflow: visible;
 
   color: #9f9e9e;
@@ -363,7 +383,7 @@ const PostView = styled.div`
 const PostComment = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 3rem;
+  width: 4rem;
   overflow: visible;
   margin-left: rem;
   color: #9f9e9e;
@@ -424,7 +444,6 @@ const ProfileIntroduce = styled.div`
 `;
 const Container2 = styled.div`
   width: 70rem;
-  height: 30rem;
   margin-left: 12rem;
   display: flex;
   flex-direction:column
