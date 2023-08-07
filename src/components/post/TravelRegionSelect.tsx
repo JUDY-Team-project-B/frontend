@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { c } from 'msw/lib/glossary-de6278a9';
+import React, { useEffect, useState } from 'react';
 
 interface TravelRegion {
   region: string;
@@ -20,18 +21,26 @@ const travelRegions: TravelRegion[] = [
   },
 ];
 
-const TravelRegionSelect = () => {
+const TravelRegionSelect = ({onValueChange}) => {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRegion(e.target.value);
+    console.log(selectedRegion)
     setSelectedCity('');
   };
 
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value)
     setSelectedCity(e.target.value);
   };
+
+  useEffect(()=>{
+    console.log(selectedRegion)
+    console.log(selectedCity)
+    onValueChange(selectedRegion+selectedCity)
+  },[selectedCity])
 
   return (
     <div className="flex flex-row">

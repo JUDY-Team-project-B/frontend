@@ -17,7 +17,7 @@ function Detail() {
   
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
-  const [data, setData] = useState<UserType|undefined>();
+  const [data, setData] = useState<any|undefined>('');
 
 
 

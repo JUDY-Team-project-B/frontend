@@ -58,6 +58,10 @@ export const Header = () => {
     console.log(keyword);
   };
 
+  const gotoWrite = () => {
+    navigate('/create-post');
+  };
+
   return (
     <div className="navlayout">
       <div className="space_between">
@@ -70,6 +74,9 @@ export const Header = () => {
             >
               HANG OUT
             </button>
+            <button onClick={gotoWrite}>
+              글쓰기
+            </button >
           </div>
         </div>
         <div className="leftdiv">
