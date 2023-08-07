@@ -52,6 +52,22 @@ function Detail() {
         console.log(response)
         const responseData = response.data.data
         console.log(responseData)
+        setCommentData(responseData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+    const UserData= async()=>{
+      try{
+        const response = await axios.get(`http://localhost:8080/api/v1/user/${userId}`,
+        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Access-Control-Allow-Origin': '*',
+      }})
+        console.log(response)
+        const responseData = response.data.data
+        console.log(responseData)
+        setUserData(responseData)
       }catch(error){
         console.log(error)
       }
