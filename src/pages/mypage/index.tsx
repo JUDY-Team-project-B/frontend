@@ -9,6 +9,8 @@ import axios from 'axios';
 import { textAlign } from '@mui/system';
 import { PostType } from '@/types/post';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import gyeongju from '@/assets/image/trip3.jpg';
+import place from '@/assets/image/placeholder.png';
 
 export interface UserType {
   age: number;
@@ -22,11 +24,13 @@ export interface UserType {
 }
 
 function Profile() {
+  const url = 0; //임시로 0해둠
   const [modalOpen, setModalOpen] = useState(false);
   const [data, setData] = useState<UserType | undefined>();
   const [activeSection, setActiveSection] = useState('mypost');
   const [id, setId] = useState('');
   const [postdata, setPostData] = useState<PostType[] | undefined>();
+  const [commentdata, setCommentData] = useState<PostType[] | undefined>();
 
   const handleModal = () => {
     setModalOpen(!modalOpen);
@@ -56,13 +60,13 @@ function Profile() {
     /// 여기서 처리 추가적으로 처리 가능///
     UserData();
   }, []);
-
+  // GET : 내가 작성한 게시물
   useEffect(() => {
     const PostListData = async () => {
-      if (activeSection === 'comment' && id) {
+      if (activeSection === 'mypost' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/comment/me`,
+            `http://localhost:8080/api/v1/post/me/${url}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -79,6 +83,30 @@ function Profile() {
       }
     };
     PostListData();
+  }, [activeSection, id]);
+
+  useEffect(() => {
+    const CommentListData = async () => {
+      if (activeSection === 'comment' && id) {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/api/v1/comment/me`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                'Access-Control-Allow-Origin': '*',
+              },
+            },
+          );
+          const responseData: PostType[] = response.data.data;
+          console.log(responseData);
+          setCommentData(responseData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    CommentListData();
   }, [activeSection, id]);
 
   const handleSectionChange = (section: string) => {
@@ -126,9 +154,32 @@ function Profile() {
           style={{ display: activeSection === 'mypost' ? 'block' : 'none' }}
         >
           <MypostTitle>내가 작성한 게시물</MypostTitle>
+          <MypostWrap>
+            {postdata?.map((datas: PostType, index: any) => (
+              <PostWrap>
+                <TopWrap>
+                  <PlaceLayout>
+                    <img src={place} alt="Place" />
+                  </PlaceLayout>
+                  <Where>{datas.travelAt}</Where>
+                  <DateWrap>
+                    <DateTitle>여행 기간</DateTitle>
+                    <Date>08/05 - 08/09</Date>
+                  </DateWrap>
+                </TopWrap>
+                <ImgWrap>
+                  <Img /*onClick={() => goto(datas.id)}*/ />
+                </ImgWrap>
+                <PostTitle>{datas.title}</PostTitle>
+              </PostWrap>
+            ))}{' '}
+          </MypostWrap>
         </BgMypost>
         <BgComment
-          style={{ display: activeSection === 'comment' ? 'block' : 'none' }}
+          style={{
+            flexDirection: 'column',
+            display: activeSection === 'comment' ? 'block' : 'none',
+          }}
         >
           <Container
             style={{
@@ -138,7 +189,7 @@ function Profile() {
             }}
           >
             <CommentTitle>내가 작성한 댓글</CommentTitle>
-            {postdata?.map((datas: PostType, index: any) => (
+            {commentdata?.map((datas: PostType, index: any) => (
               <Comment
                 key={index}
                 style={{
@@ -177,7 +228,7 @@ function Profile() {
 export default Profile;
 
 const BackgroundWrap = styled.div`
-  height: 100%;
+  height: 49rem;
   width: 100%;
   display: flex;
   font-family: 'NanumSquareNeo-Variable';
@@ -185,28 +236,39 @@ const BackgroundWrap = styled.div`
   justify-content: center;
 `;
 const Bg = styled.div`
-  height: 60rem;
+  height: 49rem;
   width: 40%;
   margin-left: -15rem;
+  flex-direction: row; // 추가
 `;
 
 const BgComment = styled.div`
-  /* background-color: #74c6f6; */
-  height: 100%;
-  width: 40%;
+  height: 47rem;
+  width: 60rem;
   margin-left: -3rem;
   overflow: visible;
 `;
 
+const MypostWrap = styled.div`
+  height: 85%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 const BgMypost = styled.div`
-  height: 55rem;
-  width: 40%;
+  height: 47rem;
+  width: 60rem;
   margin-top: 2.5rem;
   margin-left: -3rem;
+  display: flex;
+
+  flex-direction: row; // 추가
 `;
+
 const BgMylike = styled.div`
-  height: 55rem;
-  width: 40%;
+  height: 47rem;
+  width: 60rem;
   margin-top: 2.5rem;
   margin-left: -3rem;
 `;
@@ -252,6 +314,102 @@ const MypostTitle = styled.div`
   align-items: center;
   font-size: 1.4rem;
 `;
+const PostWrap = styled.button`
+  display: block;
+  background-color: #f5f6f6;
+  margin-left: 2rem;
+  border-radius: 1rem;
+  width: 15rem;
+  height: 18rem;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.11);
+`;
+const PlaceLayout = styled.button`
+  justify-content: right;
+  display: flex;
+  width: 17%;
+  margin-top: 2.3rem;
+  margin-left: 1rem;
+  z-index: 999;
+`;
+const Where = styled.div`
+  z-index: 90;
+  position: relative;
+  overflow: visible;
+  width: 9rem;
+  height: 6.2rem;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #0792e3;
+`;
+
+const TopWrap = styled.div`
+  display: flex;
+  height: 4rem;
+  width: 15rem;
+  margin-top: -2rem;
+  overflow: visible;
+`;
+
+const DateWrap = styled.div`
+  display: block;
+  height: 3rem;
+  width: 12rem;
+  margin-top: 1.5rem;
+  margin-left: 0rem;
+  text-align: left;
+`;
+const DateTitle = styled.div`
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 0.7rem;
+  overflow: hidden;
+`;
+
+const Date = styled.div`
+  font-size: 13px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+
+  color: #1aa5f5;
+`;
+
+const ImgWrap = styled.div`
+  display: flex;
+  height: 11rem;
+  width: 100%;
+`;
+
+const Img = styled.button`
+  display: flex;
+  opacity: 0.9;
+  width: 100%;
+  overflow: hidden;
+  height: 9rem;
+  margin-top: 1.5rem;
+  background-size: 100% 100%;
+  background-image: url(${gyeongju});
+  background-repeat: no-repeat;
+  transition: transform 0.5s;
+
+  &:hover {
+    position: center;
+    opacity: 0.9;
+    transform: scale(1.1); /* 이미지 확대 */
+  }
+`;
+
+const PostTitle = styled.div`
+  font-size: 0.8rem;
+  width: 13rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  overflow: visible;
+  text-align: left;
+  margin-left: 1rem;
+  height: 1.2rem;
+`;
 
 const MyLikeTitle = styled.div`
   z-index: 90;
@@ -260,7 +418,6 @@ const MyLikeTitle = styled.div`
   width: 100%;
   height: 5rem;
   display: flex;
-
   align-items: center;
   font-size: 1.4rem;
 `;
@@ -288,10 +445,10 @@ const Comment = styled.button`
   border: solid 2px #74777a;
   border-radius: 1rem;
   margin-top: 1rem;
-  width: 100%;
-  padding: 1.4rem;
-  height: 6rem;
-  font-size: 1.1rem;
+  width: 90%;
+  padding: 0.8rem;
+  height: 5rem;
+  font-size: 1.05rem;
   transition: all 0.3s ease-in-out; // 추가: 부드러운 변화를 위한 transition
   &:hover {
     position: center;
@@ -300,7 +457,7 @@ const Comment = styled.button`
     transform: scale(1.015); // 크기를 1.2배로 확대
 
     ${HoverableIcon} {
-      color: #000000; // 변경하고자 하는 색상으로 수정
+      color: #626262; // 변경하고자 하는 색상으로 수정
     }
   }
 `;
