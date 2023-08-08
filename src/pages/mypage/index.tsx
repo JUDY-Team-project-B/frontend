@@ -59,7 +59,7 @@ function Profile() {
 
   useEffect(() => {
     const PostListData = async () => {
-      if (id) {
+      if (activeSection === 'comment' && id) {
         try {
           const response = await axios.get(
             `http://localhost:8080/api/v1/comment/me`,
@@ -79,7 +79,7 @@ function Profile() {
       }
     };
     PostListData();
-  }, []);
+  }, [activeSection, id]);
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section);
@@ -138,39 +138,25 @@ function Profile() {
             }}
           >
             <CommentTitle>내가 작성한 댓글</CommentTitle>
-
-            <Comment
-              style={{
-                textAlign: 'left',
-                justifyContent: 'center',
-              }}
-            >
-              <CommentPost> 경주 2박 3일 여행 동행 4명 구해요!!</CommentPost>
-              동행하고 싶습니다!!
-              <HoverableIcon
+            {postdata?.map((datas: PostType, index: any) => (
+              <Comment
+                key={index}
                 style={{
-                  width: '200%',
-                  justifyContent: 'right',
-                  marginTop: '-4rem',
+                  textAlign: 'left',
+                  justifyContent: 'center',
                 }}
-              />
-            </Comment>
-            <Comment
-              style={{
-                textAlign: 'left',
-                justifyContent: 'center',
-              }}
-            >
-              <CommentPost> 제주도 3박 4일 동행 3명 구해봅니다!!</CommentPost>
-              혹시 8/18일은 어디 여행하시나요?
-              <HoverableIcon
-                style={{
-                  width: '200%',
-                  justifyContent: 'right',
-                  marginTop: '-4rem',
-                }}
-              />
-            </Comment>
+              >
+                <CommentPost> 경주 2박 3일 여행 동행 4명 구해요!!</CommentPost>
+                {datas.content}
+                <HoverableIcon
+                  style={{
+                    width: '200%',
+                    justifyContent: 'right',
+                    marginTop: '-4rem',
+                  }}
+                />
+              </Comment>
+            ))}
           </Container>
         </BgComment>
         <BgMylike
