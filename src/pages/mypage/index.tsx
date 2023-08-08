@@ -8,6 +8,7 @@ import { restFetcher } from '@/queryClient';
 import axios from 'axios';
 import { textAlign } from '@mui/system';
 import { PostType } from '@/types/post';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export interface UserType {
   age: number;
@@ -61,7 +62,7 @@ function Profile() {
       if (id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/post/${id}`,
+            `http://localhost:8080/api/v1/comment/me`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -94,9 +95,11 @@ function Profile() {
                 <Container1>
                   <ProfileImg bgImg={user} />
 
-                  <NickName>{data.nickname}</NickName>
+                  <NickName style={{ marginTop: '-2rem' }}>
+                    {data.nickname}
+                  </NickName>
                   <NickName>
-                    {data.age}대 {data.gender === 'MAN' ? '남성' : '여성'}
+                    {data.age}대 {data.gender === 'MAN' ? '남자' : '여자'}
                   </NickName>
                   <ChangeBtn onClick={handleModal} type="button">
                     프로필 수정
@@ -135,13 +138,22 @@ function Profile() {
             }}
           >
             <CommentTitle>내가 작성한 댓글</CommentTitle>
+
             <Comment
               style={{
                 textAlign: 'left',
                 justifyContent: 'center',
               }}
             >
+              <CommentPost> 경주 2박 3일 여행 동행 4명 구해요!!</CommentPost>
               동행하고 싶습니다!!
+              <HoverableIcon
+                style={{
+                  width: '200%',
+                  justifyContent: 'right',
+                  marginTop: '-4rem',
+                }}
+              />
             </Comment>
             <Comment
               style={{
@@ -149,7 +161,15 @@ function Profile() {
                 justifyContent: 'center',
               }}
             >
+              <CommentPost> 제주도 3박 4일 동행 3명 구해봅니다!!</CommentPost>
               혹시 8/18일은 어디 여행하시나요?
+              <HoverableIcon
+                style={{
+                  width: '200%',
+                  justifyContent: 'right',
+                  marginTop: '-4rem',
+                }}
+              />
             </Comment>
           </Container>
         </BgComment>
@@ -175,34 +195,41 @@ const BackgroundWrap = styled.div`
   width: 100%;
   display: flex;
   font-family: 'NanumSquareNeo-Variable';
+
+  justify-content: center;
 `;
 const Bg = styled.div`
   height: 60rem;
   width: 40%;
+  margin-left: -15rem;
 `;
 
 const BgComment = styled.div`
   /* background-color: #74c6f6; */
   height: 100%;
-  width: 50%;
+  width: 40%;
+  margin-left: -3rem;
+  overflow: visible;
 `;
 
 const BgMypost = styled.div`
   height: 55rem;
-  width: 50%;
+  width: 40%;
   margin-top: 2.5rem;
+  margin-left: -3rem;
 `;
 const BgMylike = styled.div`
   height: 55rem;
-  width: 50%;
+  width: 40%;
   margin-top: 2.5rem;
+  margin-left: -3rem;
 `;
 
 const Container = styled.div`
   text-align: center;
   z-index: 90;
-  width: 25rem;
-  height: 50rem;
+  width: 20rem;
+  height: 45rem;
   border-radius: 1.5rem;
   background-color: #70bffb;
   margin: auto;
@@ -237,18 +264,7 @@ const MypostTitle = styled.div`
   display: flex;
 
   align-items: center;
-  font-size: 1.5rem;
-`;
-
-const CommentTitle = styled.div`
-  z-index: 90;
-  position: relative;
-  overflow: visible;
-  width: 100%;
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 `;
 
 const MyLikeTitle = styled.div`
@@ -260,38 +276,73 @@ const MyLikeTitle = styled.div`
   display: flex;
 
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 `;
 
-const Comment = styled.button`
+const CommentPost = styled.div`
   z-index: 90;
   position: relative;
   overflow: visible;
-  border: solid 3px #727374;
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #1f89f4;
+`;
+const HoverableIcon = styled(ArrowForwardIosIcon)`
+  width: 200%;
+  color: #b7b9bb;
+`;
+
+const Comment = styled.button`
+  z-index: 999;
+  position: relative;
+  overflow: visible;
+  border: solid 2px #74777a;
   border-radius: 1rem;
   margin-top: 1rem;
   width: 100%;
-  padding: 1.5rem;
+  padding: 1.4rem;
+  height: 6rem;
+  font-size: 1.1rem;
+  transition: all 0.3s ease-in-out; // 추가: 부드러운 변화를 위한 transition
   &:hover {
     position: center;
     opacity: 0.8;
     background-color: #f3f2f2;
+    transform: scale(1.015); // 크기를 1.2배로 확대
+
+    ${HoverableIcon} {
+      color: #000000; // 변경하고자 하는 색상으로 수정
+    }
   }
+`;
+
+const CommentTitle = styled.div`
+  z-index: 90;
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
 `;
 
 const ProfileImg = styled.div<{ bgImg: string }>`
   background-image: ${(props) => `url(${props.bgImg})`};
   height: 17rem;
-  background-size: 10rem 10rem;
+  background-size: 9rem 9rem;
   background-repeat: no-repeat;
   background-position: center;
   /* margin-top: 20rem; */
-  background-position-x: 7.5rem;
-  background-position-y: 5rem;
+  background-position-x: 5.6rem;
+  background-position-y: 4rem;
 `;
 
 const NickName = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-top: 1rem;
   color: white;
   overflow: visible;
@@ -302,9 +353,9 @@ const Introduce = styled.div`
   overflow: visible;
 `;
 const ChangeBtn = styled.button`
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin-top: 2rem;
-  width: 6.5rem;
+  width: 6rem;
   height: 2.2rem;
   color: white;
   border: none;
@@ -327,7 +378,7 @@ const MyPostList = styled.button`
   height: 3rem;
   width: 100%;
   margin-top: 6rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: white;
   &:hover {
     position: center;
@@ -342,7 +393,7 @@ const MyCommentList = styled.button`
   border-radius: 0.8rem;
   height: 3rem;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: white;
   &:hover {
     position: center;
@@ -357,7 +408,7 @@ const MyLikeList = styled.button`
   border-radius: 0.8rem;
   height: 3rem;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: white;
 
   &:hover {
