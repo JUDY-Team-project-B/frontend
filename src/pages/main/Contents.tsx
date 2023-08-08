@@ -1,43 +1,76 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import jejuBtn from '../../assets/image/jeju-btn.png';
 import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
 import seoulBtn from '../../assets/image/seoul-btn.png';
 import busanBtn from '../../assets/image/busan-btn.png';
 import jeonraBtn from '../../assets/image/jeonra-btn.png';
-import Preview from '@/components/main/preview/preview';
+import allBtn from '../../assets/image/all-btn.png';
+import PostList from '@/components/main/postList/postList';
 
 const Content = () => {
+  const [url, setUrl] = useState('all/0');
+  const [selectedLocation, setSelectedLocation] = useState('');
 
-  const [url,setUrl] = useState('all/0')
-
+  const handleLocationClick = (location:any) => {
+    setSelectedLocation(location);
+  };
 
   return (
     <Background>
       <Title>인기 여행지</Title>
       <ContentsWrap>
-        <ContentsImg backgroundImg={jejuBtn} marginLeft="-0.1rem">
+        <ContentsImg
+          backgroundImg={jejuBtn}
+          marginLeft="-0.1rem"
+          onClick={() => handleLocationClick('제주도')}
+        >
           <BtnName>제주도</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={gyeongjuBtn} marginLeft="7.5rem">
+        <ContentsImg
+          backgroundImg={gyeongjuBtn}
+          marginLeft="7.5rem"
+          onClick={() => handleLocationClick('경주')}
+        >
           <BtnName>경주</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={seoulBtn} marginLeft="7.3rem">
+        <ContentsImg
+          backgroundImg={seoulBtn}
+          marginLeft="7.3rem"
+          onClick={() => handleLocationClick('서울')}
+        >
           <BtnName>서울</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={busanBtn} marginLeft="7.2rem">
+        <ContentsImg
+          backgroundImg={busanBtn}
+          marginLeft="7.2rem"
+          onClick={() => handleLocationClick('부산')}
+        >
           <BtnName>부산</BtnName>
         </ContentsImg>
-        <ContentsImg backgroundImg={jeonraBtn} marginLeft="7.2rem">
+        <ContentsImg
+          backgroundImg={jeonraBtn}
+          marginLeft="7.2rem"
+          onClick={() => handleLocationClick('전라도')}
+        >
           <BtnName>전라도</BtnName>
         </ContentsImg>
+        <ContentsImg
+          backgroundImg={allBtn}
+          marginLeft="7.2rem"
+          onClick={() => handleLocationClick('')}
+        >
+          <BtnName>전체보기</BtnName>
+        </ContentsImg>
       </ContentsWrap>
-      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
-      <Preview  queryString = {url} searchType = {""} searchKeyword = {""}/>
+      <PostList
+        queryString={url}
+        searchType={'title'}
+        searchKeyword={selectedLocation}
+      />
     </Background>
   );
 };
-
 export default Content;
 
 const Background = styled.div`
@@ -78,7 +111,7 @@ const ContentsWrap = styled.div`
 const ContentsImg = styled.button`
   margin-left: ${(props) => props.marginLeft};
   opacity: 1;
-  width: 7rem;
+  width: 8.5rem;
   margin-top: 2rem;
   height: 9rem;
   border-radius: 1rem;

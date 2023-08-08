@@ -17,7 +17,41 @@ function Detail() {
   
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
-  const [data, setData] = useState<UserType|undefined>();
+  const [data, setData] = useState<any|undefined>('');
+  const [commentData, setCommentData] = useState<any[]|undefined>(['']);
+  const [userId, setUserId] = useState<any|undefined>('');
+  const [userData, setUserData] = useState<any|undefined>('');
+  const [comments,setComments] = useState<any|undefined>('');
+
+
+  const sendComment = async () =>{
+    try{
+      const response = await axios.post('http://localhost:8080/api/v1/comment',
+        {
+          userId:1,
+          postId:searchTerm,
+          parentId:"",
+          content:comments,
+        },
+        {
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*'}
+        }
+  
+      )
+      console.log(response)
+      alert('작성되었습니다')
+    }catch(error){
+      console.log(error)
+    }
+
+  }
+
+  const onSearch = (e:any) => {
+    setComments(e.target.value)
+    console.log(comments);
+  }
 
 
 
@@ -33,18 +67,50 @@ function Detail() {
         const responseData = response.data.data
         console.log(responseData)
         setData(responseData)
+        setUserId(data.nickname)
       }catch(error){
         console.log(error)
       }
     }
+    const CommentListData =async () => {
+      try{
+        const response = await axios.get(`http://localhost:8080/api/v1/comment/${searchTerm}`,
+        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Access-Control-Allow-Origin': '*',
+
+      }})
+        console.log(response)
+        const responseData = response.data.data
+        console.log(responseData)
+        setCommentData(responseData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+    const UserData= async()=>{
+      try{
+        const response = await axios.get(`http://localhost:8080/api/v1/user/${userId}`,
+        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Access-Control-Allow-Origin': '*',
+      }})
+        console.log(response)
+        const responseData = response.data.data
+        console.log(responseData)
+        setUserData(responseData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
     /// 여기서 처리 추가적으로 처리 가능///
     //레디스 설정후 편집
     PostListData();
-  },[])
+    CommentListData();
+    UserData();
+  },[searchTerm])
 
-const res = data;
 
-console.log(data);
 
   return (
     <Bg>
@@ -62,7 +128,7 @@ console.log(data);
           </PeopleContainer>
           <DateContainer>
             <Date>여행날짜</Date>
-            <Dates>2023.06.28 ~ 2023.07.01</Dates>
+            <Dates>{data.travelDateStart} ~ {data.travelDateEnd}</Dates>
           </DateContainer>
           <ContentsContainer>
             <Content>
@@ -85,14 +151,74 @@ console.log(data);
         </RightContainer>
       </Container>
       <Container2>
-        <CommentInput></CommentInput>
-        <Button>게시</Button>
+        <CommentLayout>
+          <CommentInput onChange={onSearch} value={comments}></CommentInput>
+          <Button onClick={sendComment}>게시</Button>
+        </CommentLayout>
+        <div>
+          {commentData?.map((datas:any,index:any)=>(
+            <div>
+              <Comment>
+                <CommentInfo>
+                  작성자 시간
+                </CommentInfo>
+                <CommentContent>
+                  <Text>{datas.content}</Text>
+                  <Text>답글</Text> 
+                </CommentContent>
+              </Comment>
+              <div>{datas.children?.map((comment:any,index:any)=>(
+                <ChildrenComments>
+                  <CommentInfo>
+                    작성자 시간
+                  </CommentInfo>
+                  <CommentContent>
+                    <Text>--{comment.content}</Text>
+                    <Text>답글</Text>
+                  </CommentContent>
+                </ChildrenComments>
+            ))}</div>
+            </div>
+          ))}
+        </div>
       </Container2>
     </Bg>
   );
 }
 
 export default Detail;
+
+const CommentLayout = styled.div`
+  margin:0px;
+  height:100px;
+`
+
+const Comment = styled.div`
+  height:50px;
+  width:45rem;
+`
+
+const Text = styled.div`
+  padding:8px;
+`
+
+const CommentInfo = styled.div`
+  overflow:hidden;
+`
+
+const CommentContent = styled.div`
+  display:flex;
+  overflow: hidden;
+  flex-direction: row;
+  justify-content: space-between;
+
+`
+
+const ChildrenComments = styled.div`
+  height:50px;
+  width:45rem;
+  background-color:#afbdd3
+`
 
 const Bg = styled.div`
   background-color: #eaf0f8;
@@ -140,7 +266,7 @@ const DestinationContainer = styled.div`
 const Destination = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 4rem;
+  width: 5rem;
   overflow: visible;
   margin-top: 2rem;
 
@@ -167,7 +293,7 @@ const PeopleContainer = styled.div`
 const People = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 4rem;
+  width: 5rem;
   overflow: visible;
 
   color: #9f9e9e;
@@ -190,7 +316,7 @@ const DateContainer = styled.div`
 const Date = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 4rem;
+  width: 5rem;
   overflow: visible;
 
   color: #9f9e9e;
@@ -257,7 +383,7 @@ const PostView = styled.div`
 const PostComment = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 3rem;
+  width: 4rem;
   overflow: visible;
   margin-left: rem;
   color: #9f9e9e;
@@ -318,9 +444,9 @@ const ProfileIntroduce = styled.div`
 `;
 const Container2 = styled.div`
   width: 70rem;
-  height: 30rem;
   margin-left: 12rem;
   display: flex;
+  flex-direction:column
 `;
 
 const CommentInput = styled.input`

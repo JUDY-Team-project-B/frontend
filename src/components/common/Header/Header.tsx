@@ -10,17 +10,15 @@ import { UUid, User } from '@/atom/atom';
 import { red } from '@mui/material/colors';
 import { Login } from './login';
 
-
 // function getItemWithExpireTime(keyName:any) {
 //   const setUserData = useSetRecoilState<User>(UUid);
-  
+
 //   const objString = window.localStorage.getItem(keyName);
 //   if(!objString) {
 //     return null;
 //   }
-  
+
 //   const obj = JSON.parse(objString);
-  
 
 //   if(Date.now() > obj.expire) {
 //     window.localStorage.removeItem(keyName);
@@ -44,22 +42,25 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    
     setisLogin(userData.is_active);
     console.log(userData);
   });
 
-  const search = ():void =>{
+  const search = (): void => {
     const queryParems = new URLSearchParams();
-    queryParems.set('q',keyword);
+    queryParems.set('q', keyword);
     const queryString = queryParems.toString();
-    navigate(`/travel?${queryString}`)
-  }
+    navigate(`/travel?${queryString}`);
+  };
 
-  const setWord = (e:any)=>{
-    setKeyword(e.target.value)
-    console.log(keyword)
-  }
+  const setWord = (e: any) => {
+    setKeyword(e.target.value);
+    console.log(keyword);
+  };
+
+  const gotoWrite = () => {
+    navigate('/create-post');
+  };
 
   return (
     <div className="navlayout">
@@ -73,14 +74,22 @@ export const Header = () => {
             >
               HANG OUT
             </button>
+            <button onClick={gotoWrite}>
+              글쓰기
+            </button >
           </div>
         </div>
         <div className="leftdiv">
           <div className="inputlayout">
-            <input placeholder="여행지를 검색해보세요" className="input" onChange={setWord} value={keyword} />
+            <input
+              placeholder="여행지를 검색해보세요"
+              className="input"
+              onChange={setWord}
+              value={keyword}
+            />
             <button onClick={search}>검색</button>
           </div>
-          <Login/>
+          <Login />
         </div>
       </div>
     </div>
