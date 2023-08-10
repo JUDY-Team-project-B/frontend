@@ -9,6 +9,8 @@ import axios from 'axios';
 import { textAlign } from '@mui/system';
 import { PostType } from '@/types/post';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import likeIcon from '@mui/icons-material/Favorite';
+import unlikeIcon from '@mui/icons-material/FavoriteBorder';
 import gyeongju from '@/assets/image/trip3.jpg';
 import place from '@/assets/image/placeholder.png';
 
@@ -31,6 +33,7 @@ function Profile() {
   const [id, setId] = useState('');
   const [postdata, setPostData] = useState<PostType[] | undefined>();
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
+  const [likedata, setLikeData] = useState<PostType[] | undefined>();
 
   const handleModal = () => {
     setModalOpen(!modalOpen);
@@ -109,6 +112,30 @@ function Profile() {
     CommentListData();
   }, [activeSection, id]);
 
+  useEffect(() => {
+    const LikeListData = async () => {
+      if (activeSection === 'like' && id) {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/api/v1/post/me/like`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                'Access-Control-Allow-Origin': '*',
+              },
+            },
+          );
+          const responseData: PostType[] = response.data.data;
+          console.log(responseData);
+          setLikeData(responseData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    LikeListData();
+  }, [activeSection, id]);
+
   const handleSectionChange = (section: string) => {
     setActiveSection(section);
   };
@@ -164,7 +191,10 @@ function Profile() {
                   <Where>{datas.travelAt}</Where>
                   <DateWrap>
                     <DateTitle>여행 기간</DateTitle>
-                    <Date>08/05 - 08/09</Date>
+                    <Date>
+                      {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')} -{' '}
+                      {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
+                    </Date>
                   </DateWrap>
                 </TopWrap>
                 <ImgWrap>
@@ -214,6 +244,39 @@ function Profile() {
           style={{ display: activeSection === 'like' ? 'block' : 'none' }}
         >
           <MyLikeTitle>위시 리스트</MyLikeTitle>
+          <MypostWrap>
+            {likedata?.map((datas: PostType, index: any) => (
+              <PostWrap>
+                <TopWrap>
+                  <PlaceLayout>
+                    <img src={place} alt="Place" />
+                  </PlaceLayout>
+                  <Where>{datas.travelAt}</Where>
+                  <DateWrap>
+                    <DateTitle>여행 기간</DateTitle>
+                    <Date>
+                      {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')} -{' '}
+                      {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
+                    </Date>
+                  </DateWrap>
+                </TopWrap>
+
+                <ImgWrap>
+                  <Img /*onClick={() => goto(datas.id)}*/ />
+                  <LikeIcon
+                    style={{
+                      width: '27rem',
+                      marginTop: '.7rem',
+                      justifyContent: 'right',
+                      zIndex: '999',
+                    }}
+                  />
+                </ImgWrap>
+
+                <PostTitle>{datas.title}</PostTitle>
+              </PostWrap>
+            ))}{' '}
+          </MypostWrap>
         </BgMylike>
       </BackgroundWrap>
       {/* <Content2 /> */}
@@ -318,7 +381,7 @@ const PostWrap = styled.button`
   display: block;
   background-color: #f5f6f6;
   margin-left: 2rem;
-  border-radius: 1rem;
+  border-radius: 0.7rem;
   width: 15rem;
   height: 18rem;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.11);
@@ -354,14 +417,14 @@ const TopWrap = styled.div`
 
 const DateWrap = styled.div`
   display: block;
-  height: 3rem;
+  height: 4rem;
   width: 12rem;
-  margin-top: 1.5rem;
+  margin-top: 1.3rem;
   margin-left: 0rem;
   text-align: left;
 `;
 const DateTitle = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: bold;
   margin-top: 0.7rem;
   overflow: hidden;
@@ -377,7 +440,8 @@ const Date = styled.div`
 
 const ImgWrap = styled.div`
   display: flex;
-  height: 11rem;
+  margin-top: 1rem;
+  height: 10rem;
   width: 100%;
 `;
 
@@ -386,8 +450,7 @@ const Img = styled.button`
   opacity: 0.9;
   width: 100%;
   overflow: hidden;
-  height: 9rem;
-  margin-top: 1.5rem;
+  height: 10rem;
   background-size: 100% 100%;
   background-image: url(${gyeongju});
   background-repeat: no-repeat;
@@ -395,8 +458,8 @@ const Img = styled.button`
 
   &:hover {
     position: center;
-    opacity: 0.9;
-    transform: scale(1.1); /* 이미지 확대 */
+    opacity: 0.75;
+    transform: scale(1.12); /* 이미지 확대 */
   }
 `;
 
@@ -436,6 +499,11 @@ const CommentPost = styled.div`
 const HoverableIcon = styled(ArrowForwardIosIcon)`
   width: 200%;
   color: #b7b9bb;
+`;
+
+const LikeIcon = styled(likeIcon)`
+  color: #f90808;
+  position: absolute;
 `;
 
 const Comment = styled.button`
