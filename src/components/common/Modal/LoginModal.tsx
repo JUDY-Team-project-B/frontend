@@ -19,16 +19,16 @@ interface LoginModalProps {
   onClose: () => void;
 }
 
-function setItemWithExpireTime(keyName:any, keyValue:any, tts:any) {
-  const obj = {
-    value : keyValue,
-    expire : Date.now() + tts
-  }
+// function setItemWithExpireTime(keyName:any, keyValue:any, tts:any) {
+//   const obj = {
+//     value : keyValue,
+//     expire : Date.now() + tts
+//   }
 
-  const objString = JSON.stringify(obj);
+//   const objString = JSON.stringify(obj);
  
-  window.localStorage.setItem(keyName, objString);
-}
+//   window.localStorage.setItem(keyName, objString);
+// }
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
@@ -46,6 +46,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     setPassword(event.target.value);
   };
 
+
+
   const handleLogin = async (e:any) => {
     console.log('Login with useremail:', email);
     console.log('Login with password:', password);
@@ -56,17 +58,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       console.log(accessToken)
       console.log(refreshToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      //localStorage.setItem('accessToken',accessToken);
-      setItemWithExpireTime('accessToken', accessToken, 360000)
-
+      const expires = new Date()
+      expires.setMinutes(expires.getMinutes()+60)
       setCookie('refreshToken',refreshToken,{
         path:'/',
-        secure:'/',
-        expires:new Date().getMinutes() + 1
+        secure:true,
+        expires,
       });
+
       setUserData({
         is_active: true,
       })
+
       navigate('/');
       onClose();
     }catch(e){

@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 import { red } from '@mui/material/colors';
 import { Login } from './login';
+import axios from 'axios';
 
 // function getItemWithExpireTime(keyName:any) {
 //   const setUserData = useSetRecoilState<User>(UUid);
@@ -38,15 +39,25 @@ export const Header = () => {
   // getItemWithExpireTime('accessToken')
 
 
-
+  const onSilentRefresh = async () =>{
+    try{
+      const response = await axios.post('http://localhost:8080/api/v1/auth/refresh-token');
+      const accessToken  = response.data.data.accessToken;
+      console.log(accessToken)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    }catch(e){
+      alert('다시 로그인해주세요')
+      navigate('/');
+    }
+    
+  }
 
   const gotoMain = () => {
     navigate('/');
   };
 
   useEffect(() => {
-
-
+    // onSilentRefresh();
     setisLogin(userData.is_active);
     console.log(userData);
   });

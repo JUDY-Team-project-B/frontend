@@ -36,7 +36,7 @@ const CreatePostPage = () => {
             `http://localhost:8080/api/v1/user/me`,
             {headers:
               {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 'Access-Control-Allow-Origin': '*'
               }}
           )
