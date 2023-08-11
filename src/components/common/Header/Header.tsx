@@ -49,7 +49,6 @@ export const Header = () => {
       alert('다시 로그인해주세요')
       navigate('/');
     }
-    
   }
 
   const gotoMain = () => {
