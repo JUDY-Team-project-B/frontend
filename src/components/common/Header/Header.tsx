@@ -37,11 +37,16 @@ export const Header = () => {
   const [keyword, setKeyword] = useState<any>();
   // getItemWithExpireTime('accessToken')
 
+
+
+
   const gotoMain = () => {
     navigate('/');
   };
 
   useEffect(() => {
+
+
     setisLogin(userData.is_active);
     console.log(userData);
   });

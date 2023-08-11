@@ -12,22 +12,23 @@ import axios from 'axios';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { User, UUid } from '@/atom/atom';
+import { setCookie } from '@/cookie/cookies';
 
 interface LoginModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-// function setItemWithExpireTime(keyName:any, keyValue:any, tts:any) {
-//   const obj = {
-//     value : keyValue,
-//     expire : Date.now() + tts
-//   }
+function setItemWithExpireTime(keyName:any, keyValue:any, tts:any) {
+  const obj = {
+    value : keyValue,
+    expire : Date.now() + tts
+  }
 
-//   const objString = JSON.stringify(obj);
+  const objString = JSON.stringify(obj);
  
-//   window.localStorage.setItem(keyName, objString);
-// }
+  window.localStorage.setItem(keyName, objString);
+}
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
@@ -51,10 +52,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     try{
       const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
       const accessToken  = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
       console.log(accessToken)
+      console.log(refreshToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      localStorage.setItem('accessToken',accessToken);
-      // setItemWithExpireTime('accessToken', accessToken, 360000)
+      //localStorage.setItem('accessToken',accessToken);
+      setItemWithExpireTime('accessToken', accessToken, 360000)
+
+      setCookie('refreshToken',refreshToken,{
+        path:'/',
+        secure:'/',
+        expires:new Date().getMinutes() + 1
+      });
       setUserData({
         is_active: true,
       })

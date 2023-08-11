@@ -6,18 +6,21 @@ import App from './App';
 import './index.scss';
 import { getClient } from './queryClient';
 import { worker } from './mocks/workers';
+import { CookiesProvider } from 'react-cookie';
 
 // if(import.meta.env.DEV){
 //   worker.start();
 // }
 const queryClient = getClient();
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <RecoilRoot>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      </QueryClientProvider>
-    </BrowserRouter>
-  </RecoilRoot>,
+  <CookiesProvider>
+    <RecoilRoot>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <App />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        </QueryClientProvider>
+      </BrowserRouter>
+    </RecoilRoot>,
+  </CookiesProvider>
 );
