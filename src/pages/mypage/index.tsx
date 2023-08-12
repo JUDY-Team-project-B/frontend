@@ -35,6 +35,9 @@ function Profile() {
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
 
+  const [liked, setLiked] = useState(false);
+  console.log(liked);
+
   const handleModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -117,7 +120,7 @@ function Profile() {
       if (activeSection === 'like' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/post/me/like`,
+            `http://localhost:8080/api/v1/post/me/like/${url}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -182,27 +185,33 @@ function Profile() {
         >
           <MypostTitle>내가 작성한 게시물</MypostTitle>
           <MypostWrap>
-            {postdata?.map((datas: PostType, index: any) => (
-              <PostWrap>
-                <TopWrap>
-                  <PlaceLayout>
-                    <img src={place} alt="Place" />
-                  </PlaceLayout>
-                  <Where>{datas.travelAt}</Where>
-                  <DateWrap>
-                    <DateTitle>여행 기간</DateTitle>
-                    <Date>
-                      {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')} -{' '}
-                      {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
-                    </Date>
-                  </DateWrap>
-                </TopWrap>
-                <ImgWrap>
-                  <Img /*onClick={() => goto(datas.id)}*/ />
-                </ImgWrap>
-                <PostTitle>{datas.title}</PostTitle>
-              </PostWrap>
-            ))}{' '}
+            {postdata?.length === 0 ? (
+              <div style={{ marginTop: '15rem', marginLeft: '24rem' }}>
+                작성한 게시물이 없습니다.
+              </div>
+            ) : (
+              postdata?.map((datas: PostType, index: any) => (
+                <PostWrap>
+                  <TopWrap>
+                    <PlaceLayout>
+                      <img src={place} alt="Place" />
+                    </PlaceLayout>
+                    <Where>{datas.travelCity}</Where>
+                    <DateWrap>
+                      <DateTitle>여행 기간</DateTitle>
+                      <Date>
+                        {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
+                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
+                      </Date>
+                    </DateWrap>
+                  </TopWrap>
+                  <ImgWrap>
+                    <Img /*onClick={() => goto(datas.id)}*/ />
+                  </ImgWrap>
+                  <PostTitle>{datas.title}</PostTitle>
+                </PostWrap>
+              ))
+            )}{' '}
           </MypostWrap>
         </BgMypost>
         <BgComment
@@ -219,25 +228,31 @@ function Profile() {
             }}
           >
             <CommentTitle>내가 작성한 댓글</CommentTitle>
-            {commentdata?.map((datas: PostType, index: any) => (
-              <Comment
-                key={index}
-                style={{
-                  textAlign: 'left',
-                  justifyContent: 'center',
-                }}
-              >
-                <CommentPost> 경주 2박 3일 여행 동행 4명 구해요!!</CommentPost>
-                {datas.content}
-                <HoverableIcon
+            {commentdata?.length === 0 ? (
+              <div style={{ marginTop: '15rem', marginLeft: '0rem' }}>
+                작성한 댓글이 없습니다.
+              </div>
+            ) : (
+              commentdata?.map((datas: PostType, index: any) => (
+                <Comment
+                  key={index}
                   style={{
-                    width: '200%',
-                    justifyContent: 'right',
-                    marginTop: '-4rem',
+                    textAlign: 'left',
+                    justifyContent: 'center',
                   }}
-                />
-              </Comment>
-            ))}
+                >
+                  <CommentPost> {datas.postTitle}</CommentPost>
+                  {datas.content}
+                  <HoverableIcon
+                    style={{
+                      width: '200%',
+                      justifyContent: 'right',
+                      marginTop: '-4rem',
+                    }}
+                  />
+                </Comment>
+              ))
+            )}
           </Container>
         </BgComment>
         <BgMylike
@@ -245,37 +260,55 @@ function Profile() {
         >
           <MyLikeTitle>위시 리스트</MyLikeTitle>
           <MypostWrap>
-            {likedata?.map((datas: PostType, index: any) => (
-              <PostWrap>
-                <TopWrap>
-                  <PlaceLayout>
-                    <img src={place} alt="Place" />
-                  </PlaceLayout>
-                  <Where>{datas.travelAt}</Where>
-                  <DateWrap>
-                    <DateTitle>여행 기간</DateTitle>
-                    <Date>
-                      {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')} -{' '}
-                      {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
-                    </Date>
-                  </DateWrap>
-                </TopWrap>
+            {likedata?.length === 0 ? (
+              <div style={{ marginTop: '15rem', marginLeft: '21rem' }}>
+                위시리스트에 여행지를 추가해주세요!
+              </div>
+            ) : (
+              likedata?.map((datas: PostType, index: any) => (
+                <PostWrap>
+                  <TopWrap>
+                    <PlaceLayout>
+                      <img src={place} alt="Place" />
+                    </PlaceLayout>
+                    <Where>{datas.travelCity}</Where>
+                    <DateWrap>
+                      <DateTitle>여행 기간</DateTitle>
+                      <Date>
+                        {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
+                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
+                      </Date>
+                    </DateWrap>
+                  </TopWrap>
 
-                <ImgWrap>
-                  <Img /*onClick={() => goto(datas.id)}*/ />
-                  <LikeIcon
-                    style={{
-                      width: '27rem',
-                      marginTop: '.7rem',
-                      justifyContent: 'right',
-                      zIndex: '999',
-                    }}
-                  />
-                </ImgWrap>
+                  <ImgWrap>
+                    <Img /*onClick={() => goto(datas.id)}*/ />
+                    <LikeIcon
+                      style={{
+                        marginLeft: '12.7rem',
+                        marginTop: '.7rem',
+                        justifyContent: 'right',
+                        zIndex: '999',
+                        color: liked ? '#f90808' : '#ffffff', // 아이콘 색 변경
+                      }}
+                      onClick={() => setLiked(!liked)} // 클릭 시 상태 변경
+                    />
+                    <UnlikeIcon
+                      style={{
+                        marginLeft: '12.7rem',
+                        marginTop: '.7rem',
+                        justifyContent: 'right',
+                        zIndex: '999',
+                        color: liked ? '#ff0000' : '#ffffff', // 아이콘 색 변경
+                      }}
+                      onClick={() => setLiked(!liked)} // 클릭 시 상태 변경
+                    />
+                  </ImgWrap>
 
-                <PostTitle>{datas.title}</PostTitle>
-              </PostWrap>
-            ))}{' '}
+                  <PostTitle>{datas.title}</PostTitle>
+                </PostWrap>
+              ))
+            )}{' '}
           </MypostWrap>
         </BgMylike>
       </BackgroundWrap>
@@ -502,7 +535,10 @@ const HoverableIcon = styled(ArrowForwardIosIcon)`
 `;
 
 const LikeIcon = styled(likeIcon)`
-  color: #f90808;
+  position: absolute;
+`;
+
+const UnlikeIcon = styled(unlikeIcon)`
   position: absolute;
 `;
 
