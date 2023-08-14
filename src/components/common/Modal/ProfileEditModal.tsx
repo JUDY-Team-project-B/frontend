@@ -32,7 +32,19 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   //닉네임 값
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setNickname(value);
+
+    // 정규 표현식을 이용하여 특수문자를 찾습니다.
+    const Characters = /[!@#$%^&*(),.?":{}|<>]/;
+
+    if (value.length <= 10) {
+      if (Characters.test(value)) {
+        alert('닉네임에는 특수문자를 사용할 수 없습니다!');
+      } else {
+        setNickname(value);
+      }
+    } else {
+      alert('닉네임은 10자를 넘을 수 없습니다!');
+    }
   };
 
   const handleNicknameSubmit = async (nickname: string) => {
