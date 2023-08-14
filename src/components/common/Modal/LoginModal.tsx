@@ -77,8 +77,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log('google login 이동');
+  const handleGoogleLogin = async () => {
+    try{
+      const response = 
+      await axios.get('http://localhost:8080/api/v1/auth/oauth2/authorize/google?redirect-uri=http://localhost:8080/api/v1/auth/oauth2/callback/google')
+      console.log(response)
+    }catch(e){
+      console.log(e)
+    }
   };
   return (
     <Dialog
