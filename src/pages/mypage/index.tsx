@@ -35,7 +35,7 @@ function Profile() {
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState([]);
   console.log(liked);
 
   const handleModal = () => {
@@ -141,6 +141,26 @@ function Profile() {
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section);
+  };
+
+  const setUnlike = async (postId: number) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/v1/post/like`,
+        {
+          postId: postId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log('성공');
+    } catch (error) {
+      console.error('Error adding like:', error);
+    }
   };
 
   return (
@@ -289,19 +309,17 @@ function Profile() {
                         marginTop: '.7rem',
                         justifyContent: 'right',
                         zIndex: '999',
-                        color: liked ? '#f90808' : '#ffffff', // 아이콘 색 변경
+                        color: liked.includes(datas.id) ? '#ffffff' : '#f90808',
                       }}
-                      onClick={() => setLiked(!liked)} // 클릭 시 상태 변경
-                    />
-                    <UnlikeIcon
-                      style={{
-                        marginLeft: '12.7rem',
-                        marginTop: '.7rem',
-                        justifyContent: 'right',
-                        zIndex: '999',
-                        color: liked ? '#ff0000' : '#ffffff', // 아이콘 색 변경
+                      onClick={() => {
+                        if (liked.includes(datas.id)) {
+                          setLiked(liked.filter((id) => id !== datas.id));
+                          setUnlike(datas.id);
+                        } else {
+                          setLiked([...liked, datas.id]);
+                          setUnlike(datas.id);
+                        }
                       }}
-                      onClick={() => setLiked(!liked)} // 클릭 시 상태 변경
                     />
                   </ImgWrap>
 
@@ -312,14 +330,9 @@ function Profile() {
           </MypostWrap>
         </BgMylike>
       </BackgroundWrap>
-      {/* <Content2 /> */}
     </div>
   );
 }
-// return (
-// <div>
-//   hello
-// </div>)
 
 export default Profile;
 
@@ -335,7 +348,7 @@ const Bg = styled.div`
   height: 49rem;
   width: 40%;
   margin-left: -15rem;
-  flex-direction: row; // 추가
+  flex-direction: row;
 `;
 
 const BgComment = styled.div`
@@ -350,6 +363,7 @@ const MypostWrap = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  margin-left: -2rem;
 `;
 
 const BgMypost = styled.div`
@@ -553,6 +567,7 @@ const Comment = styled.button`
   padding: 0.8rem;
   height: 5rem;
   font-size: 1.05rem;
+  margin-left: -6rem;
   transition: all 0.3s ease-in-out; // 추가: 부드러운 변화를 위한 transition
   &:hover {
     position: center;
