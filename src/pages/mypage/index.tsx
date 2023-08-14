@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import user from '../../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
-import Content2 from './Contents';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
@@ -145,7 +144,7 @@ function Profile() {
 
   const setUnlike = async (postId: number) => {
     try {
-      const response = await axios.post(
+      axios.post(
         `http://localhost:8080/api/v1/post/like`,
         {
           postId: postId,

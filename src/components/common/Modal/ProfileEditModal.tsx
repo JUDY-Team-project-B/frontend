@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import {
   Dialog,
   DialogTitle,
@@ -28,13 +29,31 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     console.log('Uploaded file:', file);
   };
 
+  //닉네임 값
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setNickname(value);
   };
 
-  const handleNicknameSubmit = () => {
-    console.log('Nickname:', nickname);
+  const handleNicknameSubmit = async (nickname: string) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/api/v1/user/me`,
+        {
+          nickname: nickname,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      window.location.reload();
+      console.log('성공');
+    } catch (error) {
+      console.error('실패 오류 : ', error);
+    }
   };
 
   return (
@@ -70,7 +89,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
             value={nickname}
             onChange={handleNicknameChange}
           />
-          <NicknameChangeButton onClick={handleNicknameSubmit}>
+          <NicknameChangeButton onClick={() => handleNicknameSubmit(nickname)}>
             변경
           </NicknameChangeButton>
         </NicknameBox>
