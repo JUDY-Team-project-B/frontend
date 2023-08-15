@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import user from '../../../assets/image/user.png';
 import {
   Dialog,
   DialogTitle,
@@ -21,19 +22,44 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState('');
+  const [data, setData] = useState('');
 
   const handleThumbnailUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target?.files?.[0];
     console.log('Uploaded file:', file);
+    setSelectedFile(file.name);
   };
 
+  useEffect(() => {
+    const UserData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/user/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+
+        const responseData = response.data.data;
+        console.log(responseData);
+        setData(responseData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (open) {
+      UserData();
+    }
+  }, [open]);
   //닉네임 값
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
-    // 정규 표현식을 이용하여 특수문자를 찾습니다.
     const Characters = /[!@#$%^&*(),.?":{}|<>]/;
 
     if (value.length <= 10) {
@@ -61,6 +87,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           },
         },
       );
+      alert('닉네임이 변경되었습니다');
       window.location.reload();
       console.log('성공');
     } catch (error) {
@@ -74,15 +101,16 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       onClose={onClose}
       maxWidth="md"
       PaperProps={{
-        style: { borderRadius: 40, height: '30rem', padding: '1rem' },
+        style: { borderRadius: 40, height: '40rem', padding: '1rem' },
       }}
     >
       <DialogTitle style={{ fontSize: '1.5rem', height: '8rem' }}>
         프로필 편집
       </DialogTitle>
       <DialogContent style={{ overflowX: 'hidden' }}>
+        <CaptionText>프로필 사진 변경</CaptionText>
+        <ProfileImg bgImg={user} />
         <Caption>
-          <CaptionText>프로필 사진 변경</CaptionText>
           <ThumbnailUploadButton htmlFor="thumbnailUpload">
             이미지 업로드
             <ThumbnailUploadInput
@@ -93,6 +121,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
             {selectedFile && <FileName>{selectedFile.name}</FileName>}
           </ThumbnailUploadButton>
         </Caption>
+        <ImageChangeButton>변경</ImageChangeButton>
         <Divider />
         <Caption>닉네임 변경</Caption>
         <NicknameBox>
@@ -119,12 +148,20 @@ export default ProfileEditModal;
 
 const ThumbnailUploadButton = styled.label`
   display: inline-block;
-  padding: 10px 16px;
+  padding: 9px 10px;
   background-color: #518ccc;
   color: white;
   border: none;
-  border-radius: 4px;
+  width: 6.8rem;
+  border-radius: 7px;
   cursor: pointer;
+  margin-left: 12.3rem;
+  margin-top: 1rem;
+
+  &:hover {
+    position: center;
+    opacity: 0.9;
+  }
 `;
 
 const Caption = styled.div`
@@ -141,6 +178,14 @@ const CaptionText = styled.span`
   white-space: nowrap;
   overflow-x: hidden;
   overflow-y: hidden;
+`;
+const ProfileImg = styled.div<{ bgImg: string }>`
+  background-image: ${(props) => `url(${props.bgImg})`};
+  height: 7rem;
+  background-size: 7rem 7rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* margin-top: 20rem; */
 `;
 const ThumbnailUploadInput = styled.input`
   display: none;
@@ -177,4 +222,13 @@ const NicknameChangeButton = styled.button`
   border: none;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
+`;
+
+const ImageChangeButton = styled.button`
+  background-color: #7ab0f1;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-left: 27.1rem;
 `;

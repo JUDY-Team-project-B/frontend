@@ -170,7 +170,11 @@ function Profile() {
             <>
               <Container>
                 <Container1>
-                  <ProfileImg bgImg={user} />
+                  {data.imageUrl == '' ? (
+                    <ProfileImg bgImg={data.imageUrls} />
+                  ) : (
+                    <ProfileImg bgImg={user} />
+                  )}
 
                   <NickName style={{ marginTop: '-2rem' }}>
                     {data.nickname}
