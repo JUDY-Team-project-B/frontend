@@ -22,6 +22,7 @@ function Detail() {
   const [userId, setUserId] = useState<any|undefined>('');
   const [userData, setUserData] = useState<any|undefined>('');
   const [comments,setComments] = useState<any|undefined>('');
+  const [myData, setMyData] = useState<any|undefined>('')
 
 
   const sendComment = async () =>{
@@ -103,8 +104,25 @@ function Detail() {
       }
     }
 
+    
+    const MyData= async()=>{
+      try{
+        const response = await axios.get(`http://localhost:8080/api/v1/user/me`,
+        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Access-Control-Allow-Origin': '*',
+      }})
+        console.log(response)
+        const responseData = response.data.data
+        console.log(responseData)
+        setMyData(responseData)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
     /// 여기서 처리 추가적으로 처리 가능///
     //레디스 설정후 편집
+    MyData();
     PostListData();
     CommentListData();
     UserData();
@@ -140,6 +158,8 @@ function Detail() {
             <PostDate>2023.06.11 09:24</PostDate>
             <PostView>조회수 33</PostView>
             <PostComment>댓글 2</PostComment>
+            삭제
+            수정
           </PostContainer>
         </LeftContainer>
         <RightContainer>
@@ -160,21 +180,25 @@ function Detail() {
             <div>
               <Comment>
                 <CommentInfo>
-                  작성자 시간
+                  {datas.nickname} {datas.createdAt}
+                  {datas.nickname === myData.nickname ? '수정 삭제' : ''}
                 </CommentInfo>
                 <CommentContent>
                   <Text>{datas.content}</Text>
-                  <Text>답글</Text> 
+                  <Text >답글</Text>
                 </CommentContent>
               </Comment>
+                <CommentLayout>
+                  <CommentInput onChange={onSearch} value={comments}></CommentInput>
+                  <Button onClick={sendComment}>게시</Button>
+                </CommentLayout>
               <div>{datas.children?.map((comment:any,index:any)=>(
                 <ChildrenComments>
                   <CommentInfo>
-                    작성자 시간
+                    {comment.nickname} {comment.createdAt}
                   </CommentInfo>
                   <CommentContent>
                     <Text>--{comment.content}</Text>
-                    <Text>답글</Text>
                   </CommentContent>
                 </ChildrenComments>
             ))}</div>
