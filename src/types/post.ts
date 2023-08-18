@@ -11,3 +11,13 @@ export interface PostType {
   travelMember: number;
   content: string;
 }
+
+export interface commentType{
+    children: any[];
+    content: string;
+    createdAt : string;
+    id : number;
+    isSelect: boolean;
+    likeCount : number;
+    nickname : string;
+}

@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
 import { UserType } from '../mypage';
+import { commentType } from '@/types/post';
 
 function Detail() {
 
@@ -18,12 +19,52 @@ function Detail() {
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
   const [data, setData] = useState<any|undefined>('');
-  const [commentData, setCommentData] = useState<any[]|undefined>(['']);
+  const [commentData, setCommentData] = useState<commentType[]>([    
+    {
+      children: [],
+      content: '',
+      createdAt : '',
+      id : 0,
+      isSelect: false,
+      likeCount :0,
+      nickname : '',
+    }
+  ]);
   const [userId, setUserId] = useState<any|undefined>('');
   const [userData, setUserData] = useState<any|undefined>('');
   const [comments,setComments] = useState<any|undefined>('');
-  const [myData, setMyData] = useState<any|undefined>('')
+  const [myData, setMyData] = useState<any|undefined>('');
+  //let ChildrenComment:string[] = [''];
+  const [ChildrenComment, setChildrenComment] = useState<any|undefined>()
 
+  const setIsSelect = (index:number) =>{
+    setChildrenComment('');
+    setCommentData((prevData) => {
+      const newData = [...prevData];
+      if(newData[index].isSelect === false){
+        for(let i = 0; i<newData.length; i++){
+          newData[i] = {
+            ...newData[i],
+            isSelect: false, 
+          };
+        }
+        newData[index] = {
+          ...newData[index], 
+          isSelect: !newData[index].isSelect, 
+        };
+        return newData;
+      }else{
+        newData[index] = {
+          ...newData[index], 
+          isSelect: !newData[index].isSelect, 
+        };
+        return newData;
+      }
+      
+    });
+
+    console.log(commentData)
+  }
 
   const sendComment = async () =>{
     try{
@@ -46,7 +87,29 @@ function Detail() {
     }catch(error){
       console.log(error)
     }
+  }
 
+  const sendChildcomment =async (parentId:number) => {
+    try{
+      const response = await axios.post('http://localhost:8080/api/v1/comment',
+        {
+          userId:1,
+          postId:searchTerm,
+          parentId:parentId,
+          content:comments,
+        },
+        {
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*'}
+        }
+  
+      )
+      console.log(response)
+      alert('작성되었습니다')
+    }catch(error){
+      console.log(error)
+    }
   }
 
   const onSearch = (e:any) => {
@@ -54,6 +117,9 @@ function Detail() {
     console.log(comments);
   }
 
+  const onChildcomment = (e:any) =>{
+    setChildrenComment(e.target.value)
+  }
 
 
   useEffect(()=>{
@@ -73,55 +139,64 @@ function Detail() {
         console.log(error)
       }
     }
-    const CommentListData =async () => {
-      try{
+    async function CommentListData(): Promise<void> {
+      try {
         const response = await axios.get(`http://localhost:8080/api/v1/comment/${searchTerm}`,
-        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        'Access-Control-Allow-Origin': '*',
-
-      }})
-        console.log(response)
-        const responseData = response.data.data
-        console.log(responseData)
-        setCommentData(responseData)
-      }catch(error){
-        console.log(error)
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            }
+          });
+        console.log(response);
+        const responseData = response.data.data;
+        if (responseData) {
+          for (let i = 0; i < responseData.length; i += 1) {
+            responseData[i].isSelect = false;
+          }
+        }
+        console.log(responseData);
+        setCommentData(responseData);
+      } catch (error) {
+        console.log(error);
       }
     }
 
-    const UserData= async()=>{
-      try{
+    async function UserData(): Promise<void> {
+      try {
         const response = await axios.get(`http://localhost:8080/api/v1/user/${userId}`,
-        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        'Access-Control-Allow-Origin': '*',
-      }})
-        console.log(response)
-        const responseData = response.data.data
-        console.log(responseData)
-        setUserData(responseData)
-      }catch(error){
-        console.log(error)
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            }
+          });
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setUserData(responseData);
+      } catch (error) {
+        console.log(error);
       }
     }
 
-    
-    const MyData= async()=>{
-      try{
-        const response = await axios.get(`http://localhost:8080/api/v1/user/me`,
-        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        'Access-Control-Allow-Origin': '*',
-      }})
-        console.log(response)
-        const responseData = response.data.data
-        console.log(responseData)
-        setMyData(responseData)
-      }catch(error){
-        console.log(error)
+    async function MyData(): Promise<void> {
+      try {
+        const response = await axios.get('http://localhost:8080/api/v1/user/me',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            }
+          });
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setMyData(responseData);
+      } catch (error) {
+        console.log(error);
       }
     }
-
-    /// 여기서 처리 추가적으로 처리 가능///
-    //레디스 설정후 편집
     MyData();
     PostListData();
     CommentListData();
@@ -158,8 +233,6 @@ function Detail() {
             <PostDate>2023.06.11 09:24</PostDate>
             <PostView>조회수 33</PostView>
             <PostComment>댓글 2</PostComment>
-            삭제
-            수정
           </PostContainer>
         </LeftContainer>
         <RightContainer>
@@ -185,13 +258,14 @@ function Detail() {
                 </CommentInfo>
                 <CommentContent>
                   <Text>{datas.content}</Text>
-                  <Text >답글</Text>
+                  <button onClick={()=>setIsSelect(index)}>답글</button>
                 </CommentContent>
+                {datas.isSelect === false ? '' :
+                  <CommentLayout>
+                    <CommentInput onChange={onChildcomment} value={ChildrenComment}></CommentInput>
+                    <Button onClick={()=>sendChildcomment(index)}>게시</Button>
+                  </CommentLayout>}
               </Comment>
-                <CommentLayout>
-                  <CommentInput onChange={onSearch} value={comments}></CommentInput>
-                  <Button onClick={sendComment}>게시</Button>
-                </CommentLayout>
               <div>{datas.children?.map((comment:any,index:any)=>(
                 <ChildrenComments>
                   <CommentInfo>
@@ -218,7 +292,7 @@ const CommentLayout = styled.div`
 `
 
 const Comment = styled.div`
-  height:50px;
+
   width:45rem;
 `
 
