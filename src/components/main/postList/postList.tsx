@@ -189,7 +189,6 @@ const PreviewBackground = styled.div`
   font-family: 'Pretendard-Regular';
   margin-left: -3rem;
   overflow: hidden;
-  height: 100%;
 `;
 
 const ContentLayout = styled.div`
@@ -216,6 +215,7 @@ const Content = styled.div`
   background-color: #f5f6f6;
   padding: 5px;
   margin-top: 2rem;
+  margin-bottom: 4rem;
   margin-left: 3rem;
   border-radius: 1rem;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.11);
