@@ -18,8 +18,6 @@ interface ICreatePostFormData {
 }
 
 const CreatePostPage = () => {
-
- 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [data, setData] = useState<any>();
 
@@ -96,7 +94,6 @@ const CreatePostPage = () => {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
               'Access-Control-Allow-Origin': '*'}
           }
-    
         )
         console.log(axios)
         console.log(response)

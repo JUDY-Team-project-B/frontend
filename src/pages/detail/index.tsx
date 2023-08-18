@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
 import { UserType } from '../mypage';
+import { commentType } from '@/types/post';
 
 function Detail() {
 
@@ -14,15 +15,82 @@ function Detail() {
   const queryParems = new URLSearchParams(location.search);
   const searchTerm = queryParems.get('q');
   
-  
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
   const [data, setData] = useState<any|undefined>('');
-  const [commentData, setCommentData] = useState<any[]|undefined>(['']);
+  const [commentData, setCommentData] = useState<commentType[]>([    
+    {
+      children: [],
+      content: '',
+      createdAt : '',
+      id : 0,
+      isSelect: false,
+      likeCount :0,
+      nickname : '',
+    }
+  ]);
   const [userId, setUserId] = useState<any|undefined>('');
   const [userData, setUserData] = useState<any|undefined>('');
   const [comments,setComments] = useState<any|undefined>('');
+  const [myData, setMyData] = useState<any|undefined>('');
+  const [ChildrenComment, setChildrenComment] = useState<any|undefined>()
 
+  const setIsSelect = (index:number) =>{
+    setChildrenComment('');
+    setCommentData((prevData) => {
+      const newData = [...prevData];
+      if(newData[index].isSelect === false){
+        for(let i = 0; i<newData.length; i++){
+          newData[i] = {
+            ...newData[i],
+            isSelect: false, 
+          };
+        }
+        newData[index] = {
+          ...newData[index], 
+          isSelect: !newData[index].isSelect, 
+        };
+        return newData;
+      }else{
+        newData[index] = {
+          ...newData[index], 
+          isSelect: !newData[index].isSelect, 
+        };
+        return newData;
+      } 
+    });
+    console.log(commentData)
+  }
+
+  const setCommentIsSelect = (index:number) =>{
+    setChildrenComment('');
+    setCommentData((prevData) => {
+      const newData = [...prevData];// 기존 데이터 가져오기
+
+      if(newData[index].isSelect === false){ // 선택이 안되어있는 경우
+        for(let i = 0; i<newData.length; i++){
+          newData[i] = {
+            ...newData[i],
+            isSelect: false, 
+          };
+        }
+        newData[index] = {
+          ...newData[index], 
+          isSelect: !newData[index].isSelect,
+        };
+        return newData;
+      }else{ //다른곳이 선택이 되어있는 경우
+        newData[index] = {
+          ...newData[index],
+          isSelect: !newData[index].isSelect, 
+        };
+        return newData;
+      } 
+
+    });
+    setChildrenComment(commentData[index].content)
+    console.log(commentData)
+  }
 
   const sendComment = async () =>{
     try{
@@ -45,7 +113,26 @@ function Detail() {
     }catch(error){
       console.log(error)
     }
+  }
 
+  const sendChildcomment =async (parentId:number) => {
+    try{
+      const response = await axios.put('http://localhost:8080/api/v1/comment',
+        {
+
+          content:ChildrenComment,
+        },
+        {
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*'}
+        }
+      )
+      console.log(response)
+      alert('작성되었습니다')
+    }catch(error){
+      console.log(error)
+    }
   }
 
   const onSearch = (e:any) => {
@@ -53,6 +140,26 @@ function Detail() {
     console.log(comments);
   }
 
+  const onChildcomment = (e:any) =>{
+    setChildrenComment(e.target.value)
+  }
+
+  const Deletecomment =  async (index:any) =>{
+    try{
+      const response = await axios.delete(`http://localhost:8080/api/v1/comment/${index}`,
+        {
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*'}
+        }
+  
+      )
+      console.log(response)
+      alert('작성되었습니다')
+    }catch(error){
+      console.log(error)
+    }
+  }
 
 
   useEffect(()=>{
@@ -72,39 +179,65 @@ function Detail() {
         console.log(error)
       }
     }
-    const CommentListData =async () => {
-      try{
+    async function CommentListData(): Promise<void> {
+      try {
         const response = await axios.get(`http://localhost:8080/api/v1/comment/${searchTerm}`,
-        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        'Access-Control-Allow-Origin': '*',
-
-      }})
-        console.log(response)
-        const responseData = response.data.data
-        console.log(responseData)
-        setCommentData(responseData)
-      }catch(error){
-        console.log(error)
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            }
+          });
+        console.log(response);
+        const responseData = response.data.data;
+        if (responseData) {
+          for (let i = 0; i < responseData.length; i += 1) {
+            responseData[i].isSelect = false;
+          }
+        }
+        console.log(responseData);
+        setCommentData(responseData);
+      } catch (error) {
+        console.log(error);
       }
     }
 
-    const UserData= async()=>{
-      try{
+    async function UserData(): Promise<void> {
+      try {
         const response = await axios.get(`http://localhost:8080/api/v1/user/${userId}`,
-        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        'Access-Control-Allow-Origin': '*',
-      }})
-        console.log(response)
-        const responseData = response.data.data
-        console.log(responseData)
-        setUserData(responseData)
-      }catch(error){
-        console.log(error)
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            }
+          });
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setUserData(responseData);
+      } catch (error) {
+        console.log(error);
       }
     }
 
-    /// 여기서 처리 추가적으로 처리 가능///
-    //레디스 설정후 편집
+    async function MyData(): Promise<void> {
+      try {
+        const response = await axios.get('http://localhost:8080/api/v1/user/me',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            }
+          });
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setMyData(responseData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    MyData();
     PostListData();
     CommentListData();
     UserData();
@@ -160,21 +293,31 @@ function Detail() {
             <div>
               <Comment>
                 <CommentInfo>
-                  작성자 시간
+                  {datas.nickname} {datas.createdAt}
+                  {datas.nickname === myData.nickname ? 
+                  <div>
+                    <Text onClick={()=>setCommentIsSelect(index)}>수정</Text>
+                    <Text onClick={()=>Deletecomment(index)}>삭제</Text>
+                  </div> : ''}
                 </CommentInfo>
                 <CommentContent>
                   <Text>{datas.content}</Text>
-                  <Text>답글</Text> 
+                  <button onClick={()=>setIsSelect(index)}>답글</button>
                 </CommentContent>
+                {datas.isSelect === false ? '' :
+                  <CommentLayout>
+                    <CommentInput onChange={onChildcomment} value={ChildrenComment}/>
+                    <Button onClick={()=>sendChildcomment(index)}>게시</Button>
+                  </CommentLayout>}
               </Comment>
               <div>{datas.children?.map((comment:any,index:any)=>(
                 <ChildrenComments>
                   <CommentInfo>
-                    작성자 시간
+                    {comment.nickname} {comment.createdAt}
+                    
                   </CommentInfo>
                   <CommentContent>
                     <Text>--{comment.content}</Text>
-                    <Text>답글</Text>
                   </CommentContent>
                 </ChildrenComments>
             ))}</div>
@@ -190,11 +333,11 @@ export default Detail;
 
 const CommentLayout = styled.div`
   margin:0px;
-  height:100px;
+  height:90px;
 `
 
 const Comment = styled.div`
-  height:50px;
+
   width:45rem;
 `
 
@@ -204,6 +347,8 @@ const Text = styled.div`
 
 const CommentInfo = styled.div`
   overflow:hidden;
+  display:flex;
+  flex-direction: row;
 `
 
 const CommentContent = styled.div`
