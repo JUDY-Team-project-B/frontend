@@ -14,23 +14,17 @@ import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
 
 const Preview = (queryString: any) => {
-  console.log(queryString.searchKeyword);
   const url = queryString.queryString;
+  const url2 = 0;
   const Type = queryString.searchType.toString();
   const keyword = queryString.searchKeyword.toString();
   const navigate = useNavigate();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
   const [listData, setListData] = useState<PostType[] | undefined>();
-
   const [liked, setLiked] = useState([]);
-  console.log(liked);
-
-  console.log(keyword);
 
   useEffect(() => {
     const PostListData = async () => {
-      console.log(Type);
-      console.log(keyword);
       try {
         const response = await axios.get(
           `http://localhost:8080/api/v1/post/${url}`,
@@ -42,15 +36,40 @@ const Preview = (queryString: any) => {
           },
         );
         const responseData: PostType[] = response.data.data;
-
         setListData(responseData);
-        console.log(responseData);
+
+        const postDataIds = responseData.map((item) => item.id);
       } catch (error) {
         console.log(error);
       }
     };
     PostListData();
   }, [Type, keyword]);
+
+  useEffect(() => {
+    const LikeListData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/post/me/like/${url2}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        const responseData: PostType[] = response.data.data;
+
+        setLikeData(responseData);
+
+        const likeDataIds = responseData.map((item) => item.id);
+        setLiked(likeDataIds);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    LikeListData();
+  }, []);
 
   const setLike = async (postId: number) => {
     try {
@@ -66,7 +85,7 @@ const Preview = (queryString: any) => {
           },
         },
       );
-      console.log('좋아요 추가');
+      console.log('좋아요 실행 및 취소');
     } catch (error) {
       console.error('Error adding like:', error);
     }
@@ -114,6 +133,7 @@ const Preview = (queryString: any) => {
                     }}
                     onClick={() => {
                       if (liked.includes(datas.id)) {
+                        setLiked(liked.filter((id) => id !== datas.id));
                         setLike(datas.id);
                       } else {
                         setLiked([...liked, datas.id]);
