@@ -303,11 +303,10 @@ function Profile() {
                       </Date>
                     </DateWrap>
                   </TopWrap>
+
                   <LikeWrap>
                     <LikeIcon
                       style={{
-                        marginLeft: '12.7rem',
-
                         justifyContent: 'right',
                         zIndex: '999',
                         color: liked.includes(datas.id) ? '#ffffff' : '#f90808',
@@ -323,7 +322,6 @@ function Profile() {
                       }}
                     />
                   </LikeWrap>
-
                   <ImgWrap>
                     <Img /*onClick={() => goto(datas.id)}*/ />
                   </ImgWrap>
@@ -438,6 +436,7 @@ const PostWrap = styled.button`
   width: 15rem;
   height: 18rem;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.11);
+  position: relative;
 `;
 const PlaceLayout = styled.button`
   justify-content: right;
@@ -491,10 +490,21 @@ const Date = styled.div`
   color: #1aa5f5;
 `;
 
+const LikeWrap = styled.div`
+  display: flex;
+  height: 4rem;
+  width: 95%;
+  justify-content: right;
+
+  margin-top: 2rem;
+  position: absolute;
+`;
+
 const ImgWrap = styled.div`
   display: flex;
   margin-top: 1rem;
   height: 10rem;
+  position: relative;
   width: 100%;
 `;
 
@@ -555,16 +565,7 @@ const HoverableIcon = styled(ArrowForwardIosIcon)`
 `;
 
 const LikeIcon = styled(likeIcon)`
-  margin-top: 1rem;
-`;
-
-const LikeWrap = styled.div`
-  margin-top: 1rem;
-  background-color: blue;
-`;
-
-const UnlikeIcon = styled(unlikeIcon)`
-  position: absolute;
+  position: relative;
 `;
 
 const Comment = styled.button`
