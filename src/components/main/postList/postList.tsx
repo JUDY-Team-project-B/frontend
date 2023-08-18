@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
-import HeartOn from '@/assets/image/HeartOn.png';
-import View from '@/assets/image/detailView.png';
-import Heart from '@/assets/image/detailHeart.png';
+import likeIcon from '@mui/icons-material/Favorite';
 import Comment from '@/assets/image/detailcomment.png';
 import place from '@/assets/image/placeholder.png';
 
@@ -13,7 +11,6 @@ import { PostType } from '@/types/post';
 import axios from 'axios';
 
 import gyeongju from '@/assets/image/trip3.jpg';
-import osaka from '@/assets/image/osaka.jpg';
 import user from '@/assets/image/user.png';
 
 const Preview = (queryString: any) => {
@@ -22,7 +19,11 @@ const Preview = (queryString: any) => {
   const Type = queryString.searchType.toString();
   const keyword = queryString.searchKeyword.toString();
   const navigate = useNavigate();
+  const [likedata, setLikeData] = useState<PostType[] | undefined>();
   const [listData, setListData] = useState<PostType[] | undefined>();
+
+  const [liked, setLiked] = useState([]);
+  console.log(liked);
 
   console.log(keyword);
 
@@ -34,10 +35,6 @@ const Preview = (queryString: any) => {
         const response = await axios.get(
           `http://localhost:8080/api/v1/post/${url}`,
           {
-            params: {
-              searchType: Type,
-              searchKeyword: keyword,
-            },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
@@ -53,7 +50,27 @@ const Preview = (queryString: any) => {
       }
     };
     PostListData();
-  }, [Type,keyword]);
+  }, [Type, keyword]);
+
+  const setLike = async (postId: number) => {
+    try {
+      axios.post(
+        `http://localhost:8080/api/v1/post/like`,
+        {
+          postId: postId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log('좋아요 추가');
+    } catch (error) {
+      console.error('Error adding like:', error);
+    }
+  };
 
   const goto = (num: number): void => {
     const postnum = String(num);
@@ -87,7 +104,23 @@ const Preview = (queryString: any) => {
               </TopWarp>
               <MiddleWrap>
                 <HeartLayout>
-                  <img src={HeartOn} alt="HeartOn" />
+                  <LikeIcon
+                    style={{
+                      marginLeft: '12.7rem',
+                      marginTop: '.7rem',
+                      justifyContent: 'right',
+                      zIndex: '999',
+                      color: liked.includes(datas.id) ? '#f90808' : '#ffffff',
+                    }}
+                    onClick={() => {
+                      if (liked.includes(datas.id)) {
+                        setLike(datas.id);
+                      } else {
+                        setLiked([...liked, datas.id]);
+                        setLike(datas.id);
+                      }
+                    }}
+                  />
                 </HeartLayout>
                 <ImgWrap>
                   <Img onClick={() => goto(datas.id)}>
@@ -109,7 +142,7 @@ const Preview = (queryString: any) => {
                   <PlaceLayout>
                     <img src={place} alt="Place" />
                   </PlaceLayout>
-                  <DestinationText>{datas.travelAt}</DestinationText>
+                  <DestinationText>{datas.travelCity}</DestinationText>
                 </DestinationWrap>
                 <Title onClick={() => goto(datas.id)}>{datas.title}</Title>
                 <Date>
@@ -287,6 +320,10 @@ const Profile = styled.div`
   z-index: 999;
   margin-top: 0.7rem;
   margin-left: 0.4rem;
+`;
+
+const LikeIcon = styled(likeIcon)`
+  position: absolute;
 `;
 
 const Nickname = styled.div`
