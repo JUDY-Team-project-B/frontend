@@ -57,10 +57,38 @@ function Detail() {
           isSelect: !newData[index].isSelect, 
         };
         return newData;
-      }
-      
+      } 
     });
+    console.log(commentData)
+  }
 
+  const setCommentIsSelect = (index:number) =>{
+    setChildrenComment('');
+    setCommentData((prevData) => {
+      const newData = [...prevData];// 기존 데이터 가져오기
+
+      if(newData[index].isSelect === false){ // 선택이 안되어있는 경우
+        for(let i = 0; i<newData.length; i++){
+          newData[i] = {
+            ...newData[i],
+            isSelect: false, 
+          };
+        }
+        newData[index] = {
+          ...newData[index], 
+          isSelect: !newData[index].isSelect,
+        };
+        return newData;
+      }else{ //다른곳이 선택이 되어있는 경우
+        newData[index] = {
+          ...newData[index],
+          isSelect: !newData[index].isSelect, 
+        };
+        return newData;
+      } 
+
+    });
+    setChildrenComment(commentData[index].content)
     console.log(commentData)
   }
 
@@ -89,11 +117,9 @@ function Detail() {
 
   const sendChildcomment =async (parentId:number) => {
     try{
-      const response = await axios.post('http://localhost:8080/api/v1/comment',
+      const response = await axios.put('http://localhost:8080/api/v1/comment',
         {
-          userId:1,
-          postId:Number(searchTerm),
-          parentId:parentId+1,
+
           content:ChildrenComment,
         },
         {
@@ -116,6 +142,23 @@ function Detail() {
 
   const onChildcomment = (e:any) =>{
     setChildrenComment(e.target.value)
+  }
+
+  const Deletecomment =  async (index:any) =>{
+    try{
+      const response = await axios.delete(`http://localhost:8080/api/v1/comment/${index}`,
+        {
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*'}
+        }
+  
+      )
+      console.log(response)
+      alert('작성되었습니다')
+    }catch(error){
+      console.log(error)
+    }
   }
 
 
@@ -251,7 +294,11 @@ function Detail() {
               <Comment>
                 <CommentInfo>
                   {datas.nickname} {datas.createdAt}
-                  {datas.nickname === myData.nickname ? '수정 삭제' : ''}
+                  {datas.nickname === myData.nickname ? 
+                  <div>
+                    <Text onClick={()=>setCommentIsSelect(index)}>수정</Text>
+                    <Text onClick={()=>Deletecomment(index)}>삭제</Text>
+                  </div> : ''}
                 </CommentInfo>
                 <CommentContent>
                   <Text>{datas.content}</Text>
@@ -259,7 +306,7 @@ function Detail() {
                 </CommentContent>
                 {datas.isSelect === false ? '' :
                   <CommentLayout>
-                    <CommentInput onChange={onChildcomment} value={ChildrenComment}></CommentInput>
+                    <CommentInput onChange={onChildcomment} value={ChildrenComment}/>
                     <Button onClick={()=>sendChildcomment(index)}>게시</Button>
                   </CommentLayout>}
               </Comment>
@@ -267,6 +314,7 @@ function Detail() {
                 <ChildrenComments>
                   <CommentInfo>
                     {comment.nickname} {comment.createdAt}
+                    
                   </CommentInfo>
                   <CommentContent>
                     <Text>--{comment.content}</Text>
@@ -285,7 +333,7 @@ export default Detail;
 
 const CommentLayout = styled.div`
   margin:0px;
-  height:100px;
+  height:90px;
 `
 
 const Comment = styled.div`
@@ -299,6 +347,8 @@ const Text = styled.div`
 
 const CommentInfo = styled.div`
   overflow:hidden;
+  display:flex;
+  flex-direction: row;
 `
 
 const CommentContent = styled.div`
