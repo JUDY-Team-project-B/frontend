@@ -12,7 +12,7 @@ const Content = () => {
   const [url, setUrl] = useState('all/0');
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  const handleLocationClick = (location:any) => {
+  const handleLocationClick = (location: any) => {
     setSelectedLocation(location);
   };
 
@@ -75,7 +75,7 @@ export default Content;
 
 const Background = styled.div`
   width: 100%;
-  height: 100rem;
+  height: 150%;
   justify-content: center;
   font-size: 16px;
 `;
