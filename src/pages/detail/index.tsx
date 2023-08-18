@@ -15,7 +15,6 @@ function Detail() {
   const queryParems = new URLSearchParams(location.search);
   const searchTerm = queryParems.get('q');
   
-  
   const [PostData, setPostData] = useState<any[]|any>([]);
   const [postnum, setPostnum] = useState<string|undefined>('');
   const [data, setData] = useState<any|undefined>('');
@@ -34,7 +33,6 @@ function Detail() {
   const [userData, setUserData] = useState<any|undefined>('');
   const [comments,setComments] = useState<any|undefined>('');
   const [myData, setMyData] = useState<any|undefined>('');
-  //let ChildrenComment:string[] = [''];
   const [ChildrenComment, setChildrenComment] = useState<any|undefined>()
 
   const setIsSelect = (index:number) =>{
@@ -94,16 +92,15 @@ function Detail() {
       const response = await axios.post('http://localhost:8080/api/v1/comment',
         {
           userId:1,
-          postId:searchTerm,
-          parentId:parentId,
-          content:comments,
+          postId:Number(searchTerm),
+          parentId:parentId+1,
+          content:ChildrenComment,
         },
         {
           headers:{
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             'Access-Control-Allow-Origin': '*'}
         }
-  
       )
       console.log(response)
       alert('작성되었습니다')
