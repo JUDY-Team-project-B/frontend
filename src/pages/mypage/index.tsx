@@ -217,9 +217,10 @@ function Profile() {
                 <PostWrap>
                   <TopWrap>
                     <PlaceLayout>
+                      {/* OnclickEvent없음 */}
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelCity}</Where>
+                    <Where>{datas.travelAt}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       <Date>
@@ -255,6 +256,7 @@ function Profile() {
               <div style={{ marginTop: '15rem', marginLeft: '0rem' }}>
                 작성한 댓글이 없습니다.
               </div>
+              //onClickEvent없음
             ) : (
               commentdata?.map((datas: PostType, index: any) => (
                 <Comment
@@ -264,7 +266,7 @@ function Profile() {
                     justifyContent: 'center',
                   }}
                 >
-                  <CommentPost> {datas.postTitle}</CommentPost>
+                  <CommentPost> {datas.title}</CommentPost>
                   {datas.content}
                   <HoverableIcon
                     style={{
@@ -297,6 +299,7 @@ function Profile() {
                     <Where>{datas.travelCity}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
+                      {/* //onClickEvent없음 */}
                       <Date>
                         {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
                         - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}

@@ -3,6 +3,7 @@ import { routes } from './routes';
 import '@/reset.scss';
 import 'tailwindcss/tailwind.css';
 import { Header } from './components/common/Header/Header';
+import { Footer } from './components/common/Footer/Footer';
 
 function App() {
   const elem = useRoutes(routes);
@@ -10,6 +11,7 @@ function App() {
     <div>
       <Header/>
       {elem}
+      <Footer/>
     </div>
   )
 }

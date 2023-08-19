@@ -5,11 +5,9 @@ import { restFetcher } from '@/queryClient';
 import likeIcon from '@mui/icons-material/Favorite';
 import Comment from '@/assets/image/detailcomment.png';
 import place from '@/assets/image/placeholder.png';
-
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
 import axios from 'axios';
-
 import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
 
@@ -25,10 +23,17 @@ const Preview = (queryString: any) => {
 
   useEffect(() => {
     const PostListData = async () => {
+      console.log(url);
+      console.log(Type);
+      console.log(keyword)
       try {
         const response = await axios.get(
           `http://localhost:8080/api/v1/post/${url}`,
           {
+            params: {
+              searchType: Type,
+              searchKeyword: keyword,
+            },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
@@ -37,7 +42,7 @@ const Preview = (queryString: any) => {
         );
         const responseData: PostType[] = response.data.data;
         setListData(responseData);
-
+        console.log(responseData)
         const postDataIds = responseData.map((item) => item.id);
       } catch (error) {
         console.log(error);
@@ -72,6 +77,7 @@ const Preview = (queryString: any) => {
   }, []);
 
   const setLike = async (postId: number) => {
+    //로그인 안된 경우 코드 수정
     try {
       axios.post(
         `http://localhost:8080/api/v1/post/like`,
@@ -109,7 +115,8 @@ const Preview = (queryString: any) => {
                 <ProfileWrap>
                   <Profile />
                   <InfoWrap>
-                    <Nickname>사진작가 이씨</Nickname>
+                    <Nickname>{datas.id}</Nickname>
+                    {/* 닉네임으로 변경 */}
                     <Gender>
                       {' '}
                       {datas.travelAge} | {datas.travelGender}
@@ -119,13 +126,14 @@ const Preview = (queryString: any) => {
                 <DateWrap>
                   <DateTitle>여행 기간</DateTitle>
                   <Date>08/05 - 08/09</Date>
+                  {/* 기간 설정 */}
                 </DateWrap>
               </TopWarp>
               <MiddleWrap>
                 <HeartLayout>
                   <LikeIcon
                     style={{
-                      marginLeft: '12.7rem',
+                      marginLeft: '.7rem',
                       marginTop: '.7rem',
                       justifyContent: 'right',
                       zIndex: '999',
@@ -160,15 +168,11 @@ const Preview = (queryString: any) => {
               <PostInfo>
                 <DestinationWrap>
                   <PlaceLayout>
-                    <img src={place} alt="Place" />
+                    <img src={place} alt="Place"/>
                   </PlaceLayout>
-                  <DestinationText>{datas.travelCity}</DestinationText>
+                  <DestinationText>{datas.travelAt}</DestinationText>
                 </DestinationWrap>
                 <Title onClick={() => goto(datas.id)}>{datas.title}</Title>
-                <Date>
-                  {/* {datas.travelAge}
-                  {datas.travelGender} */}
-                </Date>
                 <Member>{datas.travelMember}인 동행을 원해요!</Member>
               </PostInfo>
             </Content>
@@ -182,12 +186,11 @@ const Preview = (queryString: any) => {
 export default Preview;
 
 const PreviewBackground = styled.div`
-  width: 101%;
+  width: 100%;
   flex-direction: column;
   align-content: center;
   display: flex;
   font-family: 'Pretendard-Regular';
-  margin-left: -3rem;
   overflow: hidden;
 `;
 
@@ -204,7 +207,6 @@ const GridLayout = styled.div`
   grid-template-columns: repeat(4, 1fr);
   overflow: visible;
   height: 100%;
-
   /* background-color: red; */
 `;
 
@@ -212,14 +214,16 @@ const Content = styled.div`
   width: 21.4rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: #f5f6f6;
   padding: 5px;
   margin-top: 2rem;
-  margin-bottom: 4rem;
-  margin-left: 3rem;
+  margin-bottom: 2rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
   border-radius: 1rem;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.11);
-  z-index: 999;
+  z-index: 998;
   height: 28rem;
 `;
 const MiddleWrap = styled.div`
@@ -303,9 +307,6 @@ const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
   width: 8%;
-  margin-top: 0.1rem;
-  margin-left: 0.3rem;
-  margin-right: 0.1rem;
   z-index: 999;
 `;
 
@@ -366,6 +367,9 @@ const PostInfo = styled.div`
   height: 120px;
   padding: 8px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
 `;
 
 const Title = styled.button`
@@ -374,7 +378,10 @@ const Title = styled.button`
   height: 20px;
   overflow: visible;
   margin-top: 2rem;
+  flex-direction: column;
   text-align: left;
+  justify-content: center;
+  align-items :center;
 `;
 const DateWrap = styled.div`
   display: block;

@@ -4,7 +4,7 @@ export interface PostType {
   context: string;
   tags: string[];
   travelGender: string;
-  travelCity: string;
+  travelAt: string;
   travelAge: string;
   travelDateStart: Date;
   travelDateEnd: Date;
