@@ -12,7 +12,6 @@ import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
 
 const InfinitePostList = (queryString: any) => {
-  const url = queryString.queryString;
   const url2 = 0;
   const Type = queryString.searchType.toString();
   const keyword = queryString.searchKeyword.toString();
@@ -20,8 +19,6 @@ const InfinitePostList = (queryString: any) => {
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
   const [listData, setListData] = useState<PostType[] >([]);
   const [liked, setLiked] = useState([]);
-
-  const [pins, setPins] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
