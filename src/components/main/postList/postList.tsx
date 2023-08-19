@@ -25,10 +25,17 @@ const Preview = (queryString: any) => {
 
   useEffect(() => {
     const PostListData = async () => {
+      console.log(url);
+      console.log(Type);
+      console.log(keyword)
       try {
         const response = await axios.get(
           `http://localhost:8080/api/v1/post/${url}`,
           {
+            params: {
+              searchType: Type,
+              searchKeyword: keyword,
+            },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
@@ -37,7 +44,6 @@ const Preview = (queryString: any) => {
         );
         const responseData: PostType[] = response.data.data;
         setListData(responseData);
-
         const postDataIds = responseData.map((item) => item.id);
       } catch (error) {
         console.log(error);
@@ -160,7 +166,7 @@ const Preview = (queryString: any) => {
               <PostInfo>
                 <DestinationWrap>
                   <PlaceLayout>
-                    <img src={place} alt="Place" />
+                    <img src={place} alt="Place"/>
                   </PlaceLayout>
                   <DestinationText>{datas.travelCity}</DestinationText>
                 </DestinationWrap>
