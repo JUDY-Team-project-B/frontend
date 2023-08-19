@@ -5,11 +5,9 @@ import { restFetcher } from '@/queryClient';
 import likeIcon from '@mui/icons-material/Favorite';
 import Comment from '@/assets/image/detailcomment.png';
 import place from '@/assets/image/placeholder.png';
-
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
 import axios from 'axios';
-
 import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
 
@@ -44,6 +42,7 @@ const Preview = (queryString: any) => {
         );
         const responseData: PostType[] = response.data.data;
         setListData(responseData);
+        console.log(responseData)
         const postDataIds = responseData.map((item) => item.id);
       } catch (error) {
         console.log(error);
@@ -78,6 +77,7 @@ const Preview = (queryString: any) => {
   }, []);
 
   const setLike = async (postId: number) => {
+    //로그인 안된 경우 코드 수정
     try {
       axios.post(
         `http://localhost:8080/api/v1/post/like`,
@@ -115,7 +115,8 @@ const Preview = (queryString: any) => {
                 <ProfileWrap>
                   <Profile />
                   <InfoWrap>
-                    <Nickname>사진작가 이씨</Nickname>
+                    <Nickname>{datas.id}</Nickname>
+                    {/* 닉네임으로 변경 */}
                     <Gender>
                       {' '}
                       {datas.travelAge} | {datas.travelGender}
@@ -125,6 +126,7 @@ const Preview = (queryString: any) => {
                 <DateWrap>
                   <DateTitle>여행 기간</DateTitle>
                   <Date>08/05 - 08/09</Date>
+                  {/* 기간 설정 */}
                 </DateWrap>
               </TopWarp>
               <MiddleWrap>
@@ -168,13 +170,9 @@ const Preview = (queryString: any) => {
                   <PlaceLayout>
                     <img src={place} alt="Place"/>
                   </PlaceLayout>
-                  <DestinationText>{datas.travelCity}</DestinationText>
+                  <DestinationText>{datas.travelAt}</DestinationText>
                 </DestinationWrap>
                 <Title onClick={() => goto(datas.id)}>{datas.title}</Title>
-                <Date>
-                  {/* {datas.travelAge}
-                  {datas.travelGender} */}
-                </Date>
                 <Member>{datas.travelMember}인 동행을 원해요!</Member>
               </PostInfo>
             </Content>
@@ -311,7 +309,7 @@ const PlaceLayout = styled.button`
   width: 8%;
   margin-top: 0.1rem;
   margin-left: 0.3rem;
-  margin-right: 0.1rem;
+  margin-right: 0.3rem;
   z-index: 999;
 `;
 
@@ -372,6 +370,9 @@ const PostInfo = styled.div`
   height: 120px;
   padding: 8px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
 `;
 
 const Title = styled.button`
@@ -380,7 +381,10 @@ const Title = styled.button`
   height: 20px;
   overflow: visible;
   margin-top: 2rem;
+  flex-direction: column;
   text-align: left;
+  justify-content: center;
+  align-items :center;
 `;
 const DateWrap = styled.div`
   display: block;

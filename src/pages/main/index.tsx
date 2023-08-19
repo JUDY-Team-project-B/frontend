@@ -75,8 +75,12 @@ const Main = () => {
     autoplaySpeed: 6000,
   };
 
+  const Layout = styled.div`
+    height:100%;
+  `
+
   return (
-    <div>
+    <Layout>
       <Slider {...settings}>
         {items.map((item) => (
           <ImageContainer key={item.id} imageUrl={item.url}>
@@ -95,7 +99,7 @@ const Main = () => {
         ))}
       </Slider>
       <Content />
-    </div>
+    </Layout>
   );
 };
 
