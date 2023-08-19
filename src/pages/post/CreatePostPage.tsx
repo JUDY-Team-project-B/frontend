@@ -9,6 +9,7 @@ import axios from 'axios';
 import { response } from 'msw';
 import React, { useEffect, useState,useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import './CreatePostpage.scss'
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -100,31 +101,38 @@ const CreatePostPage = () => {
       }catch(error){
         console.log(error)
       }
-
       console.log(title,content)
   };
 
 
   return (
-    <Layout>
-      <PostCardList onValueChange={handleCardList} />
-      <PostTitleInput onValueChange={handleTitleChange} />
-      <PostThumbnailInput />
-      <PostEditor onChangeEditor={handleEditorChange} />
-      <HashTag
-        hashTags={[]}
-        setHashTags={function (value: React.SetStateAction<string[]>): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
-      <Button
-        className="ml-auto mt-5"
-        onClick={handleClick}
-        type="submit"
-        children={'작성완료'}
-      />
-    </Layout>
+    <div className='createPostLayout'>
+      <div className='createPostImg'>
+        s
+      </div>
+      <div className='createPostFlex' >
+      <div className='createPost'>
+        <PostCardList onValueChange={handleCardList} />
+        <PostTitleInput onValueChange={handleTitleChange} />
+        <PostThumbnailInput />
+        <PostEditor onChangeEditor={handleEditorChange} />
+        <HashTag
+          hashTags={[]}
+          setHashTags={function (value: React.SetStateAction<string[]>): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
+        <Button
+          className="ml-auto mt-5"
+          onClick={handleClick}
+          type="submit"
+          children={'작성완료'}
+          />
+      </div>
+      </div>
+    </div>
   );
 };
+
 
 export default CreatePostPage;

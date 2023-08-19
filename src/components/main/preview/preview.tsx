@@ -6,7 +6,6 @@ import HeartOn from '@/assets/image/HeartOn.png';
 import View from '@/assets/image/detailView.png';
 import Heart from '@/assets/image/detailHeart.png';
 import Comment from '@/assets/image/detailcomment.png';
-
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
 import axios from 'axios';

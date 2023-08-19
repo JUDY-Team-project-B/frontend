@@ -133,7 +133,7 @@ const Preview = (queryString: any) => {
                 <HeartLayout>
                   <LikeIcon
                     style={{
-                      marginLeft: '14.7rem',
+                      marginLeft: '.7rem',
                       marginTop: '.7rem',
                       justifyContent: 'right',
                       zIndex: '999',
@@ -219,7 +219,8 @@ const Content = styled.div`
   padding: 5px;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  margin-left: 2rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
   border-radius: 1rem;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.11);
   z-index: 998;
