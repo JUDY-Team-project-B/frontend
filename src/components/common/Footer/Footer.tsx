@@ -4,7 +4,7 @@ import './Footer.scss';
 export const Footer = () => {
 
   return (
-    <div className="navlayout">
+    <div className="footerlayout">
         footer
     </div>
   );
