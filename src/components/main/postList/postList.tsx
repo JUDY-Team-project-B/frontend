@@ -133,7 +133,7 @@ const Preview = (queryString: any) => {
                 <HeartLayout>
                   <LikeIcon
                     style={{
-                      marginLeft: '12.7rem',
+                      marginLeft: '14.7rem',
                       marginTop: '.7rem',
                       justifyContent: 'right',
                       zIndex: '999',
@@ -186,12 +186,11 @@ const Preview = (queryString: any) => {
 export default Preview;
 
 const PreviewBackground = styled.div`
-  width: 101%;
+  width: 100%;
   flex-direction: column;
   align-content: center;
   display: flex;
   font-family: 'Pretendard-Regular';
-  margin-left: -3rem;
   overflow: hidden;
 `;
 
@@ -208,7 +207,6 @@ const GridLayout = styled.div`
   grid-template-columns: repeat(4, 1fr);
   overflow: visible;
   height: 100%;
-
   /* background-color: red; */
 `;
 
@@ -216,14 +214,15 @@ const Content = styled.div`
   width: 21.4rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: #f5f6f6;
   padding: 5px;
   margin-top: 2rem;
-  margin-bottom: 4rem;
-  margin-left: 3rem;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
   border-radius: 1rem;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.11);
-  z-index: 999;
+  z-index: 998;
   height: 28rem;
 `;
 const MiddleWrap = styled.div`
@@ -307,9 +306,6 @@ const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
   width: 8%;
-  margin-top: 0.1rem;
-  margin-left: 0.3rem;
-  margin-right: 0.3rem;
   z-index: 999;
 `;
 

@@ -20,10 +20,10 @@ const SearchContent = () => {
 
   return (
     <div className="searchContentBackground">
-      <div className='ment2'>
+      {/* <div className='ment2'>
         동행
       </div>
-      <DetailSearch/>
+      <DetailSearch/> */}
       <PostList  queryString = {url} searchType = {"title"} searchKeyword = {searchTerm}/>
     </div>
   );
