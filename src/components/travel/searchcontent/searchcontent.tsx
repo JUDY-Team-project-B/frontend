@@ -5,6 +5,7 @@ import DetailSearch from '../detailsearch/detailsearch';
 //import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import { useLocation } from 'react-router-dom';
+import PostList from '@/components/main/postList/postList';
 
 
 
@@ -23,7 +24,7 @@ const SearchContent = () => {
         동행
       </div>
       <DetailSearch/>
-      <Preview  queryString = {url} searchType = {"title"} searchKeyword = {searchTerm}/>
+      <PostList  queryString = {url} searchType = {"title"} searchKeyword = {searchTerm}/>
     </div>
   );
 };
