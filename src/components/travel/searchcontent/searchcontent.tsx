@@ -6,6 +6,7 @@ import DetailSearch from '../detailsearch/detailsearch';
 import { restFetcher } from '@/queryClient';
 import { useLocation } from 'react-router-dom';
 import PostList from '@/components/main/postList/postList';
+import InfinitePostList from '@/components/main/Infinite/InfinitePostList';
 
 
 
@@ -24,7 +25,7 @@ const SearchContent = () => {
         동행
       </div>
       <DetailSearch/> */}
-      <PostList  queryString = {url} searchType = {"title"} searchKeyword = {searchTerm}/>
+      <InfinitePostList  queryString = {url} searchType = {"title"} searchKeyword = {searchTerm}/>
     </div>
   );
 };
