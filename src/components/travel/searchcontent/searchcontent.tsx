@@ -11,13 +11,12 @@ import InfinitePostList from '@/components/main/Infinite/InfinitePostList';
 
 
 const SearchContent = () => {
-  
   const location = useLocation();
   const queryParems = new URLSearchParams(location.search);
   const searchTerm = queryParems.get('q');
+  const searchT = queryParems.get('t');
   console.log(searchTerm)
   const [url,setUrl] = useState('all/0')
-  
 
   return (
     <div className="searchContentBackground">
@@ -25,7 +24,7 @@ const SearchContent = () => {
         동행
       </div>
       <DetailSearch/> */}
-      <InfinitePostList  queryString = {url} searchType = {"title"} searchKeyword = {searchTerm}/>
+      <InfinitePostList  queryString = {url} searchType = {searchT} searchKeyword = {searchTerm}/>
     </div>
   );
 };

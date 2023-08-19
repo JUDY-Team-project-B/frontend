@@ -25,9 +25,8 @@ const InfinitePostList = (queryString: any) => {
   const loadMore = () =>{
     console.log('hello')
     setPage(prev => prev + 1);
-
   }
-
+  
   const PostListData = async (page:number) => {
     console.log(Type);
     console.log(keyword)

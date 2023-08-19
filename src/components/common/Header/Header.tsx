@@ -9,6 +9,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 import { red } from '@mui/material/colors';
 import { Login } from './login';
+import axios from 'axios';
+import { AnyNaptrRecord } from 'dns';
 
 // function getItemWithExpireTime(keyName:any) {
 //   const setUserData = useSetRecoilState<User>(UUid);
@@ -34,23 +36,43 @@ export const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
-  const [keyword, setKeyword] = useState<any>();
-  // getItemWithExpireTime('accessToken')
+  const [keyword, setKeyword] = useState<any>(null);
+
+
+  const onSilentRefresh = async () =>{
+    try{
+      const response = await axios.post('http://localhost:8080/api/v1/auth/refresh-token');
+      const accessToken  = response.data.data.accessToken;
+      console.log(accessToken)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    }catch(e){
+      alert('다시 로그인해주세요')
+      navigate('/');
+    }
+  }
 
   const gotoMain = () => {
     navigate('/');
   };
 
   useEffect(() => {
+    // onSilentRefresh();
     setisLogin(userData.is_active);
     console.log(userData);
   });
 
   const search = (): void => {
-    const queryParems = new URLSearchParams();
-    queryParems.set('q', keyword);
-    const queryString = queryParems.toString();
-    navigate(`/travel?${queryString}`);
+    if(keyword === null){
+      alert('검색어를 입력해주세요')
+    }else{
+      const queryParems1 = new URLSearchParams();
+      const queryParems2 = new URLSearchParams();
+      queryParems1.set('q', keyword);
+      queryParems2.set('t',Selected);
+      const queryString1 = queryParems1.toString();
+      const queryString2 = queryParems2.toString();
+      navigate(`/travel?${queryString1}&${queryString2}`);
+    }
   };
 
   const setWord = (e: any) => {
@@ -60,6 +82,26 @@ export const Header = () => {
 
   const gotoWrite = () => {
     navigate('/create-post');
+  };
+
+  const [Selected, setSelected] = useState("title");
+  const selectList = [{
+    korea:"제목",
+    eng:"title"
+  }, {
+    korea:"내용",
+    eng:"content"
+  },{
+    korea:"닉네임",
+    eng:"nickname"
+  },{
+    korea:"지역",
+    eng:"where"
+  }];
+
+  const handleSelect = (e:any) => {
+    setSelected(e.target.value);
+    console.log(Selected)
   };
 
   return (
@@ -81,8 +123,15 @@ export const Header = () => {
         </div>
         <div className="leftdiv">
           <div className="inputlayout">
+            <select onChange={handleSelect} value={Selected}>
+              {selectList.map((item)=>(
+                <option value={item.eng} key={item.eng}>
+                  {item.korea}
+                </option>
+              ))}
+            </select>
             <input
-              placeholder="여행지를 검색해보세요"
+              placeholder="검색어를 입력해주세요"
               className="input"
               onChange={setWord}
               value={keyword}
