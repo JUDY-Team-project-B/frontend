@@ -10,6 +10,8 @@ import { response } from 'msw';
 import React, { useEffect, useState,useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import './CreatePostpage.scss'
+import { PostType } from '@/types/post';
+import { useNavigate } from 'react-router-dom';
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -21,12 +23,14 @@ interface ICreatePostFormData {
 const CreatePostPage = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [data, setData] = useState<any>();
-
-  const [userData,setUserData] = useState<any>();
+  const [userData,setUserData] = useState<any>(); // 유저 정보를 저장
   const [jwt,setjwt] = useState<any>();
+  const [listData, setListData] = useState<PostType[] | undefined>();
+  const [nextId, setNextId] = useState<any>();
+  const navigate = useNavigate();
 
   useEffect(()=>{
-    const PostListData =async () => {
+    const UserDatas =async () => {
       try{
         setjwt(localStorage.getItem('accessToken'))
         console.log(jwt)
@@ -48,12 +52,42 @@ const CreatePostPage = () => {
       }
     }
     /// 여기서 처리 추가적으로 처리 가능///
-    PostListData();
+    UserDatas();
   },[])
+  //현재 사용중인 유저 정보를 받아오는 axios
+
+  useEffect(() => {
+    const PostListData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/post/all/0`,
+          {
+            params: {
+              searchType: "",
+              searchKeyword: "",
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        const responseData: PostType[] = response.data.data;
+        setNextId(responseData[0].id+1);
+        console.log(responseData[0].id)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    PostListData();
+  }, []);
+  //현재 작성된 게시물을 확인하는 axios
+
 
   const [title, setTitle] = useState(null);
   const handleTitleChange = (title:any) =>{
-    setTitle(title)
+    setTitle(title[0])
+    setImageFile(title[1])
     console.log(title)
   }
 
@@ -73,6 +107,7 @@ const CreatePostPage = () => {
     setRegion(content[1])
     setNumber(content[2])
   }
+
 
   const handleClick = async () => {
     console.log(jwt)
@@ -96,19 +131,42 @@ const CreatePostPage = () => {
               'Access-Control-Allow-Origin': '*'}
           }
         )
+
+
+        if(imageFile){
+          const formData = new FormData()
+          formData.append('file',imageFile)
+
+          try{
+            const res = await axios({
+              method:'post',
+              url: `http://localhost:8080/api/v1/post/${nextId}/images`,
+              data: formData,
+              headers:{
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'multipart/form-data'
+              },
+            })
+          }catch(e){
+            console.log(e)
+          }
+
+        }
         console.log(axios)
         console.log(response)
       }catch(error){
         console.log(error)
       }
       console.log(title,content)
+      alert('게시물이 생성되었습니다!')
+      navigate('/')
   };
 
 
   return (
     <div className='createPostLayout'>
       <div className='createPostImg'>
-        s
       </div>
       <div className='createPostFlex' >
       <div className='createPost'>
@@ -116,12 +174,12 @@ const CreatePostPage = () => {
         <PostTitleInput onValueChange={handleTitleChange} />
         <PostThumbnailInput />
         <PostEditor onChangeEditor={handleEditorChange} />
-        <HashTag
+        {/* <HashTag
           hashTags={[]}
           setHashTags={function (value: React.SetStateAction<string[]>): void {
             throw new Error('Function not implemented.');
           }}
-        />
+        /> */}
         <Button
           className="ml-auto mt-5"
           onClick={handleClick}

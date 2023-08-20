@@ -151,7 +151,10 @@ const Preview = (queryString: any) => {
                   />
                 </HeartLayout>
                 <ImgWrap>
-                  <Img onClick={() => goto(datas.id)}>
+                  <Img style={{
+                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
+                    }} 
+                    onClick={() => goto(datas.id)}>
                     <ImgInfo></ImgInfo>
                   </Img>
                 </ImgWrap>

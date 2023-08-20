@@ -31,31 +31,31 @@ const PostThumbnailInput: React.FC = () => {
     }
   };
 
-  const uploadS3 = () => {
-    // todo s3 설정 이후 작성
-    const REGION = '';
-    const ACCESS_KEY_ID = '';
-    const SECRET_ACCESS_KEY = '';
+  // const uploadS3 = () => {
+  //   // todo s3 설정 이후 작성
+  //   const REGION = '';
+  //   const ACCESS_KEY_ID = '';
+  //   const SECRET_ACCESS_KEY = '';
 
-    AWS.config.update({
-      region: REGION,
-      accessKeyId: ACCESS_KEY_ID,
-      secretAccessKey: SECRET_ACCESS_KEY,
-    });
+  //   AWS.config.update({
+  //     region: REGION,
+  //     accessKeyId: ACCESS_KEY_ID,
+  //     secretAccessKey: SECRET_ACCESS_KEY,
+  //   });
 
-    const upload = new AWS.S3.ManagedUpload({
-      params: {
-        ACL: 'public-read',
-        Bucket: 'YOUR_BUCKET_NAME',
-        Key: `upload/${imageFile?.name ?? ''}`,
-        Body: imageFile,
-      },
-    });
+  //   const upload = new AWS.S3.ManagedUpload({
+  //     params: {
+  //       ACL: 'public-read',
+  //       Bucket: 'YOUR_BUCKET_NAME',
+  //       Key: `upload/${imageFile?.name ?? ''}`,
+  //       Body: imageFile,
+  //     },
+  //   });
 
-    upload.promise().then(() => {
-      console.log('업로드 완료');
-    });
-  };
+  //   upload.promise().then(() => {
+  //     console.log('업로드 완료');
+  //   });
+  // };
 
   return (
     <>

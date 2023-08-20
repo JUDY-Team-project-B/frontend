@@ -1,5 +1,7 @@
 export interface PostType {
+
   id: number;
+  imageUrls: string;
   title: string;
   context: string;
   tags: string[];
