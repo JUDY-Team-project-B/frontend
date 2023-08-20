@@ -271,7 +271,7 @@ function Detail() {
           <Title>{data.title}</Title>
           <DestinationContainer>
             <Destination>여행지역</Destination>
-            <DestinationValue>{data.travelAt}</DestinationValue>
+            <DestinationValue>{data.travelState} {data.travelCity}</DestinationValue>
           </DestinationContainer>
           <PeopleContainer>
             <People>모집인원</People>

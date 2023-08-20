@@ -115,7 +115,7 @@ const Preview = (queryString: any) => {
                 <ProfileWrap>
                   <Profile />
                   <InfoWrap>
-                    <Nickname>{datas.id}</Nickname>
+                    <Nickname>{datas.nickname}</Nickname>
                     {/* 닉네임으로 변경 */}
                     <Gender>
                       {' '}
@@ -173,7 +173,7 @@ const Preview = (queryString: any) => {
                   <PlaceLayout>
                     <img src={place} alt="Place"/>
                   </PlaceLayout>
-                  <DestinationText>{datas.travelAt}</DestinationText>
+                  <DestinationText>{datas.travelState}{datas.travelCity}</DestinationText>
                 </DestinationWrap>
                 <Title onClick={() => goto(datas.id)}>{datas.title}</Title>
                 <Member>{datas.travelMember}인 동행을 원해요!</Member>

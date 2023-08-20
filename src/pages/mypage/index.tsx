@@ -233,7 +233,7 @@ function Profile() {
                       {/* OnclickEvent없음 */}
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelAt}</Where>
+                    <Where>{datas.travelState}{datas.travelCity}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       <Date>

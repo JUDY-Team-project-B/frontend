@@ -201,7 +201,7 @@ const InfinitePostList = (queryString: any) => {
                   <PlaceLayout>
                     <img src={place} alt="Place"/>
                   </PlaceLayout>
-                  <DestinationText>{datas.travelAt}</DestinationText>
+                  <DestinationText>{datas.travelState} {datas.travelCity}</DestinationText>
                 </DestinationWrap>
                 <Title onClick={() => goto(datas.id)}>{datas.title}</Title>
                 <Member>{datas.travelMember}인 동행을 원해요!</Member>
