@@ -30,14 +30,22 @@ export const Login = () => {
     });
     localStorage.removeItem('accessToken');
     navigate('/');
+    location.reload();
   };
 
   const gotoMypage = () => {
     navigate('/mypage');
+    location.reload();
+  };
+
+  const gotoWrite = () => {
+    navigate('/create-post');
+    location.reload();
   };
 
   const gotoRegister = () => {
     navigate('/register');
+    location.reload();
   };
   if (isLogin === false) {
     return (
@@ -79,6 +87,7 @@ export const Login = () => {
   } else {
     return (
       <div style={{ marginLeft: '8rem', display: 'flex', marginRight: '3rem' }}>
+        
         <div
           style={{
             display: 'flex',
@@ -109,6 +118,7 @@ export const Login = () => {
         >
           <button onClick={logout}>로그아웃</button>
         </div>
+        
       </div>
     );
   }

@@ -12,6 +12,7 @@ import likeIcon from '@mui/icons-material/Favorite';
 import unlikeIcon from '@mui/icons-material/FavoriteBorder';
 import gyeongju from '@/assets/image/trip3.jpg';
 import place from '@/assets/image/placeholder.png';
+import { useNavigate } from 'react-router-dom';
 
 export interface UserType {
   age: number;
@@ -30,6 +31,7 @@ function Profile() {
   const [data, setData] = useState<UserType | undefined>();
   const [activeSection, setActiveSection] = useState('mypost');
   const [id, setId] = useState('');
+  const navigate = useNavigate();
   const [postdata, setPostData] = useState<PostType[] | undefined>();
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
@@ -162,8 +164,19 @@ function Profile() {
     }
   };
 
+  const goto = (num: number): void => {
+    const postnum = String(num);
+    const queryParems = new URLSearchParams();
+    queryParems.set('q', postnum);
+    const queryString = queryParems.toString();
+    navigate(`/detail?${queryString}`);
+  };
+
   return (
     <div>
+      <div>dummy</div>
+      <div>dummy</div>
+      <div>dummy</div>
       <BackgroundWrap>
         <Bg>
           {data && (
@@ -230,7 +243,11 @@ function Profile() {
                     </DateWrap>
                   </TopWrap>
                   <ImgWrap>
-                    <Img /*onClick={() => goto(datas.id)}*/ />
+                  <Img style={{
+                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
+                    }} 
+                    onClick={() => goto(datas.id)}>
+                  </Img>
                   </ImgWrap>
                   <PostTitle>{datas.title}</PostTitle>
                 </PostWrap>
@@ -296,7 +313,7 @@ function Profile() {
                     <PlaceLayout>
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelCity}</Where>
+                    <Where>{datas.travelAt}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       {/* //onClickEvent없음 */}
@@ -326,7 +343,11 @@ function Profile() {
                     />
                   </LikeWrap>
                   <ImgWrap>
-                    <Img /*onClick={() => goto(datas.id)}*/ />
+                  <Img style={{
+                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
+                    }} 
+                    onClick={() => goto(datas.id)}>
+                  </Img>
                   </ImgWrap>
 
                   <PostTitle>{datas.title}</PostTitle>
@@ -342,8 +363,14 @@ function Profile() {
 
 export default Profile;
 
+const Dummy = styled.div`
+height: 20rem
+<wight:1rem></wight:1rem>
+
+`
+
 const BackgroundWrap = styled.div`
-  height: 49rem;
+  height: 55rem;
   width: 100%;
   display: flex;
   font-family: 'NanumSquareNeo-Variable';
@@ -444,7 +471,7 @@ const PostWrap = styled.button`
 const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 17%;
+  width: 15%;
   margin-top: 2.3rem;
   margin-left: 1rem;
   z-index: 999;
@@ -458,7 +485,7 @@ const Where = styled.div`
   display: flex;
   text-align: left;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 0.9rem;
   color: #0792e3;
 `;
 

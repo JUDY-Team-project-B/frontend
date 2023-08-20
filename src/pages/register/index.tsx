@@ -144,6 +144,8 @@ const SignUpPage: React.FC = () => {
 
   return (
     <SignUpContainer>
+      <div>dummy</div>
+      <div>dummy</div>
       <Title>HANG OUT</Title>
       <SignUpForm onSubmit={handleSignUp}>
         <InputTitle>이메일</InputTitle>
@@ -320,6 +322,7 @@ const DuplicationButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
+  font-size: small;
 `;
 
 const Button = styled.button`

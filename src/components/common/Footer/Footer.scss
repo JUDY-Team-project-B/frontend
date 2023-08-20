@@ -1,12 +1,13 @@
 .footerlayout {
   width: 100%;
-  height: 100px;
-  background-color: white;
+  height: 200px;
+  background-color: #f5f6f7;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #3db9ff;
-  font-size: large;
+  justify-content: center;
+  color:black;
+  font-size: 0.8rem;
   font-weight: bold;
 }
 
@@ -18,10 +19,11 @@
   justify-content: space-between;
 }
 
-.rightdiv {
-  width: 20rem;
+.footerrightdiv {
+  width: 100rem;
   height: 100%;
   display: flex;
+  align-items: center;
   flex-direction: row;
 }
 

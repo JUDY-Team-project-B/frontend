@@ -8,11 +8,12 @@ import { restFetcher } from '@/queryClient';
 import axios from 'axios';
 import { UserType } from '../mypage';
 import { commentType } from '@/types/post';
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 function Detail() {
 
-  const location = useLocation();
-  const queryParems = new URLSearchParams(location.search);
+  const locations = useLocation();
+  const queryParems = new URLSearchParams(locations.search);
   const searchTerm = queryParems.get('q');
   
   const [PostData, setPostData] = useState<any[]|any>([]);
@@ -34,6 +35,9 @@ function Detail() {
   const [comments,setComments] = useState<any|undefined>('');
   const [myData, setMyData] = useState<any|undefined>('');
   const [ChildrenComment, setChildrenComment] = useState<any|undefined>()
+
+  const [repo, setRepo] = useState("auto-test");
+  const [path, setPath] = useState("READ.md");
 
   const setIsSelect = (index:number) =>{
     setChildrenComment('');
@@ -96,7 +100,7 @@ function Detail() {
     try{
       const response = await axios.post('http://localhost:8080/api/v1/comment',
         {
-          userId:1,
+          userId:userData.id,
           postId:searchTerm,
           parentId:"",
           content:comments,
@@ -106,20 +110,20 @@ function Detail() {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             'Access-Control-Allow-Origin': '*'}
         }
-  
       )
       console.log(response)
       alert('작성되었습니다')
+      
     }catch(error){
       console.log(error)
     }
+    location.reload();
   }
 
   const sendChildcomment =async (parentId:number) => {
     try{
       const response = await axios.put('http://localhost:8080/api/v1/comment',
         {
-
           content:ChildrenComment,
         },
         {
@@ -155,10 +159,12 @@ function Detail() {
   
       )
       console.log(response)
-      alert('작성되었습니다')
+      alert('삭제되었습니다')
     }catch(error){
       console.log(error)
     }
+    location.reload();
+
   }
 
 
@@ -202,23 +208,7 @@ function Detail() {
       }
     }
 
-    async function UserData(): Promise<void> {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/v1/user/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-            }
-          });
-        console.log(response);
-        const responseData = response.data.data;
-        console.log(responseData);
-        setUserData(responseData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+
 
     async function MyData(): Promise<void> {
       try {
@@ -240,9 +230,29 @@ function Detail() {
     MyData();
     PostListData();
     CommentListData();
-    UserData();
   },[searchTerm])
 
+
+  useEffect(()=>{
+    async function UserData(): Promise<void> {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/v1/user/${data.userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            }
+          });
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setUserData(responseData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    UserData();
+  },[data])
 
 
   return (
@@ -265,21 +275,22 @@ function Detail() {
           </DateContainer>
           <ContentsContainer>
             <Content>
-              {data.context}
+              <div dangerouslySetInnerHTML ={{__html:data.context}}></div>
             </Content>
           </ContentsContainer>
-          <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer>
+          {/* <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer> */}
           <PostContainer>
-            <PostDate>2023.06.11 09:24</PostDate>
-            <PostView>조회수 33</PostView>
-            <PostComment>댓글 2</PostComment>
+            {/* <PostDate>{data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)}</PostDate> */}
+            <PostDate>{data.createdAt}</PostDate>
+            <PostView>조회수 {data.viewCount}</PostView>
+            <PostComment>댓글 {commentData.length}</PostComment>
           </PostContainer>
         </LeftContainer>
         <RightContainer>
           <ProfileImg>
-            <ProfileName>사진작가 이씨</ProfileName>
-            <ProfileInfo>20대 남자</ProfileInfo>
-            <ProfileIntroduce>사진찍는 걸 좋아해요!</ProfileIntroduce>
+            <ProfileName>{userData.nickname}</ProfileName>
+            <ProfileInfo>{userData.age}대 {userData.gender}</ProfileInfo>
+            <ProfileIntroduce>{userData.description}</ProfileIntroduce>
           </ProfileImg>
         </RightContainer>
       </Container>
@@ -288,16 +299,21 @@ function Detail() {
           <CommentInput onChange={onSearch} value={comments}></CommentInput>
           <Button onClick={sendComment}>게시</Button>
         </CommentLayout>
+        {/* 일반적인 댓글 작성 */}
+
+
+
         <div>
           {commentData?.map((datas:any,index:any)=>(
             <div>
               <Comment>
                 <CommentInfo>
-                  {datas.nickname} {datas.createdAt}
+                  {/* {datas.nickname} {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
+                  {datas.nickname}
                   {datas.nickname === myData.nickname ? 
                   <div>
                     <Text onClick={()=>setCommentIsSelect(index)}>수정</Text>
-                    <Text onClick={()=>Deletecomment(index)}>삭제</Text>
+                    <Text onClick={()=>Deletecomment(datas.id)}>삭제</Text>
                   </div> : ''}
                 </CommentInfo>
                 <CommentContent>
@@ -309,12 +325,19 @@ function Detail() {
                     <CommentInput onChange={onChildcomment} value={ChildrenComment}/>
                     <Button onClick={()=>sendChildcomment(index)}>게시</Button>
                   </CommentLayout>}
+                  {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
+                  
               </Comment>
               <div>{datas.children?.map((comment:any,index:any)=>(
                 <ChildrenComments>
                   <CommentInfo>
-                    {comment.nickname} {comment.createdAt}
-                    
+                    {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
+                    {comment.nickname}
+                    {comment.nickname === myData.nickname ? 
+                  <div>
+                    <Text onClick={()=>setCommentIsSelect(index)}>수정</Text>
+                    <Text onClick={()=>Deletecomment(index)}>삭제</Text>
+                  </div> : ''}
                   </CommentInfo>
                   <CommentContent>
                     <Text>--{comment.content}</Text>
@@ -368,6 +391,7 @@ const ChildrenComments = styled.div`
 const Bg = styled.div`
   background-color: #eaf0f8;
   height: 100%;
+  padding-bottom: 2rem;
 `;
 
 const TitleImg = styled.div`
@@ -486,7 +510,7 @@ const ContentsContainer = styled.div`
 const Content = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 38rem;
+  min-width: 38rem;
   overflow: visible;
   margin-top: 3rem;
   margin-left: 1rem;
@@ -510,7 +534,7 @@ const PostContainer = styled.div`
 const PostDate = styled.div`
   font-size: 1.1rem;
   height: 2rem;
-  width: 9rem;
+  width: 13rem;
   overflow: visible;
   color: #9f9e9e;
   font-weight: 600;

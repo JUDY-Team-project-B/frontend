@@ -119,14 +119,14 @@ const Preview = (queryString: any) => {
                     {/* 닉네임으로 변경 */}
                     <Gender>
                       {' '}
-                      {datas.travelAge} | {datas.travelGender}
+                      {datas.travelAge}대 | {datas.travelGender}
                     </Gender>
                   </InfoWrap>
                 </ProfileWrap>
                 <DateWrap>
                   <DateTitle>여행 기간</DateTitle>
-                  <Date>08/05 - 08/09</Date>
-                  {/* 기간 설정 */}
+                  <Date>{datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
+                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}</Date>
                 </DateWrap>
               </TopWarp>
               <MiddleWrap>
@@ -151,7 +151,10 @@ const Preview = (queryString: any) => {
                   />
                 </HeartLayout>
                 <ImgWrap>
-                  <Img onClick={() => goto(datas.id)}>
+                  <Img style={{
+                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
+                    }} 
+                    onClick={() => goto(datas.id)}>
                     <ImgInfo></ImgInfo>
                   </Img>
                 </ImgWrap>
@@ -247,7 +250,7 @@ const DestinationWrap = styled.div`
 const DestinationText = styled.div`
   height: 2rem;
   padding: 0.2rem;
-  width: 5rem;
+  width: 8rem;
   display: flex;
   text-align: center;
   border-radius: 0.6rem;
@@ -275,7 +278,7 @@ const Img = styled.button`
   margin-top: -3rem;
   height: 20rem;
   border-radius: 1rem;
-  background-size: 100% 100%;
+  background-size: cover;
   background-image: url(${gyeongju});
   background-repeat: no-repeat;
   transition: transform 0.5s;

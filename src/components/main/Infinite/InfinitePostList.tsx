@@ -143,18 +143,18 @@ const InfinitePostList = (queryString: any) => {
                 <ProfileWrap>
                   <Profile />
                   <InfoWrap>
-                    <Nickname>{datas.id}</Nickname>
+                    <Nickname>{datas.nickname}</Nickname>
                     {/* 닉네임으로 변경 */}
                     <Gender>
                       {' '}
-                      {datas.travelAge} | {datas.travelGender}
+                      {datas.travelAge}대 | {datas.travelGender}
                     </Gender>
                   </InfoWrap>
                 </ProfileWrap>
                 <DateWrap>
                   <DateTitle>여행 기간</DateTitle>
-                  <Date>08/05 - 08/09</Date>
-                  {/* 기간 설정 */}
+                  <Date>{datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
+                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}</Date>
                 </DateWrap>
               </TopWarp>
               <MiddleWrap>
@@ -179,7 +179,10 @@ const InfinitePostList = (queryString: any) => {
                   />
                 </HeartLayout>
                 <ImgWrap>
-                  <Img onClick={() => goto(datas.id)}>
+                   <Img style={{
+                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
+                    }} 
+                    onClick={() => goto(datas.id)}>
                     <ImgInfo></ImgInfo>
                   </Img>
                 </ImgWrap>
@@ -276,14 +279,14 @@ const DestinationWrap = styled.div`
 const DestinationText = styled.div`
   height: 2rem;
   padding: 0.2rem;
-  width: 5rem;
+  width: 8rem;
   display: flex;
   text-align: center;
   border-radius: 0.6rem;
   font-weight: 750;
   color: #0792e3;
   z-index: 99;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   overflow: visible;
   margin-left: 0.2rem;
 `;

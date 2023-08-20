@@ -5,7 +5,10 @@ export const Footer = () => {
 
   return (
     <div className="footerlayout">
-        footer
+        <div className='footerrightdiv'>
+        Copyright Hangout Inc.All Rights Resvered
+        </div>
+        <div className='leftdiv'></div>
     </div>
   );
 };
