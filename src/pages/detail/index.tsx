@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import titleImg from '../../assets/image/image1.png';
 import user from '../../assets/image/user.png';
@@ -8,192 +8,200 @@ import { restFetcher } from '@/queryClient';
 import axios from 'axios';
 import { UserType } from '../mypage';
 import { commentType } from '@/types/post';
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 
 function Detail() {
-
   const locations = useLocation();
   const queryParems = new URLSearchParams(locations.search);
   const searchTerm = queryParems.get('q');
-  
-  const [PostData, setPostData] = useState<any[]|any>([]);
-  const [postnum, setPostnum] = useState<string|undefined>('');
-  const [data, setData] = useState<any|undefined>('');
-  const [commentData, setCommentData] = useState<commentType[]>([    
+
+  const [PostData, setPostData] = useState<any[] | any>([]);
+  const [postnum, setPostnum] = useState<string | undefined>('');
+  const [data, setData] = useState<any | undefined>('');
+  const [commentData, setCommentData] = useState<commentType[]>([
     {
       children: [],
       content: '',
-      createdAt : '',
-      id : 0,
+      createdAt: '',
+      id: 0,
       isSelect: false,
-      likeCount :0,
-      nickname : '',
-    }
+      likeCount: 0,
+      nickname: '',
+    },
   ]);
-  const [userId, setUserId] = useState<any|undefined>('');
-  const [userData, setUserData] = useState<any|undefined>('');
-  const [comments,setComments] = useState<any|undefined>('');
-  const [myData, setMyData] = useState<any|undefined>('');
-  const [ChildrenComment, setChildrenComment] = useState<any|undefined>()
+  const [userId, setUserId] = useState<any | undefined>('');
+  const [userData, setUserData] = useState<any | undefined>('');
+  const [comments, setComments] = useState<any | undefined>('');
+  const [myData, setMyData] = useState<any | undefined>('');
+  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
 
-  const [repo, setRepo] = useState("auto-test");
-  const [path, setPath] = useState("READ.md");
+  const [repo, setRepo] = useState('auto-test');
+  const [path, setPath] = useState('READ.md');
 
-  const setIsSelect = (index:number) =>{
+  const setIsSelect = (index: number) => {
     setChildrenComment('');
     setCommentData((prevData) => {
       const newData = [...prevData];
-      if(newData[index].isSelect === false){
-        for(let i = 0; i<newData.length; i++){
+      if (newData[index].isSelect === false) {
+        for (let i = 0; i < newData.length; i++) {
           newData[i] = {
             ...newData[i],
-            isSelect: false, 
+            isSelect: false,
           };
         }
         newData[index] = {
-          ...newData[index], 
-          isSelect: !newData[index].isSelect, 
-        };
-        return newData;
-      }else{
-        newData[index] = {
-          ...newData[index], 
-          isSelect: !newData[index].isSelect, 
-        };
-        return newData;
-      } 
-    });
-    console.log(commentData)
-  }
-
-  const setCommentIsSelect = (index:number) =>{
-    setChildrenComment('');
-    setCommentData((prevData) => {
-      const newData = [...prevData];// 기존 데이터 가져오기
-
-      if(newData[index].isSelect === false){ // 선택이 안되어있는 경우
-        for(let i = 0; i<newData.length; i++){
-          newData[i] = {
-            ...newData[i],
-            isSelect: false, 
-          };
-        }
-        newData[index] = {
-          ...newData[index], 
+          ...newData[index],
           isSelect: !newData[index].isSelect,
         };
         return newData;
-      }else{ //다른곳이 선택이 되어있는 경우
+      } else {
         newData[index] = {
           ...newData[index],
-          isSelect: !newData[index].isSelect, 
+          isSelect: !newData[index].isSelect,
         };
         return newData;
-      } 
-
-    });
-    setChildrenComment(commentData[index].content)
-    console.log(commentData)
-  }
-
-  const sendComment = async () =>{
-    try{
-      const response = await axios.post('http://localhost:8080/api/v1/comment',
-        {
-          userId:userData.id,
-          postId:searchTerm,
-          parentId:"",
-          content:comments,
-        },
-        {
-          headers:{
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            'Access-Control-Allow-Origin': '*'}
-        }
-      )
-      console.log(response)
-      alert('작성되었습니다')
-      
-    }catch(error){
-      console.log(error)
-    }
-    location.reload();
-  }
-
-  const sendChildcomment =async (parentId:number) => {
-    try{
-      const response = await axios.put('http://localhost:8080/api/v1/comment',
-        {
-          content:ChildrenComment,
-        },
-        {
-          headers:{
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            'Access-Control-Allow-Origin': '*'}
-        }
-      )
-      console.log(response)
-      alert('작성되었습니다')
-    }catch(error){
-      console.log(error)
-    }
-  }
-
-  const onSearch = (e:any) => {
-    setComments(e.target.value)
-    console.log(comments);
-  }
-
-  const onChildcomment = (e:any) =>{
-    setChildrenComment(e.target.value)
-  }
-
-  const Deletecomment =  async (index:any) =>{
-    try{
-      const response = await axios.delete(`http://localhost:8080/api/v1/comment/${index}`,
-        {
-          headers:{
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            'Access-Control-Allow-Origin': '*'}
-        }
-  
-      )
-      console.log(response)
-      alert('삭제되었습니다')
-    }catch(error){
-      console.log(error)
-    }
-    location.reload();
-
-  }
-
-
-  useEffect(()=>{
-    const PostListData =async () => {
-      try{
-        const response = await axios.get(`http://localhost:8080/api/v1/post/${searchTerm}`,
-        {headers:{Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        'Access-Control-Allow-Origin': '*',
-
-      }})
-        console.log(response)
-        const responseData = response.data.data
-        console.log(responseData)
-        setData(responseData)
-        setUserId(data.nickname)
-      }catch(error){
-        console.log(error)
       }
+    });
+    console.log(commentData);
+  };
+
+  const setCommentIsSelect = (index: number) => {
+    setChildrenComment('');
+    setCommentData((prevData) => {
+      const newData = [...prevData]; // 기존 데이터 가져오기
+
+      if (newData[index].isSelect === false) {
+        // 선택이 안되어있는 경우
+        for (let i = 0; i < newData.length; i++) {
+          newData[i] = {
+            ...newData[i],
+            isSelect: false,
+          };
+        }
+        newData[index] = {
+          ...newData[index],
+          isSelect: !newData[index].isSelect,
+        };
+        return newData;
+      } else {
+        //다른곳이 선택이 되어있는 경우
+        newData[index] = {
+          ...newData[index],
+          isSelect: !newData[index].isSelect,
+        };
+        return newData;
+      }
+    });
+    setChildrenComment(commentData[index].content);
+    console.log(commentData);
+  };
+
+  const sendComment = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/comment',
+        {
+          userId: userData.id,
+          postId: searchTerm,
+          parentId: '',
+          content: comments,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log(response);
+      alert('작성되었습니다');
+    } catch (error) {
+      console.log(error);
     }
-    async function CommentListData(): Promise<void> {
+    location.reload();
+  };
+
+  const sendChildcomment = async (parentId: number) => {
+    try {
+      const response = await axios.put(
+        'http://localhost:8080/api/v1/comment',
+        {
+          content: ChildrenComment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log(response);
+      alert('작성되었습니다');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSearch = (e: any) => {
+    setComments(e.target.value);
+    console.log(comments);
+  };
+
+  const onChildcomment = (e: any) => {
+    setChildrenComment(e.target.value);
+  };
+
+  const Deletecomment = async (index: any) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/v1/comment/${index}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log(response);
+      alert('삭제되었습니다');
+    } catch (error) {
+      console.log(error);
+    }
+    location.reload();
+  };
+
+  useEffect(() => {
+    const PostListData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/comment/${searchTerm}`,
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/post/${searchTerm}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
-            }
-          });
+            },
+          },
+        );
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setData(responseData);
+        setUserId(data.nickname);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    async function CommentListData(): Promise<void> {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/comment/${searchTerm}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
         console.log(response);
         const responseData = response.data.data;
         if (responseData) {
@@ -208,17 +216,17 @@ function Detail() {
       }
     }
 
-
-
     async function MyData(): Promise<void> {
       try {
-        const response = await axios.get('http://localhost:8080/api/v1/user/me',
+        const response = await axios.get(
+          'http://localhost:8080/api/v1/user/me',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
-            }
-          });
+            },
+          },
+        );
         console.log(response);
         const responseData = response.data.data;
         console.log(responseData);
@@ -230,19 +238,20 @@ function Detail() {
     MyData();
     PostListData();
     CommentListData();
-  },[searchTerm])
+  }, [searchTerm]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     async function UserData(): Promise<void> {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/user/${data.userId}`,
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/user/${data.userId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
-            }
-          });
+            },
+          },
+        );
         console.log(response);
         const responseData = response.data.data;
         console.log(responseData);
@@ -252,8 +261,7 @@ function Detail() {
       }
     }
     UserData();
-  },[data])
-
+  }, [data]);
 
   return (
     <Bg>
@@ -271,11 +279,13 @@ function Detail() {
           </PeopleContainer>
           <DateContainer>
             <Date>여행날짜</Date>
-            <Dates>{data.travelDateStart} ~ {data.travelDateEnd}</Dates>
+            <Dates>
+              {data.travelDateStart} ~ {data.travelDateEnd}
+            </Dates>
           </DateContainer>
           <ContentsContainer>
             <Content>
-              <div dangerouslySetInnerHTML ={{__html:data.context}}></div>
+              <div dangerouslySetInnerHTML={{ __html: data.context }}></div>
             </Content>
           </ContentsContainer>
           {/* <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer> */}
@@ -289,7 +299,9 @@ function Detail() {
         <RightContainer>
           <ProfileImg>
             <ProfileName>{userData.nickname}</ProfileName>
-            <ProfileInfo>{userData.age}대 {userData.gender}</ProfileInfo>
+            <ProfileInfo>
+              {userData.age}대 {userData.gender}
+            </ProfileInfo>
             <ProfileIntroduce>{userData.description}</ProfileIntroduce>
           </ProfileImg>
         </RightContainer>
@@ -301,49 +313,76 @@ function Detail() {
         </CommentLayout>
         {/* 일반적인 댓글 작성 */}
 
-
-
         <div>
-          {commentData?.map((datas:any,index:any)=>(
+          {commentData?.map((datas: any, index: any) => (
             <div>
               <Comment>
                 <CommentInfo>
                   {/* {datas.nickname} {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                  {datas.nickname}
-                  {datas.nickname === myData.nickname ? 
-                  <div>
-                    <Text onClick={()=>setCommentIsSelect(index)}>수정</Text>
-                    <Text onClick={()=>Deletecomment(datas.id)}>삭제</Text>
-                  </div> : ''}
+                  <CommentWriter>{datas.nickname}</CommentWriter>
+                  {datas.nickname === myData.nickname ? (
+                    <div
+                      style={{
+                        display: 'flex',
+                        width: '90%',
+                        justifyContent: 'right',
+                      }}
+                    >
+                      <CommentButton onClick={() => setCommentIsSelect(index)}>
+                        수정
+                      </CommentButton>
+                      <CommentButton onClick={() => Deletecomment(datas.id)}>
+                        삭제
+                      </CommentButton>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                 </CommentInfo>
                 <CommentContent>
                   <Text>{datas.content}</Text>
-                  <button onClick={()=>setIsSelect(index)}>답글</button>
+                  <CommentButton2 onClick={() => setIsSelect(index)}>
+                    답글
+                  </CommentButton2>
                 </CommentContent>
-                {datas.isSelect === false ? '' :
+                {datas.isSelect === false ? (
+                  ''
+                ) : (
                   <CommentLayout>
-                    <CommentInput onChange={onChildcomment} value={ChildrenComment}/>
-                    <Button onClick={()=>sendChildcomment(index)}>게시</Button>
-                  </CommentLayout>}
-                  {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
-                  
+                    <CommentInput
+                      onChange={onChildcomment}
+                      value={ChildrenComment}
+                    />
+                    <Button onClick={() => sendChildcomment(index)}>
+                      게시
+                    </Button>
+                  </CommentLayout>
+                )}
+                {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
               </Comment>
-              <div>{datas.children?.map((comment:any,index:any)=>(
-                <ChildrenComments>
-                  <CommentInfo>
-                    {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                    {comment.nickname}
-                    {comment.nickname === myData.nickname ? 
-                  <div>
-                    <Text onClick={()=>setCommentIsSelect(index)}>수정</Text>
-                    <Text onClick={()=>Deletecomment(index)}>삭제</Text>
-                  </div> : ''}
-                  </CommentInfo>
-                  <CommentContent>
-                    <Text>--{comment.content}</Text>
-                  </CommentContent>
-                </ChildrenComments>
-            ))}</div>
+              <div>
+                {datas.children?.map((comment: any, index: any) => (
+                  <ChildrenComments>
+                    <CommentInfo>
+                      {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
+                      {comment.nickname}
+                      {comment.nickname === myData.nickname ? (
+                        <div>
+                          <Text onClick={() => setCommentIsSelect(index)}>
+                            수정
+                          </Text>
+                          <Text onClick={() => Deletecomment(index)}>삭제</Text>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </CommentInfo>
+                    <CommentContent>
+                      <Text>--{comment.content}</Text>
+                    </CommentContent>
+                  </ChildrenComments>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -355,38 +394,79 @@ function Detail() {
 export default Detail;
 
 const CommentLayout = styled.div`
-  margin:0px;
-  height:90px;
-`
+  margin: 0px;
+  height: 90px;
+`;
 
 const Comment = styled.div`
+  width: 40rem;
+  border-radius: 1rem;
+  border: 1px solid #f2f2f2;
+  margin-top: 1rem;
+  padding: 8px;
+  background-color: #ffffff;
+  font-family: 'NanumSquareNeo-Variable';
+`;
 
-  width:45rem;
-`
+const CommentButton = styled.div`
+  padding: 8px;
+  border-radius: 0.7rem;
+  cursor: pointer;
+  color: #6b9af9;
+  margin-left: 1rem;
+  &:hover {
+    color: #aac3f5;
+    cursor: pointer;
+  }
+`;
+
+const CommentButton2 = styled.div`
+  padding: 8px;
+  border-radius: 0.7rem;
+  background-color: #6baef6;
+  color: white;
+
+  &:hover {
+    background-color: #9bc8f9;
+    color: #f9f7f7;
+    cursor: pointer;
+  }
+`;
 
 const Text = styled.div`
-  padding:8px;
-`
+  padding: 8px;
+
+  margin-left: 0.55rem;
+`;
+
+const CommentWriter = styled.div`
+  overflow: visible;
+  display: flex;
+  flex-direction: row;
+  width: 10rem;
+  margin-top: 0.5rem;
+  font-size: 1.15rem;
+`;
 
 const CommentInfo = styled.div`
-  overflow:hidden;
-  display:flex;
+  overflow: hidden;
+  display: flex;
   flex-direction: row;
-`
+  margin-left: 1rem;
+`;
 
 const CommentContent = styled.div`
-  display:flex;
+  display: flex;
   overflow: hidden;
   flex-direction: row;
   justify-content: space-between;
-
-`
+`;
 
 const ChildrenComments = styled.div`
-  height:50px;
-  width:45rem;
-  background-color:#afbdd3
-`
+  height: 50px;
+  width: 45rem;
+  background-color: #afbdd3;
+`;
 
 const Bg = styled.div`
   background-color: #eaf0f8;
@@ -615,7 +695,7 @@ const Container2 = styled.div`
   width: 70rem;
   margin-left: 12rem;
   display: flex;
-  flex-direction:column
+  flex-direction: column;
 `;
 
 const CommentInput = styled.input`
