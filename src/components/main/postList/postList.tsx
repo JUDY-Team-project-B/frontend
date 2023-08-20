@@ -125,8 +125,8 @@ const Preview = (queryString: any) => {
                 </ProfileWrap>
                 <DateWrap>
                   <DateTitle>여행 기간</DateTitle>
-                  <Date>08/05 - 08/09</Date>
-                  {/* 기간 설정 */}
+                  <Date>{datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
+                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}</Date>
                 </DateWrap>
               </TopWarp>
               <MiddleWrap>
