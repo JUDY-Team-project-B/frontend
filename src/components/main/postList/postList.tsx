@@ -250,7 +250,7 @@ const DestinationWrap = styled.div`
 const DestinationText = styled.div`
   height: 2rem;
   padding: 0.2rem;
-  width: 5rem;
+  width: 8rem;
   display: flex;
   text-align: center;
   border-radius: 0.6rem;
