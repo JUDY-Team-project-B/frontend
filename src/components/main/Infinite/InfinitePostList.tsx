@@ -143,7 +143,7 @@ const InfinitePostList = (queryString: any) => {
                 <ProfileWrap>
                   <Profile />
                   <InfoWrap>
-                    <Nickname>{datas.id}</Nickname>
+                    <Nickname>{datas.nickname}</Nickname>
                     {/* 닉네임으로 변경 */}
                     <Gender>
                       {' '}
