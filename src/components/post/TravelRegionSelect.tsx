@@ -24,6 +24,7 @@ const travelRegions: TravelRegion[] = [
 const TravelRegionSelect = ({onValueChange}) => {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
+  
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRegion(e.target.value);
@@ -39,7 +40,7 @@ const TravelRegionSelect = ({onValueChange}) => {
   useEffect(()=>{
     console.log(selectedRegion)
     console.log(selectedCity)
-    onValueChange(selectedRegion+selectedCity)
+    onValueChange([selectedRegion,selectedCity])
   },[selectedCity])
 
   return (

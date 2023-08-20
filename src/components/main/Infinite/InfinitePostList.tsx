@@ -36,7 +36,7 @@ const InfinitePostList = (queryString: any) => {
         {
           params: {
             searchType: Type,
-            searchKeyword: keyword,
+            searchKeyword1: keyword,
           },
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

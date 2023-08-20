@@ -100,7 +100,7 @@ export const Header = () => {
     eng:"nickname"
   },{
     korea:"지역",
-    eng:"where"
+    eng:"stateAndCity"
   }];
 
   const handleSelect = (e:any) => {

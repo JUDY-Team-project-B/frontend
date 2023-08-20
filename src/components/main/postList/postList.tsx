@@ -28,11 +28,11 @@ const Preview = (queryString: any) => {
       console.log(keyword)
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/post/${url}`,
+          `http://localhost:8080/api/v1/post/all/0`,
           {
             params: {
               searchType: Type,
-              searchKeyword: keyword,
+              searchKeyword1: keyword,
             },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
