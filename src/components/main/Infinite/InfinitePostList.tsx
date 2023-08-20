@@ -147,7 +147,7 @@ const InfinitePostList = (queryString: any) => {
                     {/* 닉네임으로 변경 */}
                     <Gender>
                       {' '}
-                      {datas.travelAge} | {datas.travelGender}
+                      {datas.travelAge}대 | {datas.travelGender}
                     </Gender>
                   </InfoWrap>
                 </ProfileWrap>

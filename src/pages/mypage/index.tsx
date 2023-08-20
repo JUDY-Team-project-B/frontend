@@ -360,8 +360,14 @@ function Profile() {
 
 export default Profile;
 
+const Dummy = styled.div`
+height: 20rem
+<wight:1rem></wight:1rem>
+
+`
+
 const BackgroundWrap = styled.div`
-  height: 49rem;
+  height: 55rem;
   width: 100%;
   display: flex;
   font-family: 'NanumSquareNeo-Variable';

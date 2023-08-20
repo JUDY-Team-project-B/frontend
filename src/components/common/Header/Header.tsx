@@ -117,7 +117,7 @@ export const Header = () => {
               HANG OUT
             </button>
             <button onClick={gotoWrite}>
-              글쓰기
+              떠나기
             </button >
           </div>
         </div>
@@ -136,7 +136,7 @@ export const Header = () => {
               onChange={setWord}
               value={keyword}
             />
-            <button onClick={search}>검색</button>
+            <button className='buttonDisign' onClick={search}>검색</button>
           </div>
           <Login />
         </div>

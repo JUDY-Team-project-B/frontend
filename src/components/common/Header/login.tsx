@@ -36,6 +36,10 @@ export const Login = () => {
     navigate('/mypage');
   };
 
+  const gotoWrite = () => {
+    navigate('/create-post');
+  };
+
   const gotoRegister = () => {
     navigate('/register');
   };
@@ -79,6 +83,7 @@ export const Login = () => {
   } else {
     return (
       <div style={{ marginLeft: '8rem', display: 'flex', marginRight: '3rem' }}>
+        
         <div
           style={{
             display: 'flex',
@@ -109,6 +114,7 @@ export const Login = () => {
         >
           <button onClick={logout}>로그아웃</button>
         </div>
+        
       </div>
     );
   }
