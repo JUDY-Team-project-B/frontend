@@ -99,28 +99,43 @@ const CreatePostPage = () => {
   };
 
   const [date, setDate] = useState('');
-  const [region, setRegion] = useState('')
+  const [travelat,setTravelAt] = useState<any[]>(['','']);
+  const [region, setRegion] = useState('');
+  const [city, setCity] = useState('');
   const [number, setNumber] = useState('')
 
   const handleCardList = (content: any) =>{
     console.log(content)
     setDate(content[0])
-    setRegion(content[1])
+    setTravelAt(content[1])
     setNumber(content[2])
   }
 
+  useEffect(()=>{
+    console.log(travelat)
+    if(travelat === null){
+
+    }else{
+      setRegion(travelat[0]);
+      setCity(travelat[1]);
+    }
+    
+  },[travelat])
 
   const handleClick = async () => {
     console.log(jwt)
       try{
         console.log(date[1])
+        console.log(region)
+        console.log(city)
         const response = await axios.post('http://localhost:8080/api/v1/post',
           {
             title:title,
             context:content,
             tags:["여행"],
-            travelGender:'여자',//타입설정
-            travelAt:region,
+            travelGender:'남성',//타입설정
+            travelState: region,
+            travelCity: city,
             travelAge:userData.age,
             travelDateStart:date[0],
             travelDateEnd:date[1],

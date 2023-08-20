@@ -374,13 +374,13 @@ const BackgroundWrap = styled.div`
   width: 100%;
   display: flex;
   font-family: 'NanumSquareNeo-Variable';
-
   justify-content: center;
 `;
 const Bg = styled.div`
   height: 49rem;
   width: 40%;
   margin-left: -15rem;
+  font-family: 'NanumSquareNeo-Variable';
   flex-direction: row;
 `;
 
