@@ -278,7 +278,7 @@ const Img = styled.button`
   margin-top: -3rem;
   height: 20rem;
   border-radius: 1rem;
-  background-size: 100% 100%;
+  background-size: cover;
   background-image: url(${gyeongju});
   background-repeat: no-repeat;
   transition: transform 0.5s;
