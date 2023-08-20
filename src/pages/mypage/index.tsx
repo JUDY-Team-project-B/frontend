@@ -174,6 +174,9 @@ function Profile() {
 
   return (
     <div>
+      <div>dummy</div>
+      <div>dummy</div>
+      <div>dummy</div>
       <BackgroundWrap>
         <Bg>
           {data && (

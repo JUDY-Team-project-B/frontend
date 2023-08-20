@@ -30,6 +30,7 @@ const CreatePostPage = () => {
   const navigate = useNavigate();
 
   useEffect(()=>{
+    
     const UserDatas =async () => {
       try{
         setjwt(localStorage.getItem('accessToken'))

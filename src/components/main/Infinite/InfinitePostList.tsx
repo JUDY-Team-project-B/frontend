@@ -286,7 +286,7 @@ const DestinationText = styled.div`
   font-weight: 750;
   color: #0792e3;
   z-index: 99;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   overflow: visible;
   margin-left: 0.2rem;
 `;

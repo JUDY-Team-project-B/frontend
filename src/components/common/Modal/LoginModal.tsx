@@ -60,6 +60,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       })
       navigate('/');
       onClose();
+      location.reload();
     }catch(e){
       console.log(e)
     }

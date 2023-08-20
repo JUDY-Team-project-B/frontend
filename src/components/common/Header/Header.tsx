@@ -48,11 +48,13 @@ export const Header = () => {
     }catch(e){
       alert('다시 로그인해주세요')
       navigate('/');
+      
     }
   }
 
   const gotoMain = () => {
     navigate('/');
+    location.reload();
   };
 
   useEffect(() => {
@@ -72,6 +74,7 @@ export const Header = () => {
       const queryString1 = queryParems1.toString();
       const queryString2 = queryParems2.toString();
       navigate(`/travel?${queryString1}&${queryString2}`);
+      location.reload();
     }
   };
 
@@ -82,6 +85,7 @@ export const Header = () => {
 
   const gotoWrite = () => {
     navigate('/create-post');
+    
   };
 
   const [Selected, setSelected] = useState("title");
