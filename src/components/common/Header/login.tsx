@@ -3,6 +3,7 @@ import LoginModal from '../Modal/LoginModal';
 import { useRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 import { useNavigate } from 'react-router-dom';
+import cookie from 'react-cookies';
 
 export const Login = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
@@ -11,7 +12,7 @@ export const Login = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    setisLogin(userData.is_active);
+    IsLogin();
     console.log(userData.is_active);
   });
 
@@ -23,12 +24,21 @@ export const Login = () => {
     setLoginModalOpen(false); // Close the login modal
   };
 
+  const IsLogin = () =>{
+    const Token = cookie.load('accessTokens')
+    if(Token === undefined){
+      setisLogin(false)
+    }else{
+      setisLogin(true)
+    }
+  }
+
   const logout = () => {
     console.log('로그아웃');
     setUserData({
       is_active: false,
     });
-    localStorage.removeItem('accessToken');
+    cookie.remove('userid', {path : '/'});
     navigate('/');
     location.reload();
   };

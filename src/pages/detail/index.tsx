@@ -9,6 +9,7 @@ import axios from 'axios';
 import { UserType } from '../mypage';
 import { commentType } from '@/types/post';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import cookie from 'react-cookies';
 
 function Detail() {
   const locations = useLocation();
@@ -108,7 +109,7 @@ function Detail() {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -130,7 +131,7 @@ function Detail() {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -157,7 +158,7 @@ function Detail() {
         `http://localhost:8080/api/v1/comment/${index}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -177,7 +178,7 @@ function Detail() {
           `http://localhost:8080/api/v1/post/${searchTerm}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -197,7 +198,7 @@ function Detail() {
           `http://localhost:8080/api/v1/comment/${searchTerm}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -222,7 +223,7 @@ function Detail() {
           'http://localhost:8080/api/v1/user/me',
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -247,7 +248,7 @@ function Detail() {
           `http://localhost:8080/api/v1/user/${data.userId}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -291,6 +292,7 @@ function Detail() {
           {/* <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer> */}
           <PostContainer>
             {/* <PostDate>{data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)}</PostDate> */}
+            
             <PostDate>{data.createdAt}</PostDate>
             <PostView>조회수 {data.viewCount}</PostView>
             <PostComment>댓글 {commentData.length}</PostComment>
@@ -364,6 +366,7 @@ function Detail() {
                 {datas.children?.map((comment: any, index: any) => (
                   <ChildrenComments>
                     <CommentInfo>
+                    {datas.createdAt.slice(5, 10).replace(/-/g, '/')}{' '}
                       {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
                       {comment.nickname}
                       {comment.nickname === myData.nickname ? (

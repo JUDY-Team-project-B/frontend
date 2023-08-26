@@ -51,6 +51,8 @@ const Preview = (queryString: any) => {
     PostListData();
   }, [Type, keyword]);
 
+
+
   useEffect(() => {
     const LikeListData = async () => {
       try {
@@ -173,7 +175,7 @@ const Preview = (queryString: any) => {
                   <PlaceLayout>
                     <img src={place} alt="Place"/>
                   </PlaceLayout>
-                  <DestinationText>{datas.travelState}{datas.travelCity}</DestinationText>
+                  <DestinationText>{datas.travelState} {datas.travelCity}</DestinationText>
                 </DestinationWrap>
                 <Title onClick={() => goto(datas.id)}>{datas.title}</Title>
                 <Member>{datas.travelMember}인 동행을 원해요!</Member>
@@ -250,7 +252,7 @@ const DestinationWrap = styled.div`
 const DestinationText = styled.div`
   height: 2rem;
   padding: 0.2rem;
-  width: 8rem;
+  width: 12rem;
   display: flex;
   text-align: center;
   border-radius: 0.6rem;

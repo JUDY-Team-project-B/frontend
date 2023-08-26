@@ -1,43 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.scss';
-import SearchIcon from '@/assets/image/Search icon.png';
-import LoginIcon from '@/assets/image/login.png';
-import DetailIcon from '@/assets/image/detail.png';
-import LoginModal from '../Modal/LoginModal';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
-import { red } from '@mui/material/colors';
 import { Login } from './login';
 import axios from 'axios';
-import { AnyNaptrRecord } from 'dns';
-
-// function getItemWithExpireTime(keyName:any) {
-//   const setUserData = useSetRecoilState<User>(UUid);
-
-//   const objString = window.localStorage.getItem(keyName);
-//   if(!objString) {
-//     return null;
-//   }
-
-//   const obj = JSON.parse(objString);
-
-//   if(Date.now() > obj.expire) {
-//     window.localStorage.removeItem(keyName);
-//     setUserData({
-//       is_active: false,
-//     })
-//     return null;
-//   }
-//   return obj.value;
-// }
+import cookie from 'react-cookies';
 
 export const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>(null);
-
 
   const onSilentRefresh = async () =>{
     try{
@@ -57,9 +31,17 @@ export const Header = () => {
     location.reload();
   };
 
+  const IsLogin = () =>{
+    const Token = cookie.load('accessTokens')
+    if(Token === undefined){
+      setisLogin(false)
+    }else{
+      setisLogin(true)
+    }
+  }
+
   useEffect(() => {
-    // onSilentRefresh();
-    setisLogin(userData.is_active);
+    IsLogin();
     console.log(userData);
   });
 

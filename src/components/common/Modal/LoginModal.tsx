@@ -12,22 +12,12 @@ import axios from 'axios';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { User, UUid } from '@/atom/atom';
+import cookie from 'react-cookies';
 
 interface LoginModalProps {
   open: boolean;
   onClose: () => void;
 }
-
-// function setItemWithExpireTime(keyName:any, keyValue:any, tts:any) {
-//   const obj = {
-//     value : keyValue,
-//     expire : Date.now() + tts
-//   }
-
-//   const objString = JSON.stringify(obj);
- 
-//   window.localStorage.setItem(keyName, objString);
-// }
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
@@ -53,11 +43,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       const accessToken  = response.data.data.accessToken;
       console.log(accessToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      localStorage.setItem('accessToken',accessToken);
-      // setItemWithExpireTime('accessToken', accessToken, 360000)
-      setUserData({
-        is_active: true,
-      })
+      cookie
+      const expires = new Date()
+      expires.setMinutes(expires.getMinutes() + 60)
+      cookie.save('accessTokens', accessToken, {
+          path : '/',
+          expires,
+          // secure : true,
+          //httpOnly : true
+        });
+      
       navigate('/');
       onClose();
       location.reload();

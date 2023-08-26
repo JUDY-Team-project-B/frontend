@@ -1,17 +1,16 @@
 import Button from '@/components/common/Button';
-import { Layout } from '@/components/common/Layout';
 import PostEditor from '@/components/post/Editor';
 import HashTag from '@/components/post/Hashtag';
 import { PostCardList } from '@/components/post/PostCardList';
 import PostThumbnailInput from '@/components/post/PostThumbnailInput';
 import { PostTitleInput } from '@/components/post/PostTitleInput';
 import axios from 'axios';
-import { response } from 'msw';
 import React, { useEffect, useState,useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import './CreatePostpage.scss'
 import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
+import cookie from 'react-cookies';
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -40,7 +39,7 @@ const CreatePostPage = () => {
             `http://localhost:8080/api/v1/user/me`,
             {headers:
               {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessTokens')}`,
                 'Access-Control-Allow-Origin': '*'
               }}
           )
@@ -68,7 +67,7 @@ const CreatePostPage = () => {
               searchKeyword: "",
             },
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -143,7 +142,7 @@ const CreatePostPage = () => {
           },
           {
             headers:{
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*'}
           }
         )
@@ -159,7 +158,7 @@ const CreatePostPage = () => {
               url: `http://localhost:8080/api/v1/post/${nextId}/images`,
               data: formData,
               headers:{
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessTokens')}`,
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'multipart/form-data'
               },
