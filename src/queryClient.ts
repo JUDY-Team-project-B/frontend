@@ -20,19 +20,20 @@ export const getClient = (() => {
   };
 })();
 
-const BASE_URL = '';
+const BASE_URL = 'http://localhost:8080';
 
 export const restFetcher = async ({
   method,
   path,
   body,
   params,
+  headers
 }: {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   path: string;
   body?: AnyOBJ;
   params?: AnyOBJ;
-  // headers?: AnyOBJ;
+  headers?: AnyOBJ;
 }) => {
   try {
     let url = `${BASE_URL}${path}`;
@@ -45,9 +46,9 @@ export const restFetcher = async ({
     }
     if (body) axiosConfig.data = body;
 
-    // if (headers) {
-    //   axiosConfig = { ...axiosConfig, headers };
-    // }
+    if (headers) {
+      axiosConfig = { ...axiosConfig, headers };
+    }
     const res = await axios(url, axiosConfig);
     return res.data;
   } catch (err) {
@@ -56,8 +57,5 @@ export const restFetcher = async ({
 };
 
 export const QueryKeys = {
-  FISHLIST: 'FISHLIST',
-  USER: 'USER',
-  HISTORY: 'HISTORY',
-  CHAT: 'CHAT',
+  POST: 'POST',
 };

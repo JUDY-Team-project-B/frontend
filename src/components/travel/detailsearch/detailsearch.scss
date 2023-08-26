@@ -1,0 +1,63 @@
+.detailsearchlayout{
+    width: 1080px;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    position: relative;
+    overflow: visible;
+}
+
+.detailinputlayout{
+    display: flex;
+    height: 30px;
+    flex-direction: row;
+    justify-content: center;
+    border: 1px groove #3DB9FF;
+    border-radius: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    align-items: center;
+    justify-self: center;
+}
+
+.detailclicklayout{
+    height: 30px;
+    display: flex;
+    width: 120px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px groove #3DB9FF;
+    border-radius: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.dateclicklayout{
+    height: 30px;
+    display: flex;
+    width: 300px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px groove #3DB9FF;
+    border-radius: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.dataPickerLayout{
+    width: 100px;
+}
+
+
+.modaltest{
+    position: absolute;
+    top: 50px;
+    z-index: 999;
+}

@@ -5,7 +5,11 @@ import { RecoilRoot } from 'recoil';
 import App from './App';
 import './index.scss';
 import { getClient } from './queryClient';
+import { worker } from './mocks/workers';
 
+// if(import.meta.env.DEV){
+//   worker.start();
+// }
 const queryClient = getClient();
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <RecoilRoot>
