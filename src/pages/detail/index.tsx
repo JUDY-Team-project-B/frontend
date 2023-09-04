@@ -124,10 +124,14 @@ function Detail() {
 
   const sendChildcomment = async (parentId: number) => {
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         'http://localhost:8080/api/v1/comment',
         {
+          userId: userData.id,
+          postId: searchTerm,
+          parentId: parentId,
           content: ChildrenComment,
+          
         },
         {
           headers: {
@@ -355,7 +359,7 @@ function Detail() {
                       onChange={onChildcomment}
                       value={ChildrenComment}
                     />
-                    <Button onClick={() => sendChildcomment(index)}>
+                    <Button onClick={() => sendChildcomment(index+1)}>
                       게시
                     </Button>
                   </CommentLayout>
@@ -402,7 +406,7 @@ const CommentLayout = styled.div`
 `;
 
 const Comment = styled.div`
-  width: 40rem;
+  width: 46rem;
   border-radius: 1rem;
   border: 1px solid #f2f2f2;
   margin-top: 1rem;
