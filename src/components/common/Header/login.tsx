@@ -38,7 +38,7 @@ export const Login = () => {
     setUserData({
       is_active: false,
     });
-    cookie.remove('userid', {path : '/'});
+    cookie.remove('accessTokens', {path : '/'});
     navigate('/');
     location.reload();
   };
