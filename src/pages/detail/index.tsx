@@ -332,7 +332,7 @@ function Detail() {
                         display: 'flex',
                         width: '90%',
                         justifyContent: 'right',
-                      }}
+                      }}  
                     >
                       <CommentButton onClick={() => setCommentIsSelect(index)}>
                         수정
@@ -370,11 +370,16 @@ function Detail() {
                 {datas.children?.map((comment: any, index: any) => (
                   <ChildrenComments>
                     <CommentInfo>
-                    {datas.createdAt.slice(5, 10).replace(/-/g, '/')}{' '}
                       {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                      {comment.nickname}
+                      <CommentWriter>{datas.nickname}</CommentWriter>
                       {comment.nickname === myData.nickname ? (
-                        <div>
+                        <div
+                        style={{
+                          display: 'flex',
+                          width: '90%',
+                          justifyContent: 'right',
+                        }}
+                        >
                           <Text onClick={() => setCommentIsSelect(index)}>
                             수정
                           </Text>
@@ -385,7 +390,7 @@ function Detail() {
                       )}
                     </CommentInfo>
                     <CommentContent>
-                      <Text>--{comment.content}</Text>
+                      <Text>{comment.content}</Text>
                     </CommentContent>
                   </ChildrenComments>
                 ))}
@@ -470,9 +475,13 @@ const CommentContent = styled.div`
 `;
 
 const ChildrenComments = styled.div`
-  height: 50px;
-  width: 45rem;
-  background-color: #afbdd3;
+width: 46rem;
+border-radius: 1rem;
+border: 1px solid #f2f2f2;
+margin-top: 0.1rem;
+padding: 8px;
+background-color: #f7f7f7;
+font-family: 'NanumSquareNeo-Variable';
 `;
 
 const Bg = styled.div`
