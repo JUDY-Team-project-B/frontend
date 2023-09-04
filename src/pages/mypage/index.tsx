@@ -13,6 +13,7 @@ import unlikeIcon from '@mui/icons-material/FavoriteBorder';
 import gyeongju from '@/assets/image/trip3.jpg';
 import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
+import cookie from 'react-cookies';
 
 export interface UserType {
   age: number;
@@ -50,7 +51,7 @@ function Profile() {
           `http://localhost:8080/api/v1/user/me`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },

@@ -9,6 +9,7 @@ import Comment from '@/assets/image/detailcomment.png';
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 const Preview = (queryString: any) => {
   console.log(queryString);
@@ -31,7 +32,7 @@ const Preview = (queryString: any) => {
               searchKeyword: keyword,
             },
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
