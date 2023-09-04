@@ -8,6 +8,8 @@ const Register = lazy(() => import('./pages/register'));
 const Mypage = lazy(() => import('./pages/mypage'));
 const Travel = lazy(() => import('./pages/travel'));
 const Detail = lazy(() => import('./pages/detail/index'));
+const KakaoMap = lazy(() => import('./pages/map'));
+
 export const routes = [
   {
     path: '/',
@@ -20,7 +22,7 @@ export const routes = [
       { path: '/mypage', element: <Mypage />, index: true },
       { path: '/travel', element: <Travel />, index: true },
       { path: '/detail', element: <Detail />, index: true },
-      
+      { path: '/map', element: <KakaoMap />, index: true },
     ],
   },
 ];
