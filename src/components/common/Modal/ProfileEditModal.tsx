@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import user from '../../../assets/image/user.png';
+import cookie from 'react-cookies';
+import ClearIcon from '@mui/icons-material/Clear';
+
 import {
   Dialog,
   DialogTitle,
@@ -21,8 +24,10 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   onClose,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileImage, setFileImage] = useState('');
   const [nickname, setNickname] = useState('');
-  const [data, setData] = useState('');
+  const [data, setData] = useState(''); //프로필 수정 유저 정보
+  console.log(data.imageUrls);
 
   const handleThumbnailUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -30,6 +35,37 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     const file = event.target?.files?.[0];
     console.log('Uploaded file:', file);
     setSelectedFile(file.name);
+    setFileImage(URL.createObjectURL(file));
+    console.log(selectedFile);
+    console.log(fileImage);
+  };
+
+  const deleteFileImage = () => {
+    URL.revokeObjectURL(fileImage);
+    setFileImage('');
+    setSelectedFile('');
+  };
+
+  const handleProfileImgSubmit = async (selectedFile: string) => {
+    try {
+      await axios.post(
+        `http://localhost:8080/api/v1/post/${data.id}/images`,
+        {
+          file: selectedFile,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      alert('프로필 이미지가 변경되었습니다');
+      window.location.reload();
+      console.log('성공');
+    } catch (error) {
+      console.error('실패 오류 : ', error);
+    }
   };
 
   useEffect(() => {
@@ -39,7 +75,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           `http://localhost:8080/api/v1/user/me`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -82,7 +118,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -104,12 +140,32 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         style: { borderRadius: 40, height: '40rem', padding: '1rem' },
       }}
     >
-      <DialogTitle style={{ fontSize: '1.5rem', height: '8rem' }}>
+      <DialogTitle style={{ fontSize: '1.5rem', height: '5rem' }}>
         프로필 편집
       </DialogTitle>
       <DialogContent style={{ overflowX: 'hidden' }}>
         <CaptionText>프로필 사진 변경</CaptionText>
-        <ProfileImg bgImg={user} />
+        {fileImage && (
+          <img
+            alt="sample"
+            src={fileImage}
+            style={{
+              width: '8.5rem',
+              height: '8.5rem',
+              borderRadius: '5rem',
+              display: 'flex',
+              marginLeft: '11.2rem',
+              marginTop: '2rem',
+            }}
+          />
+        )}
+        <ProfileImgBox>
+          <ProfileImg>{selectedFile}</ProfileImg>
+          <ProfileImgDeleteButton
+            onClick={deleteFileImage}
+          ></ProfileImgDeleteButton>
+        </ProfileImgBox>
+
         <Caption>
           <ThumbnailUploadButton htmlFor="thumbnailUpload">
             이미지 업로드
@@ -121,7 +177,9 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
             {selectedFile && <FileName>{selectedFile.name}</FileName>}
           </ThumbnailUploadButton>
         </Caption>
-        <ImageChangeButton>변경</ImageChangeButton>
+        <ImageChangeButton onClick={() => handleProfileImgSubmit(selectedFile)}>
+          변경
+        </ImageChangeButton>
         <Divider />
         <Caption>닉네임 변경</Caption>
         <NicknameBox>
@@ -148,15 +206,16 @@ export default ProfileEditModal;
 
 const ThumbnailUploadButton = styled.label`
   display: inline-block;
-  padding: 9px 10px;
+  padding: 9px 10.5px;
   background-color: #518ccc;
   color: white;
   border: none;
-  width: 6.8rem;
+  width: 7rem;
   border-radius: 7px;
   cursor: pointer;
-  margin-left: 12.3rem;
+  margin-left: 12.2rem;
   margin-top: 1rem;
+  font-size: 0.95rem;
 
   &:hover {
     position: center;
@@ -179,13 +238,12 @@ const CaptionText = styled.span`
   overflow-x: hidden;
   overflow-y: hidden;
 `;
-const ProfileImg = styled.div<{ bgImg: string }>`
-  background-image: ${(props) => `url(${props.bgImg})`};
-  height: 7rem;
-  background-size: 7rem 7rem;
-  background-repeat: no-repeat;
-  background-position: center;
-  /* margin-top: 20rem; */
+const ProfileImg = styled.div`
+  background-color: #f0f0f7;
+  border-radius: 0.5rem;
+  padding: 11px;
+  margin-right: 7rem;
+  width: 21rem;
 `;
 const ThumbnailUploadInput = styled.input`
   display: none;
@@ -207,6 +265,22 @@ const NicknameBox = styled.div`
   display: flex;
   align-items: center;
   padding: 0.5rem;
+`;
+
+const ProfileImgBox = styled.div`
+  width: 500px;
+  height: 50px;
+  border-radius: 3px;
+  background-color: #f0f0f7;
+  display: flex;
+  padding: 0.5rem;
+  margin-top: 1rem;
+`;
+const ProfileImgDeleteButton = styled(ClearIcon)`
+  color: #d00707;
+  width: 1rem;
+  margin-top: 0.3rem;
+  cursor: pointer;
 `;
 
 const NicknameInput = styled.input`

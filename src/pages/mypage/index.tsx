@@ -14,6 +14,7 @@ import gyeongju from '@/assets/image/trip3.jpg';
 import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
+import '@/assets/font/font.css';
 
 export interface UserType {
   age: number;
@@ -77,7 +78,7 @@ function Profile() {
             `http://localhost:8080/api/v1/post/me/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessTokens')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -101,7 +102,7 @@ function Profile() {
             `http://localhost:8080/api/v1/comment/me`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessTokens')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -125,7 +126,7 @@ function Profile() {
             `http://localhost:8080/api/v1/post/me/like/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessTokens')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -154,7 +155,7 @@ function Profile() {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -234,7 +235,7 @@ function Profile() {
                       {/* OnclickEvent없음 */}
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelState}{datas.travelCity}</Where>
+                    <Where>{datas.travelState}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       <Date>
@@ -244,11 +245,14 @@ function Profile() {
                     </DateWrap>
                   </TopWrap>
                   <ImgWrap>
-                  <Img style={{
-                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
-                    }} 
-                    onClick={() => goto(datas.id)}>
-                  </Img>
+                    <Img
+                      style={{
+                        backgroundImage: !datas.imageUrls[0]
+                          ? gyeongju
+                          : `url(${datas.imageUrls})`,
+                      }}
+                      onClick={() => goto(datas.id)}
+                    ></Img>
                   </ImgWrap>
                   <PostTitle>{datas.title}</PostTitle>
                 </PostWrap>
@@ -274,8 +278,8 @@ function Profile() {
               <div style={{ marginTop: '15rem', marginLeft: '0rem' }}>
                 작성한 댓글이 없습니다.
               </div>
-              //onClickEvent없음
             ) : (
+              //onClickEvent없음
               commentdata?.map((datas: PostType, index: any) => (
                 <Comment
                   key={index}
@@ -284,7 +288,7 @@ function Profile() {
                     justifyContent: 'center',
                   }}
                 >
-                  <CommentPost> {datas.title}</CommentPost>
+                  <CommentPost> {datas.postTitle}</CommentPost>
                   {datas.content}
                   <HoverableIcon
                     style={{
@@ -314,7 +318,7 @@ function Profile() {
                     <PlaceLayout>
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelAt}</Where>
+                    <Where>{datas.travelState}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       {/* //onClickEvent없음 */}
@@ -344,11 +348,14 @@ function Profile() {
                     />
                   </LikeWrap>
                   <ImgWrap>
-                  <Img style={{
-                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
-                    }} 
-                    onClick={() => goto(datas.id)}>
-                  </Img>
+                    <Img
+                      style={{
+                        backgroundImage: !datas.imageUrls[0]
+                          ? gyeongju
+                          : `url(${datas.imageUrls})`,
+                      }}
+                      onClick={() => goto(datas.id)}
+                    ></Img>
                   </ImgWrap>
 
                   <PostTitle>{datas.title}</PostTitle>
@@ -368,20 +375,20 @@ const Dummy = styled.div`
 height: 20rem
 <wight:1rem></wight:1rem>
 
-`
+`;
 
 const BackgroundWrap = styled.div`
   height: 55rem;
   width: 100%;
   display: flex;
-  font-family: 'NanumSquareNeo-Variable';
+  font-family: 'NanumSquareNeoTTF';
   justify-content: center;
 `;
 const Bg = styled.div`
   height: 49rem;
   width: 40%;
   margin-left: -15rem;
-  font-family: 'NanumSquareNeo-Variable';
+  font-family: 'NanumSquareNeoTTF';
   flex-direction: row;
 `;
 
@@ -406,7 +413,6 @@ const BgMypost = styled.div`
   margin-top: 2.5rem;
   margin-left: -3rem;
   display: flex;
-
   flex-direction: row; // 추가
 `;
 
@@ -479,14 +485,15 @@ const PlaceLayout = styled.button`
 `;
 const Where = styled.div`
   z-index: 90;
+  margin-left: 0.5rem;
   position: relative;
   overflow: visible;
   width: 9rem;
-  height: 6.2rem;
+  height: 5.8rem;
   display: flex;
   text-align: left;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 1.25rem;
   color: #0792e3;
 `;
 
@@ -533,8 +540,8 @@ const LikeWrap = styled.div`
 
 const ImgWrap = styled.div`
   display: flex;
-  margin-top: 1rem;
-  height: 10rem;
+  margin-top: 0.8rem;
+  height: 9.5rem;
   position: relative;
   width: 100%;
 `;
@@ -544,7 +551,7 @@ const Img = styled.button`
   opacity: 0.9;
   width: 100%;
   overflow: hidden;
-  height: 9.4rem;
+  height: 9.5rem;
   background-size: 100% 100%;
   background-image: url(${gyeongju});
   background-repeat: no-repeat;
@@ -553,7 +560,7 @@ const Img = styled.button`
   &:hover {
     position: center;
     opacity: 0.75;
-    transform: scale(1.12); /* 이미지 확대 */
+    transform: scale(1.11); /* 이미지 확대 */
   }
 `;
 
@@ -561,9 +568,9 @@ const PostTitle = styled.div`
   font-size: 0.8rem;
   width: 13rem;
   font-weight: bold;
-  margin-top: 1rem;
+  margin-top: 1.7rem;
   overflow: visible;
-  text-align: left;
+  text-align: center;
   margin-left: 1rem;
   height: 1.2rem;
 `;
@@ -597,6 +604,12 @@ const HoverableIcon = styled(ArrowForwardIosIcon)`
 
 const LikeIcon = styled(likeIcon)`
   position: relative;
+
+  &:hover {
+    position: center;
+    opacity: 0.9;
+    transform: scale(1.11); /* 이미지 확대 */
+  }
 `;
 
 const Comment = styled.button`
@@ -679,7 +692,7 @@ const MyPostList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-  border-radius: 0.8rem;
+
   height: 3rem;
   width: 100%;
   margin-top: 6rem;
@@ -695,7 +708,7 @@ const MyCommentList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-  border-radius: 0.8rem;
+
   height: 3rem;
   width: 100%;
   font-size: 1.3rem;
@@ -710,7 +723,7 @@ const MyLikeList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-  border-radius: 0.8rem;
+
   height: 3rem;
   width: 100%;
   font-size: 1.3rem;
