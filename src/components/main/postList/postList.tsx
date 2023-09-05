@@ -10,6 +10,7 @@ import { PostType } from '@/types/post';
 import axios from 'axios';
 import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
+import cookie from 'react-cookies';
 
 const Preview = (queryString: any) => {
   const url = queryString.queryString;
@@ -25,7 +26,7 @@ const Preview = (queryString: any) => {
     const PostListData = async () => {
       console.log(url);
       console.log(Type);
-      console.log(keyword)
+      console.log(keyword);
       try {
         const response = await axios.get(
           `http://localhost:8080/api/v1/post/all/0`,
@@ -35,14 +36,14 @@ const Preview = (queryString: any) => {
               searchKeyword1: keyword,
             },
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
         );
         const responseData: PostType[] = response.data.data;
         setListData(responseData);
-        console.log(responseData)
+        console.log(responseData);
         const postDataIds = responseData.map((item) => item.id);
       } catch (error) {
         console.log(error);
@@ -51,8 +52,6 @@ const Preview = (queryString: any) => {
     PostListData();
   }, [Type, keyword]);
 
-
-
   useEffect(() => {
     const LikeListData = async () => {
       try {
@@ -60,7 +59,7 @@ const Preview = (queryString: any) => {
           `http://localhost:8080/api/v1/post/me/like/${url2}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -88,7 +87,7 @@ const Preview = (queryString: any) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -127,8 +126,10 @@ const Preview = (queryString: any) => {
                 </ProfileWrap>
                 <DateWrap>
                   <DateTitle>여행 기간</DateTitle>
-                  <Date>{datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
-                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}</Date>
+                  <Date>
+                    {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')} -{' '}
+                    {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
+                  </Date>
                 </DateWrap>
               </TopWarp>
               <MiddleWrap>
@@ -153,10 +154,14 @@ const Preview = (queryString: any) => {
                   />
                 </HeartLayout>
                 <ImgWrap>
-                  <Img style={{
-                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
-                    }} 
-                    onClick={() => goto(datas.id)}>
+                  <Img
+                    style={{
+                      backgroundImage: !datas.imageUrls[0]
+                        ? gyeongju
+                        : `url(${datas.imageUrls})`,
+                    }}
+                    onClick={() => goto(datas.id)}
+                  >
                     <ImgInfo></ImgInfo>
                   </Img>
                 </ImgWrap>
@@ -173,9 +178,11 @@ const Preview = (queryString: any) => {
               <PostInfo>
                 <DestinationWrap>
                   <PlaceLayout>
-                    <img src={place} alt="Place"/>
+                    <img src={place} alt="Place" />
                   </PlaceLayout>
-                  <DestinationText>{datas.travelState} {datas.travelCity}</DestinationText>
+                  <DestinationText>
+                    {datas.travelState} {datas.travelCity}
+                  </DestinationText>
                 </DestinationWrap>
                 <Title onClick={() => goto(datas.id)}>{datas.title}</Title>
                 <Member>{datas.travelMember}인 동행을 원해요!</Member>
@@ -275,7 +282,7 @@ const Img = styled.button`
   display: flex;
   margin-left: -1rem;
   opacity: 0.9;
-  width: 99%;
+  width: 110%;
   overflow: hidden;
   margin-top: -3rem;
   height: 20rem;
@@ -374,7 +381,6 @@ const PostInfo = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
 `;
 
 const Title = styled.button`
@@ -386,7 +392,7 @@ const Title = styled.button`
   flex-direction: column;
   text-align: left;
   justify-content: center;
-  align-items :center;
+  align-items: center;
 `;
 const DateWrap = styled.div`
   display: block;
