@@ -124,10 +124,14 @@ function Detail() {
 
   const sendChildcomment = async (parentId: number) => {
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         'http://localhost:8080/api/v1/comment',
         {
+          userId: userData.id,
+          postId: searchTerm,
+          parentId: parentId,
           content: ChildrenComment,
+          
         },
         {
           headers: {
@@ -178,7 +182,7 @@ function Detail() {
           `http://localhost:8080/api/v1/post/${searchTerm}`,
           {
             headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              //Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -192,13 +196,14 @@ function Detail() {
         console.log(error);
       }
     };
+    
     async function CommentListData(): Promise<void> {
       try {
         const response = await axios.get(
           `http://localhost:8080/api/v1/comment/${searchTerm}`,
           {
             headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              //Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -328,7 +333,7 @@ function Detail() {
                         display: 'flex',
                         width: '90%',
                         justifyContent: 'right',
-                      }}
+                      }}  
                     >
                       <CommentButton onClick={() => setCommentIsSelect(index)}>
                         수정
@@ -355,7 +360,7 @@ function Detail() {
                       onChange={onChildcomment}
                       value={ChildrenComment}
                     />
-                    <Button onClick={() => sendChildcomment(index)}>
+                    <Button onClick={() => sendChildcomment(index+1)}>
                       게시
                     </Button>
                   </CommentLayout>
@@ -366,11 +371,16 @@ function Detail() {
                 {datas.children?.map((comment: any, index: any) => (
                   <ChildrenComments>
                     <CommentInfo>
-                    {datas.createdAt.slice(5, 10).replace(/-/g, '/')}{' '}
                       {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                      {comment.nickname}
+                      <CommentWriter>{datas.nickname}</CommentWriter>
                       {comment.nickname === myData.nickname ? (
-                        <div>
+                        <div
+                        style={{
+                          display: 'flex',
+                          width: '90%',
+                          justifyContent: 'right',
+                        }}
+                        >
                           <Text onClick={() => setCommentIsSelect(index)}>
                             수정
                           </Text>
@@ -381,7 +391,7 @@ function Detail() {
                       )}
                     </CommentInfo>
                     <CommentContent>
-                      <Text>--{comment.content}</Text>
+                      <Text>{comment.content}</Text>
                     </CommentContent>
                   </ChildrenComments>
                 ))}
@@ -402,7 +412,7 @@ const CommentLayout = styled.div`
 `;
 
 const Comment = styled.div`
-  width: 40rem;
+  width: 46rem;
   border-radius: 1rem;
   border: 1px solid #f2f2f2;
   margin-top: 1rem;
@@ -466,9 +476,13 @@ const CommentContent = styled.div`
 `;
 
 const ChildrenComments = styled.div`
-  height: 50px;
-  width: 45rem;
-  background-color: #afbdd3;
+width: 46rem;
+border-radius: 1rem;
+border: 1px solid #f2f2f2;
+margin-top: 0.1rem;
+padding: 8px;
+background-color: #f7f7f7;
+font-family: 'NanumSquareNeo-Variable';
 `;
 
 const Bg = styled.div`

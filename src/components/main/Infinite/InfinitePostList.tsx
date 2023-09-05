@@ -10,6 +10,7 @@ import { PostType } from '@/types/post';
 import axios from 'axios';
 import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
+import cookie from 'react-cookies';
 
 const InfinitePostList = (queryString: any) => {
   const url2 = 0;
@@ -39,7 +40,7 @@ const InfinitePostList = (queryString: any) => {
             searchKeyword1: keyword,
           },
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -86,7 +87,7 @@ const InfinitePostList = (queryString: any) => {
           `http://localhost:8080/api/v1/post/me/like/${url2}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -114,7 +115,7 @@ const InfinitePostList = (queryString: any) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessTokens')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
