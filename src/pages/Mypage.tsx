@@ -27,7 +27,7 @@ export interface UserType {
   role: string;
 }
 
-function Profile() {
+function Mypage() {
   const url = 0; //임시로 0해둠
   const [modalOpen, setModalOpen] = useState(false);
   const [data, setData] = useState<UserType | undefined>();
@@ -369,7 +369,7 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Mypage;
 
 const Dummy = styled.div`
 height: 20rem

@@ -7,10 +7,12 @@ import { PostTitleInput } from '@/components/post/PostTitleInput';
 import axios from 'axios';
 import React, { useEffect, useState,useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import './CreatePostpage.scss'
 import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
+import styled from 'styled-components';
+import backgroundImg from '@/assets/image/Background.jpg'
+
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -180,11 +182,10 @@ const CreatePostPage = () => {
 
 
   return (
-    <div className='createPostLayout'>
-      <div className='createPostImg'>
-      </div>
-      <div className='createPostFlex' >
-      <div className='createPost'>
+    <CreatePostLayout>
+      <CreatePostImg/>
+      <CreatePostFlex>
+      <CreatePost>
         <PostCardList onValueChange={handleCardList} />
         <PostTitleInput onValueChange={handleTitleChange} />
         <PostThumbnailInput />
@@ -201,11 +202,36 @@ const CreatePostPage = () => {
           type="submit"
           children={'작성완료'}
           />
-      </div>
-      </div>
-    </div>
+      </CreatePost>
+      </CreatePostFlex>
+    </CreatePostLayout>
   );
 };
 
 
 export default CreatePostPage;
+
+const CreatePost = styled.div`
+  height: 100%;
+  width: 1000px;
+  margin: auto;
+  padding-bottom: 2rem;
+`
+
+const CreatePostFlex = styled.div`
+  display:flex;
+  flex-direction:row;
+  justity-content: center;
+  display: flex;
+`
+
+const CreatePostLayout = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+const CreatePostImg = styled.div`
+  height: 250px;
+  background-image: url(${backgroundImg});
+`

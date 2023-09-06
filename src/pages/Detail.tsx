@@ -6,9 +6,8 @@ import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
-import { UserType } from '../mypage';
+import { UserType } from './Mypage';
 import { commentType } from '@/types/post';
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import cookie from 'react-cookies';
 
 function Detail() {

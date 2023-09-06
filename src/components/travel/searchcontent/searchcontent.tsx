@@ -5,7 +5,7 @@ import DetailSearch from '../detailsearch/detailsearch';
 //import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import { useLocation } from 'react-router-dom';
-import PostList from '@/components/main/postList/postList';
+import PostList from '@/components/main/postList';
 import InfinitePostList from '@/components/main/Infinite/InfinitePostList';
 
 
