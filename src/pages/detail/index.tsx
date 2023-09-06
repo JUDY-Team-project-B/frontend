@@ -383,7 +383,7 @@ function Detail() {
                           <Text onClick={() => setCommentIsSelect(index)}>
                             수정
                           </Text>
-                          <Text onClick={() => Deletecomment(index)}>삭제</Text>
+                          <Text onClick={() => Deletecomment(comment.id)}>삭제</Text>
                         </div>
                       ) : (
                         ''

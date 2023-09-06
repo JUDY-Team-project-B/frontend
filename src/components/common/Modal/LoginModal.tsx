@@ -62,7 +62,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   };
 
   const handleGoogleLogin = () => {
-    console.log('google login 이동');
+    location.href='http://localhost:8080/api/v1/auth/oauth2/authorize/google?redirect-uri=http://localhost:3000';
   };
   return (
     <Dialog
