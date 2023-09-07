@@ -13,6 +13,7 @@ import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { User, UUid } from '@/atom/atom';
 import cookie from 'react-cookies';
+import HandleaccessToken from '@/store/store.token';
 
 interface LoginModalProps {
   open: boolean;
@@ -23,6 +24,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
   const setUserData = useSetRecoilState<User>(UUid);
+
+  const { accessToken, setacessToken } = HandleaccessToken();
 
   const navigate = useNavigate();
   const handleUseremailChange = (
@@ -35,35 +38,38 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     setPassword(event.target.value);
   };
 
-  const handleLogin = async (e:any) => {
-    console.log('Login with useremail:', email);
-    console.log('Login with password:', password);
-    try{
-      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
-      const accessToken  = response.data.data.accessToken;
-      console.log(accessToken)
+  const handleLogin = async (e: any) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/auth/authenticate',
+        { email, password },
+      );
+      const accessToken = response.data.data.accessToken;
+      const refreshToken = response.data.data.resfreshToken;
+      console.log(accessToken);
+      setacessToken(accessToken); //accessToken save
+      console.log(refreshToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      cookie
-      const expires = new Date()
-      expires.setMinutes(expires.getMinutes() + 60)
+      const expires = new Date();
+      expires.setMinutes(expires.getMinutes() + 60);
       cookie.save('accessTokens', accessToken, {
-          path : '/',
-          expires,
-          // secure : true,
-          //httpOnly : true
-        });
-      
+        path: '/',
+        expires,
+        // secure : true,
+        //httpOnly : true
+      });
+
       navigate('/');
       onClose();
       location.reload();
-    }catch(e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const handleGoogleLogin = () => {
-    location.href='http://localhost:8080/api/v1/auth/oauth2/authorize/google?redirect-uri=http://localhost:3000';
-    
+    location.href =
+      'http://localhost:8080/api/v1/auth/oauth2/authorize/google?redirect-uri=http://localhost:3000';
   };
   return (
     <Dialog

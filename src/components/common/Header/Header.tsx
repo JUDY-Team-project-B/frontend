@@ -6,12 +6,15 @@ import { UUid, User } from '@/atom/atom';
 import { Login } from './login';
 import axios from 'axios';
 import cookie from 'react-cookies';
+import { useStore } from 'zustand';
 
 export const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>(null);
+
+  const { accessToken, setacessToken } = useStore((state) => state);
 
   const onSilentRefresh = async () => {
     try {
