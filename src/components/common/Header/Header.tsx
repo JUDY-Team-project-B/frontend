@@ -10,29 +10,29 @@ import { useStore } from 'zustand';
 import HandleaccessToken from '@/store/store.token';
 import { setToken } from '../Modal/LoginModal';
 
+const navigate = useNavigate();
+
+export const onSilentRefresh = async () => {
+  try {
+    const response = await axios.post(
+      'http://localhost:8080/api/v1/auth/refresh-token',
+    );
+    const accessToken = response.data.data.accessToken;
+    const refreshToken = response.data.data.refreshToken;
+    console.log(accessToken);
+    setToken(accessToken, refreshToken);
+  } catch (e) {
+    alert('다시 로그인해주세요');
+    navigate('/');
+  }
+};
+
 export const Header = () => {
-  const navigate = useNavigate();
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>(null);
 
   const { accessToken, setacessToken } = HandleaccessToken();
-
-  const onSilentRefresh = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/auth/refresh-token',
-      );
-      const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.refreshToken;
-      console.log(accessToken);
-      setToken(accessToken, refreshToken);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    } catch (e) {
-      alert('다시 로그인해주세요');
-      navigate('/');
-    }
-  };
 
   const gotoMain = () => {
     navigate('/');
@@ -49,6 +49,8 @@ export const Header = () => {
   };
 
   useEffect(() => {
+    onSilentRefresh();
+    setTimeout(() => onSilentRefresh(), 2000);
     IsLogin();
     console.log(userData);
   });

@@ -5,9 +5,11 @@ interface token {
   setacessToken: (by: string) => void;
 }
 
-const AccessToken = create<token>((set) => ({
+const HandleaccessToken = create<token>((set) => ({
   accessToken: '',
   setacessToken: (by) => {
     set((state) => ({ accessToken: by }));
   },
 }));
+
+export default HandleaccessToken;

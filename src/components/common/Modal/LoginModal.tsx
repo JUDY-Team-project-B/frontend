@@ -57,7 +57,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       const refreshToken = response.data.data.resfreshToken;
       console.log(accessToken);
       console.log(refreshToken);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       const expires = new Date();
       expires.setMinutes(expires.getMinutes() + 60);
       cookie.save('accessTokens', accessToken, {
@@ -66,6 +65,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         // secure : true,
         //httpOnly : true
       });
+
       setToken(accessToken, refreshToken);
 
       navigate('/');
