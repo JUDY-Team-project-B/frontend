@@ -8,31 +8,49 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { useStore } from 'zustand';
 import HandleaccessToken from '@/store/store.token';
-import { setToken } from '../Modal/LoginModal';
+import styled from 'styled-components';
 
-const navigate = useNavigate();
 
-export const onSilentRefresh = async () => {
-  try {
-    const response = await axios.post(
-      'http://localhost:8080/api/v1/auth/refresh-token',
-    );
-    const accessToken = response.data.data.accessToken;
-    const refreshToken = response.data.data.refreshToken;
-    console.log(accessToken);
-    setToken(accessToken, refreshToken);
-  } catch (e) {
-    alert('다시 로그인해주세요');
-    navigate('/');
-  }
-};
+
 
 export const Header = () => {
   const [isLogin, setisLogin] = useState<boolean>(false);
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>(null);
 
-  const { accessToken, setacessToken } = HandleaccessToken();
+  const { accessToken, setaccessToken } = HandleaccessToken();
+
+  const setToken = (accessToken: string, refreshToken: string) => {
+    setaccessToken(accessToken);
+    const expires = new Date();
+    cookie.save('refreshtokens', refreshToken, {
+      path: '/',
+      expires,
+    });
+  };
+
+
+  const navigate = useNavigate();
+
+  const onSilentRefresh = async (accessToken:string) => {
+  console.log(accessToken)
+  try {
+    const response = await axios.post(
+      'http://localhost:8080/api/v1/auth/refresh-token',
+      {headers:
+        {
+          Authorization: `Bearer ${accessToken}`,
+          'Access-Control-Allow-Origin': '*'
+        }}
+    );
+    const accessTokens = response.data.data.accessToken;
+    const refreshTokens = response.data.data.refreshToken;
+    console.log(accessTokens);
+    setToken(accessTokens, refreshTokens);
+  } catch (e) {
+    console.log('다시 로그인해주세요');
+  }
+};
 
   const gotoMain = () => {
     navigate('/');
@@ -49,7 +67,10 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    onSilentRefresh();
+    console.log(accessToken)
+
+    onSilentRefresh(accessToken);
+
     setTimeout(() => onSilentRefresh(), 2000);
     IsLogin();
     console.log(userData);

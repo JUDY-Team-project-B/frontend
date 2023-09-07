@@ -20,21 +20,18 @@ interface LoginModalProps {
   onClose: () => void;
 }
 
-const { accessToken, setacessToken } = HandleaccessToken();
-
-export const setToken = (accessToken: string, refreshToken: string) => {
-  setacessToken(accessToken);
-  const expires = new Date();
-  cookie.save('refreshtokens', refreshToken, {
-    path: '/',
-    expires,
-  });
-};
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
   const setUserData = useSetRecoilState<User>(UUid);
+
+  const { accessToken, setaccessToken } = HandleaccessToken();
+
+
+  const setToken = (accessToken: string, refreshToken: string) => {
+    
+  };
 
   const navigate = useNavigate();
   const handleUseremailChange = (
@@ -54,19 +51,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         { email, password },
       );
       const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.resfreshToken;
+      const refreshToken = response.data.data.refreshToken;
       console.log(accessToken);
       console.log(refreshToken);
       const expires = new Date();
       expires.setMinutes(expires.getMinutes() + 60);
-      cookie.save('accessTokens', accessToken, {
+      cookie.save('refreshtokens', refreshToken, {
         path: '/',
         expires,
         // secure : true,
         //httpOnly : true
       });
-
-      setToken(accessToken, refreshToken);
+      setaccessToken(accessToken)
 
       navigate('/');
       onClose();
