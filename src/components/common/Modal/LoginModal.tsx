@@ -20,12 +20,21 @@ interface LoginModalProps {
   onClose: () => void;
 }
 
+const { accessToken, setacessToken } = HandleaccessToken();
+
+export const setToken = (accessToken: string, refreshToken: string) => {
+  setacessToken(accessToken);
+  const expires = new Date();
+  cookie.save('refreshtokens', refreshToken, {
+    path: '/',
+    expires,
+  });
+};
+
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [email, setUseremail] = useState('');
   const [password, setPassword] = useState('');
   const setUserData = useSetRecoilState<User>(UUid);
-
-  const { accessToken, setacessToken } = HandleaccessToken();
 
   const navigate = useNavigate();
   const handleUseremailChange = (
@@ -47,7 +56,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       const accessToken = response.data.data.accessToken;
       const refreshToken = response.data.data.resfreshToken;
       console.log(accessToken);
-      setacessToken(accessToken); //accessToken save
       console.log(refreshToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       const expires = new Date();
@@ -58,6 +66,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         // secure : true,
         //httpOnly : true
       });
+      setToken(accessToken, refreshToken);
 
       navigate('/');
       onClose();

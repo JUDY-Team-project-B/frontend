@@ -7,6 +7,8 @@ import { Login } from './login';
 import axios from 'axios';
 import cookie from 'react-cookies';
 import { useStore } from 'zustand';
+import HandleaccessToken from '@/store/store.token';
+import { setToken } from '../Modal/LoginModal';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export const Header = () => {
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>(null);
 
-  const { accessToken, setacessToken } = useStore((state) => state);
+  const { accessToken, setacessToken } = HandleaccessToken();
 
   const onSilentRefresh = async () => {
     try {
@@ -22,7 +24,9 @@ export const Header = () => {
         'http://localhost:8080/api/v1/auth/refresh-token',
       );
       const accessToken = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
       console.log(accessToken);
+      setToken(accessToken, refreshToken);
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     } catch (e) {
       alert('다시 로그인해주세요');
