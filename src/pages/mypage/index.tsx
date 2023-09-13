@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import user from '../../assets/image/user.png';
+import user from '@/assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
@@ -37,7 +37,6 @@ function Profile() {
   const [postdata, setPostData] = useState<PostType[] | undefined>();
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
-
   const [liked, setLiked] = useState([]);
   console.log(liked);
 
@@ -185,13 +184,17 @@ function Profile() {
             <>
               <Container>
                 <Container1>
-                  {data.imageUrl == '' ? (
-                    <ProfileImg bgImg={data.imageUrls} />
-                  ) : (
-                    <ProfileImg bgImg={user} />
-                  )}
+                  <ProfileImgWrap>
+                    <ProfileImg
+                      bgImg={
+                        data.imageUrls[0]
+                          ? data.imageUrls[data.imageUrls.length - 1]
+                          : user
+                      }
+                    />
+                  </ProfileImgWrap>
 
-                  <NickName style={{ marginTop: '-2rem' }}>
+                  <NickName style={{ marginTop: '2rem' }}>
                     {data.nickname}
                   </NickName>
                   <NickName>
@@ -647,16 +650,22 @@ const CommentTitle = styled.div`
   align-items: center;
   font-size: 1.4rem;
 `;
-
+const ProfileImgWrap = styled.div`
+  display: flex;
+  height: 12rem;
+  position: relative;
+  width: 100%;
+`;
 const ProfileImg = styled.div<{ bgImg: string }>`
   background-image: ${(props) => `url(${props.bgImg})`};
-  height: 17rem;
-  background-size: 9rem 9rem;
+  height: 9rem;
+  width: 9rem;
   background-repeat: no-repeat;
   background-position: center;
-  /* margin-top: 20rem; */
-  background-position-x: 5.6rem;
-  background-position-y: 4rem;
+  background-size: cover;
+  margin-left: 5.5rem;
+  margin-top: 3rem;
+  border-radius: 50%; /* 이미지를 둥글게 만듭니다 */
 `;
 
 const NickName = styled.div`
