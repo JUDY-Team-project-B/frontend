@@ -22,7 +22,7 @@ const SignUpPage: React.FC = () => {
   const [usernameReadOnly, setUsernameReadOnly] = useState(false);
   const [nicknameReadOnly, setNicknameReadOnly] = useState(false);
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
   // 이메일 중복 확인
@@ -36,12 +36,22 @@ const SignUpPage: React.FC = () => {
       );
       console.log('성공');
       console.log(response.data); // response 데이터 확인
-      setIsValidEmail(true);
-      setUsernameReadOnly(true);
-      alert('사용 가능한 이메일입니다.');
+      if (!emailRegex.test(username)) {
+        setIsValidEmail(false);
+        alert('유효한 이메일 주소를 입력해주세요.');
+        return;
+      } else {
+        setIsValidEmail(true);
+        setUsernameReadOnly(true);
+        alert('사용 가능한 이메일입니다.');
+      }
     } catch (error) {
       console.error('Error adding like:', error);
-      alert('이미 사용중인 이메일입니다.');
+      if (error.message.includes(409)) {
+        alert('이미 사용중인 이메일입니다.');
+      } else {
+        alert('유효한 이메일 주소를 입력해주세요.');
+      }
     }
   };
 
@@ -55,13 +65,22 @@ const SignUpPage: React.FC = () => {
       );
       console.log('성공');
       console.log(response.data); // response 데이터 확인
-      setIsValidNickname(true);
-      setNicknameReadOnly(true);
-
-      alert('사용 가능한 닉네임입니다.');
+      console.log(nickname);
+      if (nickname.length < 2) {
+        setIsValidNickname(false);
+        alert('닉네임의 길이가 너무 짧습니다!');
+      } else {
+        setIsValidNickname(true);
+        alert('사용 가능한 닉네임입니다.');
+        setNicknameReadOnly(true);
+      }
     } catch (error) {
-      console.error('Error adding like:', error);
-      alert('이미 사용중인 닉네임입니다.');
+      console.error('Error adding like:', error.message);
+      if (error.message.includes(409)) {
+        alert('이미 사용중인 닉네임입니다.');
+      } else {
+        alert('닉네임의 길이가 너무 깁니다!');
+      }
     }
   };
 
@@ -87,7 +106,7 @@ const SignUpPage: React.FC = () => {
       return;
     }
 
-    if (nickname.length < 2 || nickname.length > 10) {
+    if (nickname.length < 2 && nickname.length > 10) {
       setIsValidNickname(false);
       alert('닉네임은 2 ~ 10글자 사이어야 합니다.');
       return;
@@ -144,8 +163,6 @@ const SignUpPage: React.FC = () => {
 
   return (
     <SignUpContainer>
-      <div>dummy</div>
-      <div>dummy</div>
       <Title>HANG OUT</Title>
       <SignUpForm onSubmit={handleSignUp}>
         <InputTitle>이메일</InputTitle>
