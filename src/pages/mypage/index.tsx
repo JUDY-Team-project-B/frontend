@@ -186,11 +186,7 @@ function Profile() {
                 <Container1>
                   <ProfileImgWrap>
                     <ProfileImg
-                      bgImg={
-                        data.imageUrls[0]
-                          ? data.imageUrls[data.imageUrls.length - 1]
-                          : user
-                      }
+                      bgImg={data.imageUrls[0] ? data.imageUrls[0] : user}
                     />
                   </ProfileImgWrap>
 

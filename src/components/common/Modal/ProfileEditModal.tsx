@@ -51,7 +51,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 
     try {
       const res = await axios({
-        method: 'post',
+        method: 'put',
         url: `http://localhost:8080/api/v1/user/${data.id}/image`,
         data: formData,
         headers: {
