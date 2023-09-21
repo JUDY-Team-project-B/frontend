@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import '../../assets/font/font.css';
+import '../assets/font/font.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 

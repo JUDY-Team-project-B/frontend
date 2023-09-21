@@ -1,18 +1,21 @@
-import { useRoutes } from 'react-router-dom';
-import { routes } from './routes';
+import { RouterProvider, useRoutes } from 'react-router-dom';
+import { router } from './routes';
 import '@/reset.scss';
-import 'tailwindcss/tailwind.css';
 import { Header } from './components/common/Header/Header';
 import { Footer } from './components/common/Footer/Footer';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { darkTheme } from './theme';
+
+const GlobalStyle = createGlobalStyle`
+  
+`
 
 function App() {
-  const elem = useRoutes(routes);
   return(
-    <div>
-      <Header/>
-      {elem}
-      <Footer/>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <GlobalStyle/>
+      <RouterProvider router={router}></RouterProvider>
+    </ThemeProvider>
   )
 }
 

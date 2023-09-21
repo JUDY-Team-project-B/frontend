@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import user from '../../assets/image/user.png';
+import user from '../assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
