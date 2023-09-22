@@ -1,11 +1,11 @@
 import React, { lazy } from 'react';
 import GlobalLayout from './pages/_layout';
 import { Route, createBrowserRouter } from 'react-router-dom';
-import CreatePostPage from './pages/CreatePostPage';
 import SignUpPage from './pages/SignUpPage';
+import CreatePostPage from './pages/post/CreatePostPage';
 const Main = lazy(() => import('./pages/main'));
 const Register = lazy(() => import('./pages/SignUpPage'));
-const Mypage = lazy(() => import('./pages/Mypage'));
+const Mypage = lazy(() => import('./pages/mypage/index'));
 const Travel = lazy(() => import('./pages/Travel'));
 const Detail = lazy(() => import('./pages/Detail'));
 

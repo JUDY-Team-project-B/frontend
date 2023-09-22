@@ -7,7 +7,6 @@ import { PostTitleInput } from '@/components/post/PostTitleInput';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import './CreatePostpage.scss';
 import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
