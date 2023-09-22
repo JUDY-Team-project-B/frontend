@@ -118,42 +118,6 @@ export const Header = () => {
         </Inputlayout>
         <Login/>
       </SpacebetweenLayout>
-      
-      {/* <div className="space_between">
-        <div className="rightdiv">
-          <div className="navdiv">
-            <button
-              className="navbutton"
-              onClick={gotoMain}
-              style={{ fontFamily: 'RixInooAriDuriR' }}
-            >
-              ss
-            </button>
-            <button onClick={gotoWrite}>떠나기</button>
-          </div>
-        </div>
-        <div className="leftdiv">
-          <div className="inputlayout">
-            <select onChange={handleSelect} value={Selected}>
-              {selectList.map((item) => (
-                <option value={item.eng} key={item.eng}>
-                  {item.korea}
-                </option>
-              ))}
-            </select>
-            <input
-              placeholder="검색어를 입력해주세요"
-              className="input"
-              onChange={setWord}
-              value={keyword}
-            />
-            <button className="buttonDisign" onClick={search}>
-              검색
-            </button>
-          </div>
-          <Login />
-        </div>
-      </div> */}
     </HeaderLayout>
     </Layout>
   );
@@ -206,7 +170,7 @@ const Inputlayout = styled.div`
   width: 50%;
   height: 100%;
   border: 1.5px groove #c2c3c5;
-  border-radius: 0.7rem;
+  border-radius: 0.9rem;
   padding-left: 1rem;
   padding-right: 1.5rem;
   align-items: center;
@@ -220,24 +184,29 @@ const Inputlayout = styled.div`
 const Searchselect = styled.select`
   border: none;
   color: #3db9ff;
+  font-size: large;
+  font-weight: bolder
 `
 const Searchoption = styled.option`
   color: #3db9ff;
 `
 const SearchInput = styled.input`
-  width: 70%;
+  width: 80%;
   border: none;
   height: 100%;
   opacity: 0.7;
+  font-size: large;
+  font-weight: bolder;
   &:focus{
     outline: none;
   }
-  color: #3db9ff;
 
 `
 const SearchButton = styled.button`
   width: 3rem;
   color: #3db9ff;
   border: none;
+  font-size: large;
+  font-weight: bolder;
   background-color: white;
 `

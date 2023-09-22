@@ -108,7 +108,7 @@ const ContentsWrap = styled.div`
   }
 `;
 
-const ContentsImg = styled.button`
+const ContentsImg = styled.div`
   margin-left: ${(props) => props.marginLeft};
   opacity: 1;
   width: 8.5rem;
@@ -121,6 +121,7 @@ const ContentsImg = styled.button`
   background-repeat: no-repeat;
   transition: transform 0.5s;
   justify-content: center;
+  cursor: pointer;
 
   &:hover {
     position: center;
@@ -142,6 +143,7 @@ const BtnName = styled.div`
   margin-top: 7.5rem;
   width: 100%;
   overflow: hidden;
+  display: flex;
   justify-content: center;
   align-items: center;
   border: none;

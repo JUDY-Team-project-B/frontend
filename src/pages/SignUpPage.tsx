@@ -144,8 +144,6 @@ const SignUpPage: React.FC = () => {
 
   return (
     <SignUpContainer>
-      <div>dummy</div>
-      <div>dummy</div>
       <Title>HANG OUT</Title>
       <SignUpForm onSubmit={handleSignUp}>
         <InputTitle>이메일</InputTitle>
