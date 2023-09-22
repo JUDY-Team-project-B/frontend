@@ -70,6 +70,7 @@ function Profile() {
     UserData();
   }, []);
 
+  // 프로필 이미지 삭제
   const deleteProfileImg = async () => {
     try {
       const res = await axios({
