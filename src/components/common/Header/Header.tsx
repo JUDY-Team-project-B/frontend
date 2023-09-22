@@ -185,10 +185,17 @@ const Searchselect = styled.select`
   border: none;
   color: #3db9ff;
   font-size: large;
-  font-weight: bolder
+  font-weight: bolder;
+  cursor: pointer;
+  &:focus{
+    border: none;
+  }
 `
 const Searchoption = styled.option`
   color: #3db9ff;
+  &:focus{
+    border: none;
+  }
 `
 const SearchInput = styled.input`
   width: 80%;
@@ -209,4 +216,5 @@ const SearchButton = styled.button`
   font-size: large;
   font-weight: bolder;
   background-color: white;
+  cursor: pointer;
 `
