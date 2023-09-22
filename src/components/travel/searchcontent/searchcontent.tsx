@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './searchcontent.scss';
-import Preview from '@/components/main/preview/preview';
 import DetailSearch from '../detailsearch/detailsearch';
 //import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
