@@ -218,10 +218,11 @@ const Inputlayout = styled.div`
 `
 
 const Searchselect = styled.select`
-  
+  border: none;
+  color: #3db9ff;
 `
 const Searchoption = styled.option`
-  
+  color: #3db9ff;
 `
 const SearchInput = styled.input`
   width: 30%;
@@ -230,7 +231,12 @@ const SearchInput = styled.input`
   &:focus{
     outline: none;
   }
+  color: #3db9ff;
+
 `
 const SearchButton = styled.button`
   width: 3rem;
+  color: #3db9ff;
+  border: none;
+  background-color: white;
 `

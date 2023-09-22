@@ -61,7 +61,7 @@ export const Login = () => {
   if (isLogin === false) {
     return (
       <Layout>
-        <LoginLayout onClick={openLoginModal}>
+        <LoginLayout  onClick={openLoginModal}>
           로그인
         </LoginLayout>
         <SigninLayout onClick={gotoRegister}>
@@ -74,7 +74,7 @@ export const Login = () => {
     );
   } else {
     return (
-      <div style={{ marginLeft: '8rem', display: 'flex', marginRight: '3rem' }}>
+      <div style={{  display: 'flex'}}>
         <MyPageLayout onClick={gotoMypage}>
           내정보
         </MyPageLayout>
@@ -89,8 +89,6 @@ export const Login = () => {
 
 const Layout = styled.div`
   display: flex;
-  margin-left: 9rem;
-  margin-right: 3rem;
 `
 
 const ILayout = styled.div`
@@ -104,6 +102,7 @@ const ILayout = styled.div`
   font-family: 'NanumSquareNeo-Variable';
   margin-top: 4px;
   margin-bottom: 4px;
+  cursor: pointer;
 `
 const LoginLayout = styled(ILayout)`
   width: 5.5rem;
