@@ -87,7 +87,6 @@ export const Login = () => {
 };
 
 
-
 const Layout = styled.div`
   display: flex;
   margin-left: 9rem;
@@ -101,7 +100,10 @@ const ILayout = styled.div`
   background-color: #4ab8f7;
   color: white;
   border-radius: 1rem;
-  font-family: 'NanumSquareNeo-Variable'
+  font-weight: bolder;
+  font-family: 'NanumSquareNeo-Variable';
+  margin-top: 4px;
+  margin-bottom: 4px;
 `
 const LoginLayout = styled(ILayout)`
   width: 5.5rem;
@@ -117,4 +119,5 @@ const MyPageLayout = styled(ILayout)`
 const LogoutLayout = styled(ILayout)`
   width: 6.5rem;
   margin-left: 1rem;
+
 `
