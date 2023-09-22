@@ -169,7 +169,7 @@ const Layout = styled.div`
 `
 
 const HeaderLayout = styled.div`
-  width: 70%;
+  width: 85rem;
   height: 60px;
   background-color: white;
   display: flex;
@@ -233,4 +233,6 @@ const SearchInput = styled.input`
 `
 const SearchButton = styled.button`
   width: 3rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
 `
