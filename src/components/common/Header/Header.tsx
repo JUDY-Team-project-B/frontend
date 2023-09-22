@@ -203,10 +203,10 @@ const Title = styled.button`
 `
 
 const Inputlayout = styled.div`
-  width: 70%;
-  height:70%;
+  width: 50%;
+  height: 100%;
   border: 1.5px groove #c2c3c5;
-  border-radius: 1.5rem;
+  border-radius: 0.7rem;
   padding-left: 1rem;
   padding-right: 1.5rem;
   align-items: center;
@@ -225,8 +225,9 @@ const Searchoption = styled.option`
   color: #3db9ff;
 `
 const SearchInput = styled.input`
-  width: 30%;
-  height: 50%;
+  width: 70%;
+  border: none;
+  height: 100%;
   opacity: 0.7;
   &:focus{
     outline: none;
