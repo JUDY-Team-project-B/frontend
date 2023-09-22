@@ -15,6 +15,7 @@ import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import '@/assets/font/font.css';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface UserType {
   age: number;
@@ -68,6 +69,25 @@ function Profile() {
     /// 여기서 처리 추가적으로 처리 가능///
     UserData();
   }, []);
+
+  const deleteProfileImg = async () => {
+    try {
+      const res = await axios({
+        method: 'delete',
+        url: `http://localhost:8080/api/v1/user/${data.id}/image`,
+        headers: {
+          Authorization: `Bearer ${cookie.load('accessTokens')}`,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('프로필 이미지가 삭제되었습니다.');
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // GET : 내가 작성한 게시물
   useEffect(() => {
     const PostListData = async () => {
@@ -175,9 +195,6 @@ function Profile() {
 
   return (
     <div>
-      <div>dummy</div>
-      <div>dummy</div>
-      <div>dummy</div>
       <BackgroundWrap>
         <Bg>
           {data && (
@@ -188,6 +205,12 @@ function Profile() {
                     <ProfileImg
                       bgImg={data.imageUrls[0] ? data.imageUrls[0] : user}
                     />
+                    {data.imageUrls && data.imageUrls.length > 0 && (
+                      <ProfileImgDeleteButton
+                        style={{ fontSize: '2rem' }}
+                        onClick={deleteProfileImg}
+                      />
+                    )}
                   </ProfileImgWrap>
 
                   <NickName style={{ marginTop: '2rem' }}>
@@ -370,18 +393,13 @@ function Profile() {
 
 export default Profile;
 
-const Dummy = styled.div`
-height: 20rem
-<wight:1rem></wight:1rem>
-
-`;
-
 const BackgroundWrap = styled.div`
   height: 55rem;
   width: 100%;
   display: flex;
   font-family: 'NanumSquareNeoTTF';
   justify-content: center;
+  margin-top: 3rem;
 `;
 const Bg = styled.div`
   height: 49rem;
@@ -543,6 +561,22 @@ const ImgWrap = styled.div`
   height: 9.5rem;
   position: relative;
   width: 100%;
+`;
+
+const ProfileImgDeleteButton = styled(DeleteIcon)`
+  background-color: #a3a3a3;
+  border-radius: 2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #f5f5f5;
+  position: relative;
+  margin-top: 10rem;
+  margin-left: -2.5rem;
+
+  &:hover {
+    position: center;
+    background-color: #ababab;
+  }
 `;
 
 const Img = styled.button`
