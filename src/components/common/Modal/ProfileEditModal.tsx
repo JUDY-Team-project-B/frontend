@@ -60,7 +60,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert('프로필 이미지가 변경되었습니다!');
+      alert('프로필 이미지가 변경되었습니다.');
       window.location.reload();
     } catch (e) {
       console.log(e);
