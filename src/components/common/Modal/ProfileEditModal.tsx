@@ -34,10 +34,8 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   ) => {
     const file = event.target?.files?.[0];
     console.log('Uploaded file:', file);
-    setSelectedFile(file.name);
+    setSelectedFile(file);
     setFileImage(URL.createObjectURL(file));
-    console.log(selectedFile);
-    console.log(fileImage);
   };
 
   const deleteFileImage = () => {
@@ -46,28 +44,28 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     setSelectedFile('');
   };
 
-  const handleProfileImgSubmit = async (selectedFile: string) => {
+  const handleProfileImgSubmit = async (file: string) => {
+    const formData = new FormData();
+    console.log(file);
+    formData.append('file', file);
+
     try {
-      await axios.post(
-        `http://localhost:8080/api/v1/post/${data.id}/images`,
-        {
-          file: selectedFile,
+      const res = await axios({
+        method: 'put',
+        url: `http://localhost:8080/api/v1/user/${data.id}/image`,
+        data: formData,
+        headers: {
+          Authorization: `Bearer ${cookie.load('accessTokens')}`,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'multipart/form-data',
         },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
-      alert('프로필 이미지가 변경되었습니다');
+      });
+      alert('프로필 이미지가 변경되었습니다.');
       window.location.reload();
-      console.log('성공');
-    } catch (error) {
-      console.error('실패 오류 : ', error);
+    } catch (e) {
+      console.log(e);
     }
   };
-
   useEffect(() => {
     const UserData = async () => {
       try {
@@ -137,7 +135,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       onClose={onClose}
       maxWidth="md"
       PaperProps={{
-        style: { borderRadius: 40, height: '40rem', padding: '1rem' },
+        style: { borderRadius: 40, height: '46rem', padding: '1rem' },
       }}
     >
       <DialogTitle style={{ fontSize: '1.5rem', height: '5rem' }}>
@@ -145,22 +143,25 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       </DialogTitle>
       <DialogContent style={{ overflowX: 'hidden' }}>
         <CaptionText>프로필 사진 변경</CaptionText>
-        {fileImage && (
-          <img
-            alt="sample"
-            src={fileImage}
-            style={{
-              width: '8.5rem',
-              height: '8.5rem',
-              borderRadius: '5rem',
-              display: 'flex',
-              marginLeft: '11.2rem',
-              marginTop: '2rem',
-            }}
-          />
-        )}
+        <ProfileImgWrap>
+          {fileImage && (
+            <img
+              alt="sample"
+              src={fileImage}
+              style={{
+                maxWidth: '13rem', // 이미지의 최대 너비를 부모 요소에 맞춥니다.
+                maxHeight: '13rem', // 이미지의 최대 높이를 부모 요소에 맞춥니다.
+                display: 'flex',
+                justifyContent: 'center',
+                backgroundSize: 'cover',
+              }}
+            />
+          )}
+        </ProfileImgWrap>
         <ProfileImgBox>
-          <ProfileImg>{selectedFile}</ProfileImg>
+          <FileNameBox>
+            {selectedFile && <FileName>{selectedFile.name}</FileName>}
+          </FileNameBox>
           <ProfileImgDeleteButton
             onClick={deleteFileImage}
           ></ProfileImgDeleteButton>
@@ -174,7 +175,6 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
               type="file"
               onChange={handleThumbnailUpload}
             />
-            {selectedFile && <FileName>{selectedFile.name}</FileName>}
           </ThumbnailUploadButton>
         </Caption>
         <ImageChangeButton onClick={() => handleProfileImgSubmit(selectedFile)}>
@@ -248,9 +248,14 @@ const ProfileImg = styled.div`
 const ThumbnailUploadInput = styled.input`
   display: none;
 `;
-const FileName = styled.span`
-  margin-left: 1rem;
+const FileNameBox = styled.div`
+  width: 100%;
+  height: 2rem;
+  padding: 11px;
+  font-size: 0.8rem;
 `;
+const FileName = styled.span``;
+
 const Divider = styled.div`
   height: 1px;
   background-color: #e5e5e5;
@@ -266,6 +271,13 @@ const NicknameBox = styled.div`
   align-items: center;
   padding: 0.5rem;
 `;
+const ProfileImgWrap = styled.div`
+  display: flex;
+  height: 12rem;
+  position: relative;
+  width: 100%;
+  justify-content: center;
+`;
 
 const ProfileImgBox = styled.div`
   width: 500px;
@@ -279,6 +291,7 @@ const ProfileImgBox = styled.div`
 const ProfileImgDeleteButton = styled(ClearIcon)`
   color: #d00707;
   width: 1rem;
+  margin-right: 0.5rem;
   margin-top: 0.3rem;
   cursor: pointer;
 `;

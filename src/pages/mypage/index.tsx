@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import user from '../assets/image/user.png';
+import user from '@/assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
@@ -15,6 +15,7 @@ import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import '@/assets/font/font.css';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface UserType {
   age: number;
@@ -27,7 +28,7 @@ export interface UserType {
   role: string;
 }
 
-function Mypage() {
+function Profile() {
   const url = 0; //임시로 0해둠
   const [modalOpen, setModalOpen] = useState(false);
   const [data, setData] = useState<UserType | undefined>();
@@ -37,7 +38,6 @@ function Mypage() {
   const [postdata, setPostData] = useState<PostType[] | undefined>();
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
-
   const [liked, setLiked] = useState([]);
   console.log(liked);
 
@@ -69,6 +69,26 @@ function Mypage() {
     /// 여기서 처리 추가적으로 처리 가능///
     UserData();
   }, []);
+
+  // 프로필 이미지 삭제
+  const deleteProfileImg = async () => {
+    try {
+      const res = await axios({
+        method: 'delete',
+        url: `http://localhost:8080/api/v1/user/${data.id}/image`,
+        headers: {
+          Authorization: `Bearer ${cookie.load('accessTokens')}`,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('프로필 이미지가 삭제되었습니다.');
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // GET : 내가 작성한 게시물
   useEffect(() => {
     const PostListData = async () => {
@@ -176,22 +196,25 @@ function Mypage() {
 
   return (
     <div>
-      <div>dummy</div>
-      <div>dummy</div>
-      <div>dummy</div>
       <BackgroundWrap>
         <Bg>
           {data && (
             <>
               <Container>
                 <Container1>
-                  {data.imageUrl == '' ? (
-                    <ProfileImg bgImg={data.imageUrls} />
-                  ) : (
-                    <ProfileImg bgImg={user} />
-                  )}
+                  <ProfileImgWrap>
+                    <ProfileImg
+                      bgImg={data.imageUrls[0] ? data.imageUrls[0] : user}
+                    />
+                    {data.imageUrls && data.imageUrls.length > 0 && (
+                      <ProfileImgDeleteButton
+                        style={{ fontSize: '2rem' }}
+                        onClick={deleteProfileImg}
+                      />
+                    )}
+                  </ProfileImgWrap>
 
-                  <NickName style={{ marginTop: '-2rem' }}>
+                  <NickName style={{ marginTop: '2rem' }}>
                     {data.nickname}
                   </NickName>
                   <NickName>
@@ -369,13 +392,7 @@ function Mypage() {
   );
 }
 
-export default Mypage;
-
-const Dummy = styled.div`
-height: 20rem
-<wight:1rem></wight:1rem>
-
-`;
+export default Profile;
 
 const BackgroundWrap = styled.div`
   height: 55rem;
@@ -383,6 +400,7 @@ const BackgroundWrap = styled.div`
   display: flex;
   font-family: 'NanumSquareNeoTTF';
   justify-content: center;
+  margin-top: 3rem;
 `;
 const Bg = styled.div`
   height: 49rem;
@@ -546,6 +564,22 @@ const ImgWrap = styled.div`
   width: 100%;
 `;
 
+const ProfileImgDeleteButton = styled(DeleteIcon)`
+  background-color: #a3a3a3;
+  border-radius: 2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #f5f5f5;
+  position: relative;
+  margin-top: 10rem;
+  margin-left: -2.5rem;
+
+  &:hover {
+    position: center;
+    background-color: #ababab;
+  }
+`;
+
 const Img = styled.button`
   display: flex;
   opacity: 0.9;
@@ -647,16 +681,22 @@ const CommentTitle = styled.div`
   align-items: center;
   font-size: 1.4rem;
 `;
-
+const ProfileImgWrap = styled.div`
+  display: flex;
+  height: 12rem;
+  position: relative;
+  width: 100%;
+`;
 const ProfileImg = styled.div<{ bgImg: string }>`
   background-image: ${(props) => `url(${props.bgImg})`};
-  height: 17rem;
-  background-size: 9rem 9rem;
+  height: 9rem;
+  width: 9rem;
   background-repeat: no-repeat;
   background-position: center;
-  /* margin-top: 20rem; */
-  background-position-x: 5.6rem;
-  background-position-y: 4rem;
+  background-size: cover;
+  margin-left: 5.5rem;
+  margin-top: 3rem;
+  border-radius: 50%; /* 이미지를 둥글게 만듭니다 */
 `;
 
 const NickName = styled.div`
