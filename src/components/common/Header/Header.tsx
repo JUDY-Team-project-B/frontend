@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Header.scss';
+//import './Header.scss';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 import { Login } from './login';
 import axios from 'axios';
 import cookie from 'react-cookies';
+import styled from 'styled-components';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -96,44 +97,124 @@ export const Header = () => {
   };
 
   return (
-    <div className="navlayout">
-      <div className="space_between">
-        <div className="rightdiv">
-          <div className="navdiv">
-            <button
-              className="navbutton"
-              onClick={gotoMain}
-              style={{ fontFamily: 'RixInooAriDuriR' }}
-            >
-              HANG OUT
-            </button>
-            <button onClick={gotoWrite}>떠나기</button>
-          </div>
-        </div>
-        <div className="leftdiv">
-          <div className="inputlayout">
-            <select onChange={handleSelect} value={Selected}>
-              {selectList.map((item) => (
-                <option value={item.eng} key={item.eng}>
-                  {item.korea}
-                </option>
-              ))}
-            </select>
-            <input
-              placeholder="검색어를 입력해주세요"
-              className="input"
-              onChange={setWord}
-              value={keyword}
-            />
-            <button className="buttonDisign" onClick={search}>
+    <Layout>
+    <HeaderLayout>
+      <SpacebetweenLayout>
+        <Title onClick={gotoMain}>
+          HANGOUT
+        </Title>
+        <Inputlayout>
+          <Searchselect onChange={handleSelect} value={Selected}>
+            { selectList.map((item) => (
+              <Searchoption value={item.eng} key = {item.eng}>
+                {item.korea}
+              </Searchoption>
+            )) }
+          </Searchselect>
+          <SearchInput placeholder='검색어를 입력해주세요' onChange={setWord} value={keyword}/>
+          <SearchButton onClick={search}>
               검색
-            </button>
-          </div>
-          <Login />
-        </div>
-      </div>
-    </div>
+          </ SearchButton>
+        </Inputlayout>
+        <Login/>
+      </SpacebetweenLayout>
+    </HeaderLayout>
+    </Layout>
   );
 };
 
 export default Header;
+
+const Layout = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`
+
+const HeaderLayout = styled.div`
+  width: 85rem;
+  height: 60px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  color: #3db9ff;
+  justify-content: center;
+`
+
+const SpacebetweenLayout = styled.div`
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+`
+
+const Title = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  height: 100%;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: #3db9ff;
+  background-color: white;
+  font-weight: bold;
+  font-family: 'RixInooAriDuriR';
+  border:none;
+  &:hover{
+    opacity: 0.8;
+  }
+`
+
+const Inputlayout = styled.div`
+  width: 50%;
+  height: 100%;
+  border: 1.5px groove #c2c3c5;
+  border-radius: 0.9rem;
+  padding-left: 1rem;
+  padding-right: 1.5rem;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: medium;
+  font-family: NanumSquareNeo-Variable;
+`
+
+const Searchselect = styled.select`
+  border: none;
+  color: #3db9ff;
+  font-size: large;
+  font-weight: bolder;
+  cursor: pointer;
+  &:focus{
+    border: none;
+  }
+`
+const Searchoption = styled.option`
+  color: #3db9ff;
+  &:focus{
+    border: none;
+  }
+`
+const SearchInput = styled.input`
+  width: 80%;
+  border: none;
+  height: 100%;
+  opacity: 0.7;
+  font-size: large;
+  font-weight: bolder;
+  &:focus{
+    outline: none;
+  }
+
+`
+const SearchButton = styled.button`
+  width: 3rem;
+  color: #3db9ff;
+  border: none;
+  font-size: large;
+  font-weight: bolder;
+  background-color: white;
+  cursor: pointer;
+`

@@ -1,16 +1,21 @@
-import './Footer.scss';
-
+import styled from 'styled-components';
 
 export const Footer = () => {
 
   return (
-    <div className="footerlayout">
-        <div className='footerrightdiv'>
+    <FooterLayout>
         Copyright Hangout Inc.All Rights Resvered
-        </div>
-        <div className='leftdiv'></div>
-    </div>
+    </FooterLayout>
   );
 };
 
 export default Footer;
+
+const FooterLayout = styled.div`
+  width: 100%;
+  height: 100px;
+  font-family: NanumSquareNeo-Variable;
+  font-size: small;
+  margin-left: 10%;
+  padding-top: 50px;
+`

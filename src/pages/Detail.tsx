@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import titleImg from '../../assets/image/image1.png';
-import user from '../../assets/image/user.png';
+import titleImg from '../assets/image/image1.png';
+import user from '../assets/image/user.png';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
