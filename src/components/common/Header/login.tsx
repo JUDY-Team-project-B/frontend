@@ -26,7 +26,7 @@ export const Login = () => {
   };
 
   const IsLogin = () =>{
-    const Token = cookie.load('accessTokens')
+    const Token = cookie.load('refreshToken')
     if(Token === undefined){
       setisLogin(false)
     }else{
@@ -39,7 +39,7 @@ export const Login = () => {
     setUserData({
       is_active: false,
     });
-    cookie.remove('accessTokens', {path : '/'});
+    cookie.remove('refreshToken', {path : '/'});
     navigate('/');
     location.reload();
   };
@@ -63,12 +63,13 @@ export const Login = () => {
       <Layout>
         <LoginLayout  onClick={openLoginModal}>
           로그인
-        </LoginLayout>
-        <SigninLayout onClick={gotoRegister}>
-          회원가입
           {isLoginModalOpen && (
             <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
           )}
+        </LoginLayout>
+        <SigninLayout onClick={gotoRegister}>
+          회원가입
+
         </SigninLayout>
       </Layout>
     );

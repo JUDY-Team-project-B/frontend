@@ -41,17 +41,26 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     try{
       const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
       const accessToken  = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
       console.log(accessToken)
+      console.log(refreshToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      cookie
       const expires = new Date()
       expires.setMinutes(expires.getMinutes() + 60)
-      cookie.save('accessTokens', accessToken, {
+      cookie.save('refreshToken', refreshToken, {
           path : '/',
           expires,
           // secure : true,
           //httpOnly : true
-        });
+        }
+      );
+      cookie.save('accessToken', accessToken, {
+        path : '/',
+        expires,
+        // secure : true,
+        //httpOnly : true
+      }
+    );
       
       navigate('/');
       onClose();
@@ -63,6 +72,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 
   const handleGoogleLogin = () => {
     console.log('google login 이동');
+    location.href='http://localhost:8080/api/v1/auth/oauth2/authorize/google?redirect-uri=http://localhost:3000';
   };
   return (
     <Dialog
