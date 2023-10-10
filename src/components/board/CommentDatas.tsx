@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import titleImg from '../assets/image/image1.png';
-import user from '../assets/image/user.png';
-import { useLocation } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { restFetcher } from '@/queryClient';
-import axios from 'axios';
-import { commentType } from '@/types/post';
-import cookie from 'react-cookies';
-import Post from '@/components/board/post';
-// import { getCommentList } from '@/api/api';
+import { getCommentList } from "@/api/api";
+import { commentType } from "@/types/post";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 
-function Detail() {
-  const locations = useLocation();
-  const queryParems = new URLSearchParams(locations.search);
-  const searchTerm = queryParems.get('q');
+const CommentDatas = () => {
 
-  const [PostData, setPostData] = useState<any[] | any>([]);
-  const [postnum, setPostnum] = useState<string | undefined>('');
-  const [commentData, setCommentData] = useState<commentType[]>([
+  const {isLoading, isError, data: CommentData, error}  = useQuery<commentType[]>(
+    ['commentData', getCommentList]
+  )
+
+  useEffect(()=>{
+    setCommentData(CommentData)
+  })
+
+
+  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
+  const [commentData, setCommentData] = useState<commentType[]|undefined>([
     {
       children: [],
       content: '',
@@ -29,17 +28,6 @@ function Detail() {
       nickname: '',
     },
   ]);
-  const [userId, setUserId] = useState<any | undefined>('');
-  const [userData, setUserData] = useState<any | undefined>('');
-  const [comments, setComments] = useState<any | undefined>('');
-  const [myData, setMyData] = useState<any | undefined>('');
-  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
-
-  const [repo, setRepo] = useState('auto-test');
-  const [path, setPath] = useState('READ.md');
-
-  // const {isLoading,isError,data,error} =useQuery('comment',getCommentList)
-
 
   const setIsSelect = (index: number) => {
     setChildrenComment('');
@@ -67,6 +55,7 @@ function Detail() {
     });
     console.log(commentData);
   };
+
 
   const setCommentIsSelect = (index: number) => {
     setChildrenComment('');
@@ -98,8 +87,6 @@ function Detail() {
     setChildrenComment(commentData[index].content);
     console.log(commentData);
   };
-
-
 
   const sendComment = async () => {
     try {
@@ -178,7 +165,6 @@ function Detail() {
     location.reload();
   };
 
-  
   useEffect(() => {
     async function UserData(): Promise<void> {
       try {
@@ -202,15 +188,97 @@ function Detail() {
     UserData();
   }, []);
 
-  return (
-    <Bg>
-      <TitleImg></TitleImg>
-      <Post/>
-    </Bg>
-  );
-}
 
-export default Detail;
+  return(
+    <Container2>
+        <CommentLayout>
+          <CommentInput onChange={onSearch} value={comments}></CommentInput>
+          <Button onClick={sendComment}>게시</Button>
+        </CommentLayout>
+        {/* 일반적인 댓글 작성 */}
+
+        <div>
+          {commentData?.map((datas: any, index: any) => (
+            <div>
+              <Comment>
+                <CommentInfo>
+                  {/* {datas.nickname} {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
+                  <CommentWriter>{datas.nickname}</CommentWriter>
+                  {datas.nickname === myData.nickname ? (
+                    <div
+                      style={{
+                        display: 'flex',
+                        width: '90%',
+                        justifyContent: 'right',
+                      }}  
+                    >
+                      <CommentButton onClick={() => setCommentIsSelect(index)}>
+                        수정
+                      </CommentButton>
+                      <CommentButton onClick={() => Deletecomment(datas.id)}>
+                        삭제
+                      </CommentButton>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </CommentInfo>
+                <CommentContent>
+                  <Text>{datas.content}</Text>
+                  <CommentButton2 onClick={() => setIsSelect(index)}>
+                    답글
+                  </CommentButton2>
+                </CommentContent>
+                {datas.isSelect === false ? (
+                  ''
+                ) : (
+                  <CommentLayout>
+                    <CommentInput
+                      onChange={onChildcomment}
+                      value={ChildrenComment}
+                    />
+                    <Button onClick={() => sendChildcomment(index+1)}>
+                      게시
+                    </Button>
+                  </CommentLayout>
+                )}
+                {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
+              </Comment>
+              <div>
+                {datas.children?.map((comment: any, index: any) => (
+                  <ChildrenComments>
+                    <CommentInfo>
+                      {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
+                      <CommentWriter>{datas.nickname}</CommentWriter>
+                      {comment.nickname === myData.nickname ? (
+                        <div
+                        style={{
+                          display: 'flex',
+                          width: '90%',
+                          justifyContent: 'right',
+                        }}
+                        >
+                          <Text onClick={() => setCommentIsSelect(index)}>
+                            수정
+                          </Text>
+                          <Text onClick={() => Deletecomment(index)}>삭제</Text>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </CommentInfo>
+                    <CommentContent>
+                      <Text>{comment.content}</Text>
+                    </CommentContent>
+                  </ChildrenComments>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Container2>
+  )
+}
 
 const CommentLayout = styled.div`
   margin: 0px;
