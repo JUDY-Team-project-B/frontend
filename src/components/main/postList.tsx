@@ -18,64 +18,65 @@ const Preview = (queryString: any) => {
   const Type = queryString.searchType.toString();
   const keyword = queryString.searchKeyword.toString();
   const navigate = useNavigate();
-  const [likedata, setLikeData] = useState<PostType[] | undefined>();
-  const [listData, setListData] = useState<PostType[] | undefined>();
+
   const [liked, setLiked] = useState([]);
 
-  useEffect(() => {
-    const PostListData = async () => {
-      console.log(url);
-      console.log(Type);
-      console.log(keyword);
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/post/all/0`,
-          {
-            params: {
-              searchType: Type,
-              searchKeyword1: keyword,
-            },
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
+  const postListQueryKey = ['postList', Type, keyword];
+  const likeDataQueryKey = ['likedPosts', url2];
+
+  // useQuery를 사용하여 데이터를 가져옴 (게시물 목록)
+  const {
+    data: listData,
+    isLoading: isListDataLoading,
+    isError: isListDataError,
+  } = useQuery(postListQueryKey, async () => {
+    const response = await axios.get(
+      `http://localhost:8080/api/v1/post/all/0`,
+      {
+        params: {
+          searchType: Type,
+          searchKeyword1: keyword,
+        },
+        headers: {
+          Authorization: `Bearer ${cookie.load('accessToken')}`,
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    );
+
+    const responseData: PostType[] = response.data.data;
+    return responseData;
+  });
+
+  // useQuery를 사용하여 데이터를 가져옴 (좋아요한 게시물 목록)
+  const {
+    data: likedata,
+    isLoading: isLikeDataLoading,
+    isError: isLikeDataError,
+  } = useQuery(
+    likeDataQueryKey,
+    async () => {
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/post/me/like/${url2}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
           },
-        );
-        const responseData: PostType[] = response.data.data;
-        setListData(responseData);
-        console.log(responseData);
-        const postDataIds = responseData.map((item) => item.id);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    PostListData();
-  }, [Type, keyword]);
+        },
+      );
 
-  useEffect(() => {
-    const LikeListData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/post/me/like/${url2}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
-        const responseData: PostType[] = response.data.data;
+      const responseData: PostType[] = response.data.data;
 
-        setLikeData(responseData);
+      const likeDataIds = responseData.map((item) => item.id);
+      setLiked(likeDataIds);
 
-        const likeDataIds = responseData.map((item) => item.id);
-        setLiked(likeDataIds);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    LikeListData();
-  }, []);
+      return responseData;
+    },
+    {
+      enabled: !!cookie.load('accessToken'), // 로그인 상태에 따라 데이터 가져오기를 활성화/비활성화
+    },
+  );
 
   const setLike = async (postId: number) => {
     //로그인 안된 경우 코드 수정
@@ -87,11 +88,12 @@ const Preview = (queryString: any) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
       );
+
       console.log('좋아요 실행 및 취소');
     } catch (error) {
       console.error('Error adding like:', error);
