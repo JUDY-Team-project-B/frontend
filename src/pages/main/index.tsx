@@ -68,16 +68,16 @@ const Main = () => {
     dots: false,
     infinite: true, //무한 반복 옵션
     fade: true,
-    speed: 700,
+    speed: 2000,
     slidesToShow: 1, //한 화면에 보여질 컨텐츠 개수
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 6000,
+    autoplaySpeed: 5000,
   };
 
   const Layout = styled.div`
-    height:100%;
-  `
+    height: 100%;
+  `;
 
   return (
     <Layout>

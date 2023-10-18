@@ -107,7 +107,7 @@ const ContentsWrap = styled.div`
   @media (max-width: 1400px) {
     margin-left: -2rem;
     overflow: visible;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
 `;
 
