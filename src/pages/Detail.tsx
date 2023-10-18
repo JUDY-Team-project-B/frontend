@@ -2,210 +2,23 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import titleImg from '../assets/image/image1.png';
 import user from '../assets/image/user.png';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
 import { commentType } from '@/types/post';
 import cookie from 'react-cookies';
-import Post from '@/components/board/post';
+import Post from '@/components/board/Post';
+import { CommentDatas } from '@/components/board/CommentDatas';
 // import { getCommentList } from '@/api/api';
 
 function Detail() {
-  const locations = useLocation();
-  const queryParems = new URLSearchParams(locations.search);
-  const searchTerm = queryParems.get('q');
-
-  const [PostData, setPostData] = useState<any[] | any>([]);
-  const [postnum, setPostnum] = useState<string | undefined>('');
-  const [commentData, setCommentData] = useState<commentType[]>([
-    {
-      children: [],
-      content: '',
-      createdAt: '',
-      id: 0,
-      isSelect: false,
-      likeCount: 0,
-      nickname: '',
-    },
-  ]);
-  const [userId, setUserId] = useState<any | undefined>('');
-  const [userData, setUserData] = useState<any | undefined>('');
-  const [comments, setComments] = useState<any | undefined>('');
-  const [myData, setMyData] = useState<any | undefined>('');
-  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
-
-  const [repo, setRepo] = useState('auto-test');
-  const [path, setPath] = useState('READ.md');
-
-  // const {isLoading,isError,data,error} =useQuery('comment',getCommentList)
-
-
-  const setIsSelect = (index: number) => {
-    setChildrenComment('');
-    setCommentData((prevData) => {
-      const newData = [...prevData];
-      if (newData[index].isSelect === false) {
-        for (let i = 0; i < newData.length; i++) {
-          newData[i] = {
-            ...newData[i],
-            isSelect: false,
-          };
-        }
-        newData[index] = {
-          ...newData[index],
-          isSelect: !newData[index].isSelect,
-        };
-        return newData;
-      } else {
-        newData[index] = {
-          ...newData[index],
-          isSelect: !newData[index].isSelect,
-        };
-        return newData;
-      }
-    });
-    console.log(commentData);
-  };
-
-  const setCommentIsSelect = (index: number) => {
-    setChildrenComment('');
-    setCommentData((prevData) => {
-      const newData = [...prevData]; // 기존 데이터 가져오기
-
-      if (newData[index].isSelect === false) {
-        // 선택이 안되어있는 경우
-        for (let i = 0; i < newData.length; i++) {
-          newData[i] = {
-            ...newData[i],
-            isSelect: false,
-          };
-        }
-        newData[index] = {
-          ...newData[index],
-          isSelect: !newData[index].isSelect,
-        };
-        return newData;
-      } else {
-        //다른곳이 선택이 되어있는 경우
-        newData[index] = {
-          ...newData[index],
-          isSelect: !newData[index].isSelect,
-        };
-        return newData;
-      }
-    });
-    setChildrenComment(commentData[index].content);
-    console.log(commentData);
-  };
-
-
-
-  const sendComment = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/comment',
-        {
-          userId: userData.id,
-          postId: searchTerm,
-          parentId: '',
-          content: comments,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
-      console.log(response);
-      alert('작성되었습니다');
-    } catch (error) {
-      console.log(error);
-    }
-    location.reload();
-  };
-
-  const sendChildcomment = async (parentId: number) => {
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/comment',
-        {
-          userId: userData.id,
-          postId: searchTerm,
-          parentId: parentId,
-          content: ChildrenComment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
-      console.log(response);
-      alert('작성되었습니다');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const onSearch = (e: any) => {
-    setComments(e.target.value);
-    console.log(comments);
-  };
-
-  const onChildcomment = (e: any) => {
-    setChildrenComment(e.target.value);
-  };
-
-  const Deletecomment = async (index: any) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:8080/api/v1/comment/${index}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
-      console.log(response);
-      alert('삭제되었습니다');
-    } catch (error) {
-      console.log(error);
-    }
-    location.reload();
-  };
-
-  
-  useEffect(() => {
-    async function UserData(): Promise<void> {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/user/${data.userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
-        console.log(response);
-        const responseData = response.data.data;
-        console.log(responseData);
-        setUserData(responseData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    UserData();
-  }, []);
 
   return (
     <Bg>
-      <TitleImg></TitleImg>
-      <Post/>
+      <TitleImg ></TitleImg>
+      <Post />
+      <CommentDatas/>
     </Bg>
   );
 }

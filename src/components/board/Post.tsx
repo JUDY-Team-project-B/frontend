@@ -2,120 +2,95 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import cookie from 'react-cookies';
+import user from '../../assets/image/user.png';
 import { useQuery } from "@tanstack/react-query";
-import { getPostData } from "@/api/api";
+import { getPostData, getUserData} from "@/api/api";
+import { useParams } from "react-router-dom";
 
-interface IPostData {
-  id: number;
-  imageUrls: string;
-  title: string;
-  context: string;
-  tags: string[];
-  travelGender: string;
-  travelAt: string;
-  travelAge: string;
-  travelDateStart: Date;
-  travelDateEnd: Date;
-  travelMember: number;
-  content: string;
+export interface IPostData {
+  id?: number|undefined;
+  imageUrls?: string;
+  title?: string;
+  userId?:string;
+  context?: string;
+  tags?: string[];
+  travelGender?: string;
+  travelState?: string|undefined;
+  travelCity?: string|undefined;
+  travelAge?: string;
+  travelDateStart?: Date;
+  travelDateEnd?: Date;
+  travelMember?: number;
+  content?: string;
+  createdAt?:string;
+  viewCount?:string;
+}
+
+export interface IUserData {
+  id:          number;
+  email:       string;
+  nickname:    string;
+  description: null;
+  imageUrls:   any[];
+  gender:      string;
+  age:         number;
+  role:        string;
 }
 
 const Post = () =>{
-  // const [data, setData] = useState<any | undefined>('');
   const [userId, setUserId] = useState<any | undefined>('');
   const [myData, setMyData] = useState<any | undefined>('');
+  const { postId } = useParams();
+  console.log(postId)
 
-  const {isLoading, isError, data: PostData, error}  = useQuery<IPostData>(
-    ['post', getPostData]
+  const {isLoading:PostLoading, error:PostError, data:PostData, isFetching:PostFetching } = useQuery<IPostData>(['Postdata'],() =>
+    getPostData(postId)
+  );
+
+  const {isLoading, error, data:UserData, isFetching } = useQuery<IUserData>(['Userdata'],() =>
+    getUserData()
   )
 
-  
 
-  // useEffect(() => {
-  //   const PostListData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8080/api/v1/post/${searchTerm}`,
-  //         {
-  //           headers: {
-  //             //Authorization: `Bearer ${cookie.load('accessTokens')}`,
-  //             'Access-Control-Allow-Origin': '*',
-  //           },
-  //         },
-  //       );
-  //       console.log(response);
-  //       const responseData = response.data.data;
-  //       console.log(responseData);
-  //       setData(responseData);
-  //       setUserId(data.nickname);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-    
-
-    // async function MyData(): Promise<void> {
-    //   try {
-    //     const response = await axios.get(
-    //       'http://localhost:8080/api/v1/user/me',
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${cookie.load('accessTokens')}`,
-    //           'Access-Control-Allow-Origin': '*',
-    //         },
-    //       },
-    //     );
-    //     console.log(response);
-    //     const responseData = response.data.data;
-    //     console.log(responseData);
-    //     setMyData(responseData);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // MyData();
-  //   PostListData();
-  // }, []);
+  if(isLoading || PostLoading) return "Loading"
 
   return(
     <Container>
         <LeftContainer>
-          <Title>{PostData.title}</Title>
+          <Title>{PostData?.title}</Title>
           <DestinationContainer>
             <Destination>여행지역</Destination>
-            <DestinationValue>{Postdata.travelState} {Postdata.travelCity}</DestinationValue>
+            <DestinationValue>{PostData?.travelState} {PostData?.travelCity}</DestinationValue>
           </DestinationContainer>
           <PeopleContainer>
             <People>모집인원</People>
-            <PeopleValue>{Postdata.travelMember}명</PeopleValue>
+            <PeopleValue>{PostData?.travelMember}명</PeopleValue>
           </PeopleContainer>
           <DateContainer>
             <Date>여행날짜</Date>
             <Dates>
-              {Postdata.travelDateStart} ~ {Postdata.travelDateEnd}
+              {PostData?.travelDateStart} ~ {PostData?.travelDateEnd}
             </Dates>
           </DateContainer>
           <ContentsContainer>
             <Content>
-              <div dangerouslySetInnerHTML={{ __html: Postdata.context }}></div>
+              <div dangerouslySetInnerHTML={{ __html: PostData?.context }}></div>
             </Content>
           </ContentsContainer>
           {/* <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer> */}
           <PostContainer>
-            {/* <PostDate>{data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)}</PostDate> */}
-            
-            <PostDate>{Postdata.createdAt}</PostDate>
-            <PostView>조회수 {Postdata.viewCount}</PostView>
+            <PostDate>{PostData?.createdAt.slice(0,10)} {PostData?.createdAt.slice(11,19)}</PostDate>
+            <PostView>조회수 {PostData?.viewCount}</PostView>
           </PostContainer>
         </LeftContainer>
         <RightContainer>
-          {/* <ProfileImg>
-            <ProfileName>{userData.nickname}</ProfileName>
+          <ProfileImg>
+            <ProfileName>{UserData?.nickname}</ProfileName>
             <ProfileInfo>
-              {userData.age}대 {userData.gender}
+              {UserData?.age}대 {UserData?.gender}
             </ProfileInfo>
-            <ProfileIntroduce>{userData.description}</ProfileIntroduce>
-          </ProfileImg> */}
+            <ProfileIntroduce>{UserData?.description}</ProfileIntroduce>
+          </ProfileImg>
         </RightContainer>
       </Container>
   )
@@ -436,4 +411,16 @@ const Button = styled.button`
     color: white;
     cursor: pointer;
   }
+`;
+
+const ProfileImg = styled.div`
+  background: url(${user});
+  width: 20rem;
+  height: 15rem;
+  background-size: 8rem 8rem;
+  background-repeat: no-repeat;
+
+  background-position-y: 6rem;
+
+  display: block;
 `;
