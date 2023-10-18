@@ -95,16 +95,19 @@ const Title = styled.div`
 
 const ContentsWrap = styled.div`
   width: 100%;
-  height: 11rem;
+  height: 19rem;
   display: flex;
   justify-content: center;
-  align-items: center;
   font-size: 16px;
   flex-wrap: wrap;
   overflow: visible;
+  margin-top: 1rem;
+  transition: transform 0.7s;
 
-  @media (max-width: 1050px) {
-    margin-left: -1.4rem;
+  @media (max-width: 1400px) {
+    margin-left: -2rem;
+    overflow: visible;
+    transform: scale(0.9);
   }
 `;
 
@@ -122,27 +125,26 @@ const ContentsImg = styled.div`
   transition: transform 0.5s;
   justify-content: center;
   cursor: pointer;
+  overflow: visible;
 
   &:hover {
     position: center;
-    opacity: 0.65;
+    opacity: 0.75;
     transform: scale(1.1); /* 이미지 확대 */
   }
 
   /* 새로 추가한 스타일: 버튼들이 화면 크기에 따라 자동으로 정렬 */
-  @media (max-width: 1050px) {
-    margin-left: 3rem;
-  }
 
-  @media (max-width: 400px) {
-    margin-left: 1rem;
+  @media (max-width: 1400px) {
+    margin-left: 4rem;
+    overflow: visible;
   }
 `;
 
 const BtnName = styled.div`
   margin-top: 7.5rem;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;

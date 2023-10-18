@@ -25,21 +25,21 @@ export const Login = () => {
     setLoginModalOpen(false); // Close the login modal
   };
 
-  const IsLogin = () =>{
-    const Token = cookie.load('refreshToken')
-    if(Token === undefined){
-      setisLogin(false)
-    }else{
-      setisLogin(true)
+  const IsLogin = () => {
+    const Token = cookie.load('refreshToken');
+    if (Token === undefined) {
+      setisLogin(false);
+    } else {
+      setisLogin(true);
     }
-  }
+  };
 
   const logout = () => {
     console.log('로그아웃');
     setUserData({
       is_active: false,
     });
-    cookie.remove('refreshToken', {path : '/'});
+    cookie.remove('refreshToken', { path: '/' });
     navigate('/');
     location.reload();
   };
@@ -61,41 +61,34 @@ export const Login = () => {
   if (isLogin === false) {
     return (
       <Layout>
-        <LoginLayout  onClick={openLoginModal}>
+        <LoginLayout onClick={openLoginModal}>
           로그인
           {isLoginModalOpen && (
             <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
           )}
         </LoginLayout>
-        <SigninLayout onClick={gotoRegister}>
-          회원가입
-
-        </SigninLayout>
+        <SigninLayout onClick={gotoRegister}>회원가입</SigninLayout>
       </Layout>
     );
   } else {
     return (
-      <div style={{  display: 'flex'}}>
-        <MyPageLayout onClick={gotoMypage}>
-          내정보
-        </MyPageLayout>
-        <LogoutLayout onClick={logout}>
-          로그아웃
-        </LogoutLayout>
+      <div style={{ display: 'flex', height: '2.66rem' }}>
+        <MyPageLayout onClick={gotoMypage}>내정보</MyPageLayout>
+        <LogoutLayout onClick={logout}>로그아웃</LogoutLayout>
       </div>
     );
   }
 };
 
-
 const Layout = styled.div`
   display: flex;
-`
+  margin-left: 1rem;
+`;
 
 const ILayout = styled.div`
   display: flex;
   justify-content: center;
-  padding: .5rem;
+  padding: 0.5rem;
   background-color: #4ab8f7;
   color: white;
   border-radius: 1rem;
@@ -104,20 +97,19 @@ const ILayout = styled.div`
   margin-top: 4px;
   margin-bottom: 4px;
   cursor: pointer;
-`
+`;
 const LoginLayout = styled(ILayout)`
   width: 5.5rem;
-`
-const SigninLayout =  styled(ILayout)`
+`;
+const SigninLayout = styled(ILayout)`
   width: 6.5rem;
   margin-left: 1rem;
-`
+`;
 const MyPageLayout = styled(ILayout)`
   width: 5.5rem;
   margin-left: 1rem;
-`
+`;
 const LogoutLayout = styled(ILayout)`
   width: 6.5rem;
   margin-left: 1rem;
-
-`
+`;
