@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const Footer = () => {
-
   return (
     <FooterLayout>
-        Copyright Hangout Inc.All Rights Resvered
+      HANGOUT © 2023 ALL RIGHTS RESERVED.
+      <br />
     </FooterLayout>
   );
 };
@@ -16,6 +16,8 @@ const FooterLayout = styled.div`
   height: 100px;
   font-family: NanumSquareNeo-Variable;
   font-size: small;
-  margin-left: 10%;
-  padding-top: 50px;
-`
+  padding: 7rem;
+  border-top: 1px solid #bcbcbc;
+  margin-bottom: 4rem;
+  margin-top: 5rem;
+`;

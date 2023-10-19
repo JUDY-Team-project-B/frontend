@@ -18,64 +18,65 @@ const Preview = (queryString: any) => {
   const Type = queryString.searchType.toString();
   const keyword = queryString.searchKeyword.toString();
   const navigate = useNavigate();
-  const [likedata, setLikeData] = useState<PostType[] | undefined>();
-  const [listData, setListData] = useState<PostType[] | undefined>();
+
   const [liked, setLiked] = useState([]);
 
-  useEffect(() => {
-    const PostListData = async () => {
-      console.log(url);
-      console.log(Type);
-      console.log(keyword);
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/post/all/0`,
-          {
-            params: {
-              searchType: Type,
-              searchKeyword1: keyword,
-            },
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
+  const postListQueryKey = ['postList', Type, keyword];
+  const likeDataQueryKey = ['likedPosts', url2];
+
+  // useQuery를 사용하여 데이터를 가져옴 (게시물 목록)
+  const {
+    data: listData,
+    isLoading: isListDataLoading,
+    isError: isListDataError,
+  } = useQuery(postListQueryKey, async () => {
+    const response = await axios.get(
+      `http://localhost:8080/api/v1/post/all/0`,
+      {
+        params: {
+          searchType: Type,
+          searchKeyword1: keyword,
+        },
+        headers: {
+          Authorization: `Bearer ${cookie.load('accessToken')}`,
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    );
+
+    const responseData: PostType[] = response.data.data;
+    return responseData;
+  });
+
+  // useQuery를 사용하여 데이터를 가져옴 (좋아요한 게시물 목록)
+  const {
+    data: likedata,
+    isLoading: isLikeDataLoading,
+    isError: isLikeDataError,
+  } = useQuery(
+    likeDataQueryKey,
+    async () => {
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/post/me/like/${url2}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
           },
-        );
-        const responseData: PostType[] = response.data.data;
-        setListData(responseData);
-        console.log(responseData);
-        const postDataIds = responseData.map((item) => item.id);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    PostListData();
-  }, [Type, keyword]);
+        },
+      );
 
-  useEffect(() => {
-    const LikeListData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/post/me/like/${url2}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
-        const responseData: PostType[] = response.data.data;
+      const responseData: PostType[] = response.data.data;
 
-        setLikeData(responseData);
+      const likeDataIds = responseData.map((item) => item.id);
+      setLiked(likeDataIds);
 
-        const likeDataIds = responseData.map((item) => item.id);
-        setLiked(likeDataIds);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    LikeListData();
-  }, []);
+      return responseData;
+    },
+    {
+      enabled: !!cookie.load('accessToken'), // 로그인 상태에 따라 데이터 가져오기를 활성화/비활성화
+    },
+  );
 
   const setLike = async (postId: number) => {
     //로그인 안된 경우 코드 수정
@@ -87,11 +88,12 @@ const Preview = (queryString: any) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
       );
+
       console.log('좋아요 실행 및 취소');
     } catch (error) {
       console.error('Error adding like:', error);
@@ -203,7 +205,6 @@ const PreviewBackground = styled.div`
   align-content: center;
   display: flex;
   font-family: 'Pretendard-Regular';
-  overflow: hidden;
 `;
 
 const ContentLayout = styled.div`
@@ -215,11 +216,32 @@ const ContentLayout = styled.div`
 `;
 
 const GridLayout = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-left: 1rem;
   overflow: visible;
   height: 100%;
   /* background-color: red; */
+  @media (max-width: 1400px) {
+    margin-left: 12rem;
+    margin-top: -5rem;
+    transform: scale(0.9);
+    width: 80%;
+  }
+
+  @media (max-width: 950px) {
+    margin-left: 24rem;
+    margin-top: -5rem;
+    transform: scale(0.9);
+    width: 50%;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 35.5rem;
+    margin-top: 3rem;
+    width: 30%;
+  }
 `;
 
 const Content = styled.div`
@@ -237,9 +259,24 @@ const Content = styled.div`
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.11);
   z-index: 998;
   height: 28rem;
+  transition: transform 0.5s;
+
+  &:hover {
+    position: center;
+    transform: scale(1.05); /* 이미지 확대 */
+  }
+
+  @media (max-width: 1400px) {
+    transform: scale(0.9);
+
+    &:hover {
+      position: center;
+      transform: scale(0.95); /* 이미지 확대 */
+    }
+  }
 `;
 const MiddleWrap = styled.div`
-  width: 117%;
+  width: 120%;
   height: 15rem;
   display: flex;
   flex-direction: column;
@@ -251,13 +288,16 @@ const MiddleWrap = styled.div`
 const DestinationWrap = styled.div`
   width: 100%;
   height: 0.5rem;
+  border: none;
   display: flex;
+  margin-left: 3.5rem;
+  margin-top: -0.5rem;
   overflow: visible;
   justify-content: center;
 `;
 
 const DestinationText = styled.div`
-  height: 2rem;
+  height: 1rem;
   padding: 0.2rem;
   width: 12rem;
   display: flex;
@@ -268,7 +308,6 @@ const DestinationText = styled.div`
   z-index: 99;
   font-size: 1.3rem;
   overflow: visible;
-  margin-left: 0.2rem;
 `;
 const ImgWrap = styled.div`
   width: 24rem;
@@ -282,7 +321,7 @@ const Img = styled.button`
   display: flex;
   margin-left: -1rem;
   opacity: 0.9;
-  width: 110%;
+  width: 117%;
   overflow: hidden;
   margin-top: -3rem;
   height: 20rem;
@@ -311,15 +350,16 @@ const ImgInfo = styled.div`
 const HeartLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 85%;
-  z-index: 999;
+  width: 93%;
 `;
 
 const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 8%;
-  z-index: 999;
+  border: none;
+  background-color: #f5f6f6;
+  width: 4.5%;
+  margin-top: 0.2rem;
 `;
 
 const TopWarp = styled.div`
@@ -331,6 +371,8 @@ const ProfileWrap = styled.div`
   display: flex;
   height: 4.5rem;
   width: 15rem;
+  margin-top: -0.3rem;
+  margin-bottom: 0.5rem;
   overflow: hidden;
 `;
 
@@ -362,10 +404,10 @@ const LikeIcon = styled(likeIcon)`
 const Nickname = styled.div`
   position: relative;
   display: block;
-  height: 1.5rem;
+  height: 1.7rem;
   width: 10rem;
   font-weight: 700;
-  margin-top: 1.4rem;
+  margin-top: 1.25rem;
 `;
 
 const Gender = styled.div`
@@ -388,17 +430,19 @@ const Title = styled.button`
   font-weight: 1000;
   height: 20px;
   overflow: visible;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   flex-direction: column;
   text-align: left;
   justify-content: center;
   align-items: center;
+  border: none;
+  background-color: #f5f6f6;
 `;
 const DateWrap = styled.div`
   display: block;
   height: 4rem;
   width: 9rem;
-  margin-top: 0.7rem;
+  margin-top: 0.15rem;
 `;
 const DateTitle = styled.div`
   font-size: 1rem;

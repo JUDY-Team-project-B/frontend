@@ -14,40 +14,39 @@ export const Header = () => {
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>(null);
 
-  const getToken = async() =>{
-    try{
-      const response = await fetch("http://localhost:3000/", {
-        "headers": {
-          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-          "accept-language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6",
-          "sec-ch-ua": "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Google Chrome\";v=\"116\"",
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": "\"macOS\"",
-          "sec-fetch-dest": "document",
-          "sec-fetch-mode": "navigate",
-          "sec-fetch-site": "cross-site",
-          "sec-fetch-user": "?1",
-          "upgrade-insecure-requests": "1"
+  const getToken = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/', {
+        headers: {
+          accept:
+            'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+          'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6',
+          'sec-ch-ua':
+            '"Chromium";v="116", "Not)A;Brand";v="24", "Google Chrome";v="116"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+          'sec-fetch-dest': 'document',
+          'sec-fetch-mode': 'navigate',
+          'sec-fetch-site': 'cross-site',
+          'sec-fetch-user': '?1',
+          'upgrade-insecure-requests': '1',
         },
-        "referrerPolicy": "strict-origin-when-cross-origin",
-        "body": null,
-        "method": "GET",
-        "mode": "cors",
-        "credentials": "include"
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        body: null,
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
       });
-      const header = response.headers
-      console.log(header)
-      console.log(response.headers.get('Set-cookie'))
-    
-      
-    }catch(e){
-      console.log(e)
+      const header = response.headers;
+      console.log(header);
+      console.log(response.headers.get('Set-cookie'));
+    } catch (e) {
+      console.log(e);
     }
 
-        // const refreshToken = response.data.headers['set-cookie']
+    // const refreshToken = response.data.headers['set-cookie']
     // console.log(refreshToken+'재발급토큰 님님')
-    
-  }
+  };
 
   const onSilentRefresh = async () => {
     try {
@@ -134,27 +133,27 @@ export const Header = () => {
 
   return (
     <Layout>
-    <HeaderLayout>
-      <SpacebetweenLayout>
-        <Title onClick={gotoMain}>
-          HANGOUT
-        </Title>
-        <Inputlayout>
-          <Searchselect onChange={handleSelect} value={Selected}>
-            { selectList.map((item) => (
-              <Searchoption value={item.eng} key = {item.eng}>
-                {item.korea}
-              </Searchoption>
-            )) }
-          </Searchselect>
-          <SearchInput placeholder='검색어를 입력해주세요' onChange={setWord} value={keyword}/>
-          <SearchButton onClick={search}>
-              검색
-          </ SearchButton>
-        </Inputlayout>
-        <Login/>
-      </SpacebetweenLayout>
-    </HeaderLayout>
+      <HeaderLayout>
+        <SpacebetweenLayout>
+          <Title onClick={gotoMain}>HANGOUT</Title>
+          <Inputlayout>
+            <Searchselect onChange={handleSelect} value={Selected}>
+              {selectList.map((item) => (
+                <Searchoption value={item.eng} key={item.eng}>
+                  {item.korea}
+                </Searchoption>
+              ))}
+            </Searchselect>
+            <SearchInput
+              placeholder="검색어를 입력해주세요"
+              onChange={setWord}
+              value={keyword}
+            />
+            <SearchButton onClick={search}>검색</SearchButton>
+          </Inputlayout>
+          <Login />
+        </SpacebetweenLayout>
+      </HeaderLayout>
     </Layout>
   );
 };
@@ -166,7 +165,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-`
+`;
 
 const HeaderLayout = styled.div`
   width: 85rem;
@@ -176,13 +175,13 @@ const HeaderLayout = styled.div`
   flex-direction: column;
   color: #3db9ff;
   justify-content: center;
-`
+`;
 
 const SpacebetweenLayout = styled.div`
   justify-content: space-between;
   display: flex;
   flex-direction: row;
-`
+`;
 
 const Title = styled.button`
   display: flex;
@@ -196,11 +195,18 @@ const Title = styled.button`
   background-color: white;
   font-weight: bold;
   font-family: 'RixInooAriDuriR';
-  border:none;
-  &:hover{
+  border: none;
+  transition: transform 0.7s;
+  cursor: pointer;
+  &:hover {
     opacity: 0.8;
+    transform: scale(1.09);
   }
-`
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+`;
 
 const Inputlayout = styled.div`
   width: 50%;
@@ -215,7 +221,11 @@ const Inputlayout = styled.div`
   justify-content: space-between;
   font-size: medium;
   font-family: NanumSquareNeo-Variable;
-`
+
+  @media (max-width: 700px) {
+    width: 70%;
+  }
+`;
 
 const Searchselect = styled.select`
   border: none;
@@ -223,16 +233,16 @@ const Searchselect = styled.select`
   font-size: large;
   font-weight: bolder;
   cursor: pointer;
-  &:focus{
+  &:focus {
     border: none;
   }
-`
+`;
 const Searchoption = styled.option`
   color: #3db9ff;
-  &:focus{
+  &:focus {
     border: none;
   }
-`
+`;
 const SearchInput = styled.input`
   width: 80%;
   border: none;
@@ -240,17 +250,16 @@ const SearchInput = styled.input`
   opacity: 0.7;
   font-size: large;
   font-weight: bolder;
-  &:focus{
+  &:focus {
     outline: none;
   }
-
-`
+`;
 const SearchButton = styled.button`
-  width: 3rem;
+  width: 4rem;
   color: #3db9ff;
   border: none;
   font-size: large;
   font-weight: bolder;
   background-color: white;
   cursor: pointer;
-`
+`;
