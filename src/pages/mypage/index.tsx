@@ -191,7 +191,7 @@ function Profile() {
     const queryParems = new URLSearchParams();
     queryParems.set('q', postnum);
     const queryString = queryParems.toString();
-    navigate(`/detail?${queryString}`);
+    navigate(`/board/${queryString}`);
   };
 
   return (
