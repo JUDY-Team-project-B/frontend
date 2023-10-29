@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
+import './CreatePostPage.scss'
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -200,3 +201,4 @@ const CreatePostPage = () => {
 };
 
 export default CreatePostPage;
+

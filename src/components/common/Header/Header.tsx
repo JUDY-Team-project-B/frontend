@@ -136,6 +136,9 @@ export const Header = () => {
       <HeaderLayout>
         <SpacebetweenLayout>
           <Title onClick={gotoMain}>HANGOUT</Title>
+          <Title onClick={gotoWrite}>
+              떠나기
+          </Title >
           <Inputlayout>
             <Searchselect onChange={handleSelect} value={Selected}>
               {selectList.map((item) => (
