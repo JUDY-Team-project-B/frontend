@@ -45,7 +45,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       cookie
       const expires = new Date()
-      expires.setMinutes(expires.getMinutes() + 60)
+      expires.setMinutes(expires.getMinutes() + 60000)
       cookie.save('accessTokens', accessToken, {
           path : '/',
           expires,
