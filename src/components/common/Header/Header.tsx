@@ -136,9 +136,9 @@ export const Header = () => {
       <HeaderLayout>
         <SpacebetweenLayout>
           <Title onClick={gotoMain}>HANGOUT</Title>
-          <Title onClick={gotoWrite}>
-              떠나기
-          </Title >
+          {
+            isLogin === true ? <Title onClick={gotoWrite}>떠나기 </Title > : null
+          }
           <Inputlayout>
             <Searchselect onChange={handleSelect} value={Selected}>
               {selectList.map((item) => (
