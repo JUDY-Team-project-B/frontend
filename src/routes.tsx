@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
         element:<Mypage></Mypage> // 
       },
       {
-        path:"/board/:postid",
+        path:"/board/:postId",
         element:<Detail></Detail> // 
       },
       {
