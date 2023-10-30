@@ -63,11 +63,13 @@ export const Login = () => {
       <Layout>
         <LoginLayout onClick={openLoginModal}>
           로그인
-          {isLoginModalOpen && (
+        </LoginLayout>
+        <SigninLayout onClick={gotoRegister}>
+          회원가입
+        </SigninLayout>
+        {isLoginModalOpen && (
             <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
           )}
-        </LoginLayout>
-        <SigninLayout onClick={gotoRegister}>회원가입</SigninLayout>
       </Layout>
     );
   } else {
