@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
         element:<SignUpPage/>
       },
       {
-        path:"/travel",//search
+        path:"/travel/:SearchType/:Keyword",//search
         element:<Travel></Travel> // 
       },
     ]
