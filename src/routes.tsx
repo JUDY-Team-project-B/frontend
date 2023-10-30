@@ -3,6 +3,7 @@ import GlobalLayout from './pages/_layout';
 import { Route, createBrowserRouter } from 'react-router-dom';
 import SignUpPage from './pages/SignUpPage';
 import CreatePostPage from './pages/post/CreatePostPage';
+import ErrorPage from './pages/Errorpage';
 const Main = lazy(() => import('./pages/main'));
 const Register = lazy(() => import('./pages/SignUpPage'));
 const Mypage = lazy(() => import('./pages/mypage/index'));
@@ -38,23 +39,9 @@ export const router = createBrowserRouter([
         path:"/travel/:SearchType/:Keyword",//search
         element:<Travel></Travel> // 
       },
-    ]
+    ],
+    errorElement:<ErrorPage/>
   }
 ])
-
-// export const routes = [
-//   {
-//     path: '/',
-//     element: <GlobalLayout />,
-//     children: [
-//       { path: '/', element: <Main />, index: true },
-//       { path: '/register', element: <Register />, index: true },
-//       { path: '/create-post', element: <CreatePostPage />, index: true },
-//       { path: '/mypage', element: <Mypage />, index: true },
-//       { path: '/travel', element: <Travel />, index: true },
-//       { path: '/detail', element: <Detail />, index: true },
-//     ],
-//   },
-// ];
 
 export const pages = [{ route: '/' }, { route: '/result' }];

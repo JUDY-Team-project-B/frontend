@@ -224,7 +224,6 @@ const PreviewBackground = styled.div`
   align-content: center;
   display: flex;
   font-family: 'Pretendard-Regular';
-  overflow: hidden;
 `;
 
 const ContentLayout = styled.div`
@@ -236,11 +235,32 @@ const ContentLayout = styled.div`
 `;
 
 const GridLayout = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-left: 1rem;
   overflow: visible;
   height: 100%;
   /* background-color: red; */
+  @media (max-width: 1400px) {
+    margin-left: 12rem;
+    margin-top: -5rem;
+    transform: scale(0.9);
+    width: 80%;
+  }
+
+  @media (max-width: 950px) {
+    margin-left: 24rem;
+    margin-top: -5rem;
+    transform: scale(0.9);
+    width: 50%;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 35.5rem;
+    margin-top: 3rem;
+    width: 30%;
+  }
 `;
 
 const Content = styled.div`
@@ -258,9 +278,24 @@ const Content = styled.div`
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.11);
   z-index: 998;
   height: 28rem;
+  transition: transform 0.5s;
+
+  &:hover {
+    position: center;
+    transform: scale(1.05); /* 이미지 확대 */
+  }
+
+  @media (max-width: 1400px) {
+    transform: scale(0.9);
+
+    &:hover {
+      position: center;
+      transform: scale(0.95); /* 이미지 확대 */
+    }
+  }
 `;
 const MiddleWrap = styled.div`
-  width: 117%;
+  width: 120%;
   height: 15rem;
   display: flex;
   flex-direction: column;
@@ -272,24 +307,26 @@ const MiddleWrap = styled.div`
 const DestinationWrap = styled.div`
   width: 100%;
   height: 0.5rem;
+  border: none;
   display: flex;
+  margin-left: 3.5rem;
+  margin-top: -0.5rem;
   overflow: visible;
   justify-content: center;
 `;
 
 const DestinationText = styled.div`
-  height: 2rem;
+  height: 1rem;
   padding: 0.2rem;
-  width: 11rem;
+  width: 12rem;
   display: flex;
   text-align: center;
   border-radius: 0.6rem;
   font-weight: 750;
   color: #0792e3;
   z-index: 99;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   overflow: visible;
-  margin-left: 0.2rem;
 `;
 const ImgWrap = styled.div`
   width: 24rem;
@@ -303,12 +340,12 @@ const Img = styled.button`
   display: flex;
   margin-left: -1rem;
   opacity: 0.9;
-  width: 99%;
+  width: 117%;
   overflow: hidden;
   margin-top: -3rem;
   height: 20rem;
   border-radius: 1rem;
-  background-size: 100% 100%;
+  background-size: cover;
   background-image: url(${gyeongju});
   background-repeat: no-repeat;
   transition: transform 0.5s;
@@ -332,15 +369,16 @@ const ImgInfo = styled.div`
 const HeartLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 85%;
-  z-index: 999;
+  width: 93%;
 `;
 
 const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 8%;
-  z-index: 999;
+  border: none;
+  background-color: #f5f6f6;
+  width: 4.5%;
+  margin-top: 0.2rem;
 `;
 
 const TopWarp = styled.div`
@@ -352,6 +390,8 @@ const ProfileWrap = styled.div`
   display: flex;
   height: 4.5rem;
   width: 15rem;
+  margin-top: -0.3rem;
+  margin-bottom: 0.5rem;
   overflow: hidden;
 `;
 
@@ -383,10 +423,10 @@ const LikeIcon = styled(likeIcon)`
 const Nickname = styled.div`
   position: relative;
   display: block;
-  height: 1.5rem;
+  height: 1.7rem;
   width: 10rem;
   font-weight: 700;
-  margin-top: 1.4rem;
+  margin-top: 1.25rem;
 `;
 
 const Gender = styled.div`
@@ -402,7 +442,6 @@ const PostInfo = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
 `;
 
 const Title = styled.button`
@@ -410,17 +449,19 @@ const Title = styled.button`
   font-weight: 1000;
   height: 20px;
   overflow: visible;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   flex-direction: column;
   text-align: left;
   justify-content: center;
-  align-items :center;
+  align-items: center;
+  border: none;
+  background-color: #f5f6f6;
 `;
 const DateWrap = styled.div`
   display: block;
   height: 4rem;
   width: 9rem;
-  margin-top: 0.7rem;
+  margin-top: 0.15rem;
 `;
 const DateTitle = styled.div`
   font-size: 1rem;
