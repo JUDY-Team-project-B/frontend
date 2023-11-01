@@ -88,7 +88,6 @@ const Title = styled.div`
   align-items: center;
   border: none;
   font-weight: 500;
-  /* color: #61a8f5; */
   font-size: 1.5rem;
   font-family: 'SUITE-Regular';
 `;
