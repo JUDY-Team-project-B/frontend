@@ -4,6 +4,7 @@ import { Route, createBrowserRouter } from 'react-router-dom';
 import SignUpPage from './pages/SignUpPage';
 import CreatePostPage from './pages/post/CreatePostPage';
 import ErrorPage from './pages/Errorpage';
+import KMap from './pages/Map';
 const Main = lazy(() => import('./pages/main'));
 const Register = lazy(() => import('./pages/SignUpPage'));
 const Mypage = lazy(() => import('./pages/mypage/index'));
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path:"/travel/:SearchType/:Keyword",//search
         element:<Travel></Travel> // 
+      },
+      {
+        path:"/map",//search
+        element:<KMap></KMap> // 
       },
     ],
     errorElement:<ErrorPage/>

@@ -7,6 +7,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import App from './App';
 
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
+
 // if(import.meta.env.DEV){
 //   worker.start();
 // }
