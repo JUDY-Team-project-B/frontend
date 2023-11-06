@@ -52,7 +52,7 @@ function Profile() {
           `http://localhost:8080/api/v1/user/me`,
           {
             headers: {
-              Authorization: `Bearer ${cookie.load('accessToken')}`,
+              Authorization: `Bearer ${cookie.load('refreshToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -77,7 +77,7 @@ function Profile() {
         method: 'delete',
         url: `http://localhost:8080/api/v1/user/${data.id}/image`,
         headers: {
-          Authorization: `Bearer ${cookie.load('accessTokens')}`,
+          Authorization: `Bearer ${cookie.load('refreshToken')}`,
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'multipart/form-data',
         },
@@ -98,7 +98,7 @@ function Profile() {
             `http://localhost:8080/api/v1/post/me/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${cookie.load('accessTokens')}`,
+                Authorization: `Bearer ${cookie.load('refreshToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -122,7 +122,7 @@ function Profile() {
             `http://localhost:8080/api/v1/comment/me`,
             {
               headers: {
-                Authorization: `Bearer ${cookie.load('accessTokens')}`,
+                Authorization: `Bearer ${cookie.load('refreshToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -146,7 +146,7 @@ function Profile() {
             `http://localhost:8080/api/v1/post/me/like/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${cookie.load('accessTokens')}`,
+                Authorization: `Bearer ${cookie.load('refreshToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -175,7 +175,7 @@ function Profile() {
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('refreshToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -213,7 +213,6 @@ function Profile() {
                       />
                     )}
                   </ProfileImgWrap>
-
                   <NickName style={{ marginTop: '2rem' }}>
                     {data.nickname}
                   </NickName>
@@ -394,6 +393,7 @@ function Profile() {
 
 export default Profile;
 
+
 const BackgroundWrap = styled.div`
   height: 55rem;
   width: 100%;
@@ -423,6 +423,7 @@ const MypostWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-left: -2rem;
+
 `;
 
 const BgMypost = styled.div`
@@ -488,6 +489,8 @@ const PostWrap = styled.button`
   margin-left: 2rem;
   border-radius: 0.7rem;
   margin-bottom: 3rem;
+  justify-content: center;
+  border: none;
   width: 15rem;
   height: 18rem;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.11);
@@ -500,7 +503,9 @@ const PlaceLayout = styled.button`
   margin-top: 2.3rem;
   margin-left: 1rem;
   z-index: 999;
+  border: none;
 `;
+
 const Where = styled.div`
   z-index: 90;
   margin-left: 0.5rem;
@@ -521,6 +526,7 @@ const TopWrap = styled.div`
   width: 15rem;
   margin-top: -2rem;
   overflow: visible;
+  border: none;
 `;
 
 const DateWrap = styled.div`
@@ -732,10 +738,11 @@ const MyPostList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-
+  background-color: #70bffb;
   height: 3rem;
   width: 100%;
   margin-top: 6rem;
+  border:none;
   font-size: 1.3rem;
   color: white;
   &:hover {
@@ -748,11 +755,12 @@ const MyCommentList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-
+  background-color: #70bffb;
   height: 3rem;
   width: 100%;
   font-size: 1.3rem;
   color: white;
+  border:none;
   &:hover {
     position: center;
     opacity: 0.8;
@@ -763,12 +771,12 @@ const MyLikeList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-
+  background-color: #70bffb;
   height: 3rem;
   width: 100%;
   font-size: 1.3rem;
   color: white;
-
+  border:none;
   &:hover {
     position: center;
     opacity: 0.8;

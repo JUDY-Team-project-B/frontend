@@ -10,7 +10,8 @@ import { useForm } from 'react-hook-form';
 import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
-import './CreatePostPage.scss'
+import styled from 'styled-components';
+import backgroundImg from '@/assets/image/Background.jpg'
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -31,13 +32,13 @@ const CreatePostPage = () => {
   useEffect(() => {
     const UserDatas = async () => {
       try {
-        setjwt(localStorage.getItem('accessToken'));
+        setjwt(localStorage.getItem('refreshToken'));
         console.log(jwt);
         const response = await axios.get(
           `http://localhost:8080/api/v1/user/me`,
           {
             headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              Authorization: `Bearer ${cookie.load('refreshToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -66,7 +67,7 @@ const CreatePostPage = () => {
               searchKeyword: '',
             },
             headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              Authorization: `Bearer ${cookie.load('refrehsToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -174,10 +175,10 @@ const CreatePostPage = () => {
   };
 
   return (
-    <div className="createPostLayout">
-      <div className="createPostImg"></div>
-      <div className="createPostFlex">
-        <div className="createPost">
+    <PostLayout>
+      <PostImage></PostImage>;
+      <PostFlex>
+        <CreateFlex>
           <PostCardList onValueChange={handleCardList} />
           <PostTitleInput onValueChange={handleTitleChange} />
           <PostThumbnailInput />
@@ -194,11 +195,36 @@ const CreatePostPage = () => {
             type="submit"
             children={'작성완료'}
           />
-        </div>
-      </div>
-    </div>
+        </CreateFlex>
+      </PostFlex>
+    </PostLayout>
   );
 };
 
 export default CreatePostPage;
 
+const PostLayout = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+const PostImage = styled.div`
+  height: 200px;
+  background-image:url(${backgroundImg});
+`
+
+const PostFlex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+`
+const CreateFlex = styled.div`
+  height: 100%;
+  width: 1000px;
+  margin: auto;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+`

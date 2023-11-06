@@ -86,13 +86,7 @@ export const Header = () => {
     if (keyword === null) {
       alert('검색어를 입력해주세요');
     } else {
-      const queryParems1 = new URLSearchParams();
-      const queryParems2 = new URLSearchParams();
-      queryParems1.set('q', keyword);
-      queryParems2.set('t', Selected);
-      const queryString1 = queryParems1.toString();
-      const queryString2 = queryParems2.toString();
-      navigate(`/travel?${queryString1}&${queryString2}`);
+      navigate(`/travel/${Selected}/${keyword}`);
       location.reload();
     }
   };

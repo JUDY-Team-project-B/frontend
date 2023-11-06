@@ -21,9 +21,8 @@ export const CommentDatas = () => {
     },
   ]);
   const [target, setTarget] = useState<any|undefined>('');
-  
   const { postId } = useParams();
-
+  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
   const {isLoading, isError, data: CommentData, error}  = useQuery<commentType[]|undefined>(
     ['commentData'] ,() => getCommentData(postId)
   )
@@ -31,10 +30,6 @@ export const CommentDatas = () => {
   useEffect(()=>{
     setCommentData(CommentData)
   },[])
-
-
-  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
-
 
   const setIsSelect = (index: number) => {
     console.log('Start setIsSelect')
