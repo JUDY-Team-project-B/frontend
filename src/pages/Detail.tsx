@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import titleImg from '../assets/image/image1.png';
 import user from '../assets/image/user.png';
 import { useLocation, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -13,12 +12,10 @@ import { CommentDatas } from '@/components/board/CommentDatas';
 // import { getCommentList } from '@/api/api';
 
 function Detail() {
-
   return (
     <Bg>
-      <TitleImg ></TitleImg>
       <Post />
-      <CommentDatas/>
+      <CommentDatas />
     </Bg>
   );
 }
@@ -95,13 +92,13 @@ const CommentContent = styled.div`
 `;
 
 const ChildrenComments = styled.div`
-width: 46rem;
-border-radius: 1rem;
-border: 1px solid #f2f2f2;
-margin-top: 0.1rem;
-padding: 8px;
-background-color: #f7f7f7;
-font-family: 'NanumSquareNeo-Variable';
+  width: 46rem;
+  border-radius: 1rem;
+  border: 1px solid #f2f2f2;
+  margin-top: 0.1rem;
+  padding: 8px;
+  background-color: #f7f7f7;
+  font-family: 'NanumSquareNeo-Variable';
 `;
 
 const Bg = styled.div`
@@ -110,16 +107,6 @@ const Bg = styled.div`
   padding-bottom: 2rem;
 `;
 
-const TitleImg = styled.div`
-  background-image: url(${titleImg});
-  height: 22.5rem;
-  width: 70rem;
-  text-align: center;
-  background-position: center;
-  margin: 0 auto;
-  margin-top: 4.5rem;
-  border-radius: 2rem;
-`;
 const Container2 = styled.div`
   width: 70rem;
   margin-left: 12rem;
