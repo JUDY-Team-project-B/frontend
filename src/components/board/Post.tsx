@@ -1,66 +1,79 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import cookie from 'react-cookies';
 import user from '../../assets/image/user.png';
-import { useQuery } from "@tanstack/react-query";
-import { getPostData, getUserData} from "@/api/api";
-import { useParams } from "react-router-dom";
+import { useQuery } from '@tanstack/react-query';
+import { getPostData, getUserData } from '@/api/api';
+import { useParams } from 'react-router-dom';
+import Maps from '@/pages/post/naverMap';
 
 export interface IPostData {
-  id?: number|undefined;
+  id?: number | undefined;
   imageUrls?: string;
   title?: string;
-  userId?:string;
+  userId?: string;
   context?: string;
   tags?: string[];
   travelGender?: string;
-  travelState?: string|undefined;
-  travelCity?: string|undefined;
+  travelState?: string | undefined;
+  travelCity?: string | undefined;
   travelAge?: string;
   travelDateStart?: Date;
   travelDateEnd?: Date;
   travelMember?: number;
   content?: string;
-  createdAt?:string;
-  viewCount?:string;
+  createdAt?: string;
+  viewCount?: string;
 }
 
 export interface IUserData {
-  id:          number;
-  email:       string;
-  nickname:    string;
+  id: number;
+  email: string;
+  nickname: string;
   description: null;
-  imageUrls:   any[];
-  gender:      string;
-  age:         number;
-  role:        string;
+  imageUrls: any[];
+  gender: string;
+  age: number;
+  role: string;
 }
 
-const Post = () =>{
+const Post = () => {
   const [userId, setUserId] = useState<any | undefined>('');
   const [myData, setMyData] = useState<any | undefined>('');
   const { postId } = useParams();
-  console.log(postId)
+  console.log(postId);
 
-  const {isLoading:PostLoading, error:PostError, data:PostData, isFetching:PostFetching } = useQuery<IPostData>(['Postdata'],() =>
-    getPostData(postId)
-  );
+  const {
+    isLoading: PostLoading,
+    error: PostError,
+    data: PostData,
+    isFetching: PostFetching,
+  } = useQuery<IPostData>(['Postdata'], () => getPostData(postId));
 
-  const {isLoading, error, data:UserData, isFetching } = useQuery<IUserData>(['Userdata'],() =>
-    getUserData()
-  )
+  const {
+    isLoading,
+    error,
+    data: UserData,
+    isFetching,
+  } = useQuery<IUserData>(['Userdata'], () => getUserData());
 
+  if (isLoading || PostLoading) return 'Loading';
 
-  if(isLoading || PostLoading) return "Loading"
+  return (
+    <>
+      <MapContainer>
+        <Maps postData={PostData} />
+      </MapContainer>
 
-  return(
-    <Container>
+      <Container>
         <LeftContainer>
           <Title>{PostData?.title}</Title>
           <DestinationContainer>
             <Destination>여행지역</Destination>
-            <DestinationValue>{PostData?.travelState} {PostData?.travelCity}</DestinationValue>
+            <DestinationValue>
+              {PostData?.travelState} {PostData?.travelCity}
+            </DestinationValue>
           </DestinationContainer>
           <PeopleContainer>
             <People>모집인원</People>
@@ -74,12 +87,17 @@ const Post = () =>{
           </DateContainer>
           <ContentsContainer>
             <Content>
-              <div dangerouslySetInnerHTML={{ __html: PostData?.context }}></div>
+              <div
+                dangerouslySetInnerHTML={{ __html: PostData?.context }}
+              ></div>
             </Content>
           </ContentsContainer>
           {/* <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer> */}
           <PostContainer>
-            <PostDate>{PostData?.createdAt.slice(0,10)} {PostData?.createdAt.slice(11,19)}</PostDate>
+            <PostDate>
+              {PostData?.createdAt.slice(0, 10)}{' '}
+              {PostData?.createdAt.slice(11, 19)}
+            </PostDate>
             <PostView>조회수 {PostData?.viewCount}</PostView>
           </PostContainer>
         </LeftContainer>
@@ -93,10 +111,11 @@ const Post = () =>{
           </ProfileImg>
         </RightContainer>
       </Container>
-  )
-}
+    </>
+  );
+};
 
-export default Post
+export default Post;
 
 const CommentLayout = styled.div`
   margin: 0px;
@@ -168,13 +187,13 @@ const CommentContent = styled.div`
 `;
 
 const ChildrenComments = styled.div`
-width: 46rem;
-border-radius: 1rem;
-border: 1px solid #f2f2f2;
-margin-top: 0.1rem;
-padding: 8px;
-background-color: #f7f7f7;
-font-family: 'NanumSquareNeo-Variable';
+  width: 46rem;
+  border-radius: 1rem;
+  border: 1px solid #f2f2f2;
+  margin-top: 0.1rem;
+  padding: 8px;
+  background-color: #f7f7f7;
+  font-family: 'NanumSquareNeo-Variable';
 `;
 
 const Bg = styled.div`
@@ -183,17 +202,19 @@ const Bg = styled.div`
   padding-bottom: 2rem;
 `;
 
-
 const Container = styled.div`
   width: 70rem;
   height: 30rem;
   margin-left: 12rem;
   display: flex;
 `;
-
+const MapContainer = styled.div`
+  width: 100%;
+  justify-content: center;
+  display: flex;
+`;
 const LeftContainer = styled.div`
   width: 50rem;
-
   display: block;
 `;
 const Title = styled.div`

@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react';
-import vectorIcon from '../../assets/image/detailHeart.png';
 
-const NaverMap = () => {
+const NaverMap = ({ postData }) => {
   useEffect(() => {
     let map = null;
     let marker = null;
+
     const initMap = () => {
+      // 전달된 postData에서 latitude와 longitude 값을 가져와 지도의 중심으로 설정
+      const centerLatLng = new naver.maps.LatLng(
+        postData?.latitude,
+        postData?.longitude,
+      );
+
       map = new naver.maps.Map('map', {
-        //지도 추가, 좌표를 기점으로 주변 지도가 추가된다.
-        center: new naver.maps.LatLng(35.8, 128.839573),
+        center: centerLatLng,
         zoom: 7,
       });
 
       marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(35.8, 128.839573), //Marker 추가, 좌표에 마커가 찍힌다.
+        position: centerLatLng, // Marker의 위치를 지도 중심으로 설정
         map: map,
       });
 
@@ -22,12 +27,14 @@ const NaverMap = () => {
         console.log(e.latlng);
       });
     };
+
+    // PostData가 변경될 때마다 지도를 초기화
     initMap();
-  }, []);
+  }, [postData]);
 
   const mapStyle = {
-    width: '70vw',
-    height: '32vw',
+    width: '75vw',
+    height: '25vw',
   };
 
   return (
