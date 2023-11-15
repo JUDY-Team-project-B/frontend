@@ -10,7 +10,8 @@ import { useForm } from 'react-hook-form';
 import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
-import Map from '@/pages/post/naverMap';
+import styled from 'styled-components';
+import backgroundImg from '@/assets/image/Background.jpg';
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -199,10 +200,9 @@ const CreatePostPage = () => {
             type="submit"
             children={'작성완료'}
           />
-        </div>
-      </div>
-      <Map />
-    </div>
+        </CreateFlex>
+      </PostFlex>
+    </PostLayout>
   );
 };
 
@@ -213,18 +213,18 @@ const PostLayout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-`
+`;
 const PostImage = styled.div`
   height: 200px;
-  background-image:url(${backgroundImg});
-`
+  background-image: url(${backgroundImg});
+`;
 
 const PostFlex = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   display: flex;
-`
+`;
 const CreateFlex = styled.div`
   height: 100%;
   width: 1000px;
@@ -232,4 +232,4 @@ const CreateFlex = styled.div`
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
-`
+`;
