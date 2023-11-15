@@ -11,7 +11,11 @@ import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import styled from 'styled-components';
+<<<<<<< HEAD
 import backgroundImg from '@/assets/image/Background.jpg';
+=======
+import backgroundImg from '@/assets/image/Background.jpg'
+>>>>>>> 87707d76024779e2e00586e2987bf0d404b3e28a
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -208,18 +212,30 @@ const PostLayout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+<<<<<<< HEAD
 `;
 const PostImage = styled.div`
   height: 200px;
   background-image: url(${backgroundImg});
 `;
+=======
+`
+const PostImage = styled.div`
+  height: 200px;
+  background-image:url(${backgroundImg});
+`
+>>>>>>> 87707d76024779e2e00586e2987bf0d404b3e28a
 
 const PostFlex = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   display: flex;
+<<<<<<< HEAD
 `;
+=======
+`
+>>>>>>> 87707d76024779e2e00586e2987bf0d404b3e28a
 const CreateFlex = styled.div`
   height: 100%;
   width: 1000px;
@@ -227,4 +243,8 @@ const CreateFlex = styled.div`
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
 `;
+=======
+`
+>>>>>>> 87707d76024779e2e00586e2987bf0d404b3e28a
