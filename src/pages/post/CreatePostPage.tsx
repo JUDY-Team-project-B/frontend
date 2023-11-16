@@ -53,6 +53,11 @@ const CreatePostPage = () => {
     };
     /// 여기서 처리 추가적으로 처리 가능///
     UserDatas();
+
+    if(cookie.load('refreshToken') === undefined ){
+      alert('로그인이 되어있지 않습니다')
+      navigate('/')
+    }
   }, []);
   //현재 사용중인 유저 정보를 받아오는 axios
 
