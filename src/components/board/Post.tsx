@@ -42,17 +42,12 @@ const Post = () =>{
   const [myData, setMyData] = useState<any | undefined>('');
   const { postId } = useParams();
   console.log(postId)
-
-  const {isLoading:PostLoading, error:PostError, data:PostData, isFetching:PostFetching } = useQuery<IPostData>(['Postdata'],() =>
+  
+  
+  useEffect(()=>{
     getPostData(postId)
-  );
-
-  const {isLoading, error, data:UserData, isFetching } = useQuery<IUserData>(['Userdata'],() =>
-    getUserData()
-  )
-
-
-  if(isLoading || PostLoading) return "Loading"
+    getUserData();
+  },[])
 
   return(
     <Container>
