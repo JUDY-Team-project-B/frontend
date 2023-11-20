@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import styled from 'styled-components';
 import backgroundImg from '@/assets/image/Background.jpg';
+import Maps from '@/pages/post/CreateMap';
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -176,7 +177,10 @@ const CreatePostPage = () => {
 
   return (
     <PostLayout>
-      <PostImage></PostImage>;
+      <MapContainer>
+        <Maps />
+      </MapContainer>
+
       <PostFlex>
         <CreateFlex>
           <PostCardList onValueChange={handleCardList} />
@@ -202,6 +206,12 @@ const CreatePostPage = () => {
 };
 
 export default CreatePostPage;
+
+const MapContainer = styled.div`
+  width: 100%;
+  justify-content: center;
+  display: flex;
+`;
 
 const PostLayout = styled.div`
   height: 100%;
