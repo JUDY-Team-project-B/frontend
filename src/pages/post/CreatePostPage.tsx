@@ -193,12 +193,7 @@ const CreatePostPage = () => {
             throw new Error('Function not implemented.');
           }}
         /> */}
-          <Button
-            className="ml-auto mt-5"
-            onClick={handleClick}
-            type="submit"
-            children={'작성완료'}
-          />
+          <Btn onClick={handleClick} type="submit" children={'작성완료'} />
         </CreateFlex>
       </PostFlex>
     </PostLayout>
@@ -237,4 +232,24 @@ const CreateFlex = styled.div`
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
+`;
+
+const Btn = styled.div`
+  font-family: 'NanumSquareNeo-Variable';
+  height: 3.5rem;
+  width: 100%;
+  border-radius: 1rem;
+  background-color: #5dc1fa;
+  margin-top: 1rem;
+  color: white;
+  font-size: 1.1rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  &:hover {
+    position: center;
+    opacity: 0.85;
+    cursor: pointer;
+  }
 `;

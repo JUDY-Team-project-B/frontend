@@ -1,6 +1,7 @@
 import { c } from 'msw/lib/glossary-de6278a9';
 import React, { useEffect, useState } from 'react';
-
+import '@/components/post/DatePicker.css';
+import styled from 'styled-components';
 interface TravelRegion {
   region: string;
   cities: string[];
@@ -9,8 +10,15 @@ interface TravelRegion {
 const travelRegions: TravelRegion[] = [
   {
     region: '서울특별시',
-    cities: ['종로구', '중구', '용산구','성동구','광진구','동대문구'
-    ,'중랑구']
+    cities: [
+      '종로구',
+      '중구',
+      '용산구',
+      '성동구',
+      '광진구',
+      '동대문구',
+      '중랑구',
+    ],
   },
   {
     region: '인천광역시',
@@ -46,7 +54,17 @@ const travelRegions: TravelRegion[] = [
   },
   {
     region: '부산광역시',
-    cities: ['중구', '서구', '동구', '영도구', '부산진구', '동래구', '남구', '강서구','연제구'],
+    cities: [
+      '중구',
+      '서구',
+      '동구',
+      '영도구',
+      '부산진구',
+      '동래구',
+      '남구',
+      '강서구',
+      '연제구',
+    ],
   },
   {
     region: '대구광역시',
@@ -54,7 +72,18 @@ const travelRegions: TravelRegion[] = [
   },
   {
     region: '강원도',
-    cities: ['강릉', '동해', '삼척','속초','원주','춘천','태백','고성','양구','양양'],
+    cities: [
+      '강릉',
+      '동해',
+      '삼척',
+      '속초',
+      '원주',
+      '춘천',
+      '태백',
+      '고성',
+      '양구',
+      '양양',
+    ],
   },
   {
     region: '광주광역시',
@@ -74,35 +103,34 @@ const travelRegions: TravelRegion[] = [
   },
 ];
 
-const TravelRegionSelect = ({onValueChange}) => {
+const TravelRegionSelect = ({ onValueChange }) => {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
-  
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRegion(e.target.value);
-    console.log(selectedRegion)
+    console.log(selectedRegion);
     setSelectedCity('');
   };
 
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     setSelectedCity(e.target.value);
   };
 
-  useEffect(()=>{
-    console.log(selectedRegion)
-    console.log(selectedCity)
-    onValueChange([selectedRegion,selectedCity])
-  },[selectedCity])
+  useEffect(() => {
+    console.log(selectedRegion);
+    console.log(selectedCity);
+    onValueChange([selectedRegion, selectedCity]);
+  }, [selectedCity]);
 
   return (
-    <div className="flex flex-row">
+    <Container>
       <select
         id="region"
         value={selectedRegion}
         onChange={handleRegionChange}
-        className="border border-gray-300 rounded-md w-48 text-sm h-8"
+        className="datePicker"
       >
         <option value="">선택</option>
         {travelRegions.map((region, index) => (
@@ -117,7 +145,7 @@ const TravelRegionSelect = ({onValueChange}) => {
             id="city"
             value={selectedCity}
             onChange={handleCityChange}
-            className="border border-gray-300 rounded-md w-48 text-sm h-8"
+            className="datePicker2"
           >
             <option value="">전체</option>
             {travelRegions
@@ -130,8 +158,13 @@ const TravelRegionSelect = ({onValueChange}) => {
           </select>
         </div>
       )}
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+`;
 
 export default TravelRegionSelect;
