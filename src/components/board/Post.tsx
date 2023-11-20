@@ -219,7 +219,7 @@ const LeftContainer = styled.div`
   display: block;
 `;
 const Title = styled.div`
-  font-size: 1.7rem;
+  font-size: 1.4rem;
   height: 3rem;
   width: 40rem;
   overflow: visible;
