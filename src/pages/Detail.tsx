@@ -102,7 +102,6 @@ const ChildrenComments = styled.div`
 `;
 
 const Bg = styled.div`
-  background-color: #eaf0f8;
   height: 100%;
   padding-bottom: 2rem;
 `;
