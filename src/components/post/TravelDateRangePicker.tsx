@@ -1,46 +1,61 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import '@/components/post/DatePicker.css';
+import Content from '../../pages/main/Contents';
 
-const TravelDatePicker = ({onValueChange}) => {
-
+const TravelDatePicker = ({ onValueChange }) => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
-  const [DateArray, setDateArray] = useState<any[]>([null,null]);
+  const [DateArray, setDateArray] = useState<any[]>([null, null]);
 
-  useEffect(()=>{
-    setDateArray([startDate,endDate])
-  },[startDate,endDate])
+  useEffect(() => {
+    setDateArray([startDate, endDate]);
+  }, [startDate, endDate]);
 
-  useEffect(()=>{
-    onValueChange(DateArray)
-  })
+  useEffect(() => {
+    onValueChange(DateArray);
+  });
 
   return (
-    <div className="flex space-x-2 z-2" >
-      <div className="flex items-center">
+    <Container>
+      <div>
         <DatePicker
           id="start-date-picker"
-          className="z-9999 p-2 border border-gray-300 rounded text-gray-700 text-sm w-72"
+          className="datePicker"
           selected={startDate}
           onChange={(dateStart: Date) => setStartDate(dateStart)}
           dateFormat="yyyy-MM-dd"
           placeholderText="날짜 선택"
         />
       </div>
-      <div className="flex items-center">-</div>
+      <Contents>-</Contents>
       <div className="flex items-center">
         <DatePicker
           id="end-date-picker"
-          className="z-9999 p-2 border border-gray-300 rounded text-gray-700 text-sm w-72"
+          className="datePicker"
           selected={endDate}
           onChange={(dateEnd: Date) => setEndDate(dateEnd)}
           dateFormat="yyyy-MM-dd"
           placeholderText="날짜 선택"
         />
       </div>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+const Contents = styled.div`
+  width: 3%;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default TravelDatePicker;

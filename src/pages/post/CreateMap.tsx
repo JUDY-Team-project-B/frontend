@@ -20,8 +20,8 @@ const NaverMap = () => {
   }, []);
 
   const mapStyle = {
-    width: '75vw',
-    height: '25vw',
+    width: '66vw',
+    height: '22vw',
   };
 
   return (
