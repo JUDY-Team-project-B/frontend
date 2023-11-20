@@ -39,15 +39,19 @@ export interface IUserData {
 
 const Post = () =>{
   const [userId, setUserId] = useState<any | undefined>('');
-  const [myData, setMyData] = useState<any | undefined>('');
+  const [myData, setMyData] = useState<any | undefined>('');  
+
   const { postId } = useParams();
   console.log(postId)
   
-  
-  useEffect(()=>{
+
+  const {isLoading:PostLoading, error:PostError, data:PostData, isFetching:PostFetching } = useQuery<IPostData>(['Postdata'],() =>
     getPostData(postId)
-    getUserData();
-  },[])
+  );
+
+  const {isLoading, error, data:UserData, isFetching } = useQuery<IUserData>(['Userdata'],() =>
+    getUserData()
+  )
 
   return(
     <Container>

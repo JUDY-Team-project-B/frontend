@@ -21,15 +21,39 @@ export const CommentDatas = () => {
     },
   ]);
   const [target, setTarget] = useState<any|undefined>('');
+  
   const { postId } = useParams();
-  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
-  const {isLoading, isError, data: CommentData, error}  = useQuery<commentType[]|undefined>(
-    ['commentData'] ,() => getCommentData(postId)
-  )
 
   useEffect(()=>{
-    setCommentData(CommentData)
-  },[])
+    async function CommentListData(): Promise<void> {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/comment/${postId}`,
+          {
+            headers: {
+              //Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        console.log(response);
+        const responseData = response.data.data;
+        if (responseData) {
+          for (let i = 0; i < responseData.length; i += 1) {
+            responseData[i].isSelect = false;
+          }
+        }
+        console.log(responseData);
+        setCommentData(responseData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    CommentListData()
+  },[postId])
+
+  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
+
 
   const setIsSelect = (index: number) => {
     console.log('Start setIsSelect')
@@ -57,6 +81,7 @@ export const CommentDatas = () => {
       }
     });
     console.log(commentData);
+    console.log(index+'번째 댓글')
   };
 
 
@@ -193,7 +218,6 @@ export const CommentDatas = () => {
   // }, []);
 
 
-  if (isLoading) return <div>Loading</div>
 
 
   return(
