@@ -61,15 +61,11 @@ export const Login = () => {
   if (isLogin === false) {
     return (
       <Layout>
-        <LoginLayout onClick={openLoginModal}>
-          로그인
-        </LoginLayout>
-        <SigninLayout onClick={gotoRegister}>
-          회원가입
-        </SigninLayout>
+        <LoginLayout onClick={openLoginModal}>로그인</LoginLayout>
+        <SigninLayout onClick={gotoRegister}>회원가입</SigninLayout>
         {isLoginModalOpen && (
-            <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
-          )}
+          <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
+        )}
       </Layout>
     );
   } else {
@@ -99,6 +95,9 @@ const ILayout = styled.div`
   margin-top: 4px;
   margin-bottom: 4px;
   cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 const LoginLayout = styled(ILayout)`
   width: 5.5rem;
