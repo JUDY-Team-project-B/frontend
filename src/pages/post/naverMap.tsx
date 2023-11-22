@@ -21,11 +21,6 @@ const NaverMap = ({ postData }) => {
         position: centerLatLng, // Marker의 위치를 지도 중심으로 설정
         map: map,
       });
-
-      naver.maps.Event.addListener(map, 'click', function (e) {
-        marker.setPosition(e.latlng);
-        console.log(e.latlng);
-      });
     };
 
     // PostData가 변경될 때마다 지도를 초기화

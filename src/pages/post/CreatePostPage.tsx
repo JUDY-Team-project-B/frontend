@@ -73,7 +73,7 @@ const CreatePostPage = () => {
               searchKeyword: '',
             },
             headers: {
-              Authorization: `Bearer ${cookie.load('refrehsToken')}`,
+              Authorization: `Bearer ${cookie.load('refreshToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -124,6 +124,12 @@ const CreatePostPage = () => {
     }
   }, [travelat]);
 
+  const [mapLatlng, setMapLatlng] = useState(null);
+
+  const handleMapClick = (latlng) => {
+    setMapLatlng(latlng);
+  };
+
   const handleClick = async () => {
     console.log(jwt);
     try {
@@ -143,10 +149,12 @@ const CreatePostPage = () => {
           travelDateStart: date[0],
           travelDateEnd: date[1],
           travelMember: number,
+          latitude: mapLatlng.y, // 좌표값
+          longitude: mapLatlng.x, // 좌표값
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -161,7 +169,7 @@ const CreatePostPage = () => {
             url: `http://localhost:8080/api/v1/post/${nextId}/images`,
             data: formData,
             headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
               'Content-Type': 'multipart/form-data',
             },
@@ -183,7 +191,7 @@ const CreatePostPage = () => {
   return (
     <PostLayout>
       <MapContainer>
-        <Maps />
+        <Maps onMapClick={handleMapClick} />
       </MapContainer>
 
       <PostFlex>
