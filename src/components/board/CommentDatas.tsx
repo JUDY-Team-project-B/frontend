@@ -9,6 +9,18 @@ import cookie from 'react-cookies';
 
 
 export const CommentDatas = () => {
+  const [userData, setUserData] = useState<any>([
+    {
+      id:          '',
+      email:       '',
+      nickname:     '',
+      description: '',
+      imageUrls:   [],
+      gender:       '',
+      age:          '',
+      role:         '',
+    }
+  ])
   const [commentData, setCommentData] = useState<commentType[]|undefined>([
     {
       children: [],
@@ -31,7 +43,6 @@ export const CommentDatas = () => {
           `http://localhost:8080/api/v1/comment/${postId}`,
           {
             headers: {
-              //Authorization: `Bearer ${cookie.load('accessTokens')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -49,7 +60,9 @@ export const CommentDatas = () => {
         console.log(error);
       }
     }
+    MyData();
     CommentListData()
+
   },[postId])
 
   const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
@@ -123,7 +136,7 @@ export const CommentDatas = () => {
       const response = await axios.post(
         'http://localhost:8080/api/v1/comment',
         {
-          userId: 1,
+          userId: userData.id,
           postId: postId,
           parentId: "",
           content: target,
@@ -148,7 +161,7 @@ export const CommentDatas = () => {
       const response = await axios.post(
         'http://localhost:8080/api/v1/comment',
         {
-          userId: 1,
+          userId: userData.id,
           postId: postId,
           parentId: commentData[parentId].id,
           content: ChildrenComment,
@@ -196,28 +209,26 @@ export const CommentDatas = () => {
     }
   };
 
-      // async function MyData(): Promise<void> {
-    //   try {
-    //     const response = await axios.get(
-    //       'http://localhost:8080/api/v1/user/me',
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${cookie.load('accessTokens')}`,
-    //           'Access-Control-Allow-Origin': '*',
-    //         },
-    //       },
-    //     );
-    //     console.log(response);
-    //     const responseData = response.data.data;
-    //     console.log(responseData);
-    //     setMyData(responseData);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // MyData();
-  //   PostListData();
-  // }, []);
+      async function MyData(): Promise<void> {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/v1/user/me',
+          {
+            headers: {
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setUserData(responseData);
+        console.log()
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
 
 
@@ -235,7 +246,6 @@ export const CommentDatas = () => {
             <div>
               <Comment>
                 <CommentInfo>
-                  {/* {datas.nickname} {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
                   <CommentWriter>{datas.nickname} {datas.createdAt.slice(0,10)} {datas.createdAt.slice(11,19)} </CommentWriter>
                   {true ? (
                     <div
@@ -270,7 +280,7 @@ export const CommentDatas = () => {
                       onChange={onChildcomment}
                       value={ChildrenComment}
                     />
-                    <Button onClick={() => sendChildcomment(index+1)}>
+                    <Button onClick={() => sendChildcomment(index)}>
                       게시
                     </Button>
                   </CommentLayout>
@@ -282,7 +292,7 @@ export const CommentDatas = () => {
                   <ChildrenComments>
                     <CommentInfo>
                       {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                      <CommentWriter>{datas.nickname}</CommentWriter>
+                      <CommentWriter>{comment.nickname}</CommentWriter>
                       {/* {comment.nickname === myData.nickname ? (
                         <div
                         style={{
