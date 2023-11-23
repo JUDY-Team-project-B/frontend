@@ -192,11 +192,7 @@ function Profile() {
   };
 
   const goto = (num: number): void => {
-    const postnum = String(num);
-    const queryParems = new URLSearchParams();
-    queryParems.set('q', postnum);
-    const queryString = queryParems.toString();
-    navigate(`/board/${queryString}`);
+    navigate(`/board/${num}`);
   };
 
   return (
@@ -314,6 +310,7 @@ function Profile() {
                     textAlign: 'left',
                     justifyContent: 'center',
                   }}
+                  onClick={() => goto(datas.postId)}
                 >
                   <CommentPost> {datas.postTitle}</CommentPost>
                   {datas.content}
