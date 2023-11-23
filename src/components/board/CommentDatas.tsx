@@ -82,6 +82,7 @@ export const CommentDatas = () => {
     });
     console.log(commentData);
     console.log(index+'번째 댓글')
+    console.log()
   };
 
 
@@ -124,12 +125,12 @@ export const CommentDatas = () => {
         {
           userId: 1,
           postId: postId,
-          parentId: '',
+          parentId: "",
           content: target,
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -142,29 +143,30 @@ export const CommentDatas = () => {
     location.reload();
   };
 
-  // const sendChildcomment = async (parentId: number) => {
-  //   try {
-  //     const response = await axios.post(
-  //       'http://localhost:8080/api/v1/comment',
-  //       {
-  //         userId: userData.id,
-  //         postId: searchTerm,
-  //         parentId: parentId,
-  //         content: ChildrenComment,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${cookie.load('accessTokens')}`,
-  //           'Access-Control-Allow-Origin': '*',
-  //         },
-  //       },
-  //     );
-  //     console.log(response);
-  //     alert('작성되었습니다');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const sendChildcomment = async (parentId: number) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/comment',
+        {
+          userId: 1,
+          postId: postId,
+          parentId: commentData[parentId].id,
+          content: ChildrenComment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log(response);
+      console.log(parentId+'번호에서 작성되었습니다3ㅋ')
+      alert('작성되었습니다');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onSearch = (e: any) => {
     setTarget(e.target.value);
@@ -175,24 +177,24 @@ export const CommentDatas = () => {
     setChildrenComment(e.target.value);
   };
 
-  // const Deletecomment = async (index: any) => {
-  //   try {
-  //     const response = await axios.delete(
-  //       `http://localhost:8080/api/v1/comment/${index}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${cookie.load('accessTokens')}`,
-  //           'Access-Control-Allow-Origin': '*',
-  //         },
-  //       },
-  //     );
-  //     console.log(response);
-  //     alert('삭제되었습니다');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   location.reload();
-  // };
+  const Deletecomment = async (index: any) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/v1/comment/${commentData[index].id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log(index)  
+      console.log(response);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
       // async function MyData(): Promise<void> {
     //   try {
@@ -234,8 +236,8 @@ export const CommentDatas = () => {
               <Comment>
                 <CommentInfo>
                   {/* {datas.nickname} {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                  <CommentWriter>{datas.nickname} </CommentWriter>
-                  {/* {datas.nickname === myData.nickname ? (
+                  <CommentWriter>{datas.nickname} {datas.createdAt.slice(0,10)} {datas.createdAt.slice(11,19)} </CommentWriter>
+                  {true ? (
                     <div
                       style={{
                         display: 'flex',
@@ -246,13 +248,13 @@ export const CommentDatas = () => {
                       <CommentButton onClick={() => setCommentIsSelect(index)}>
                         수정
                       </CommentButton>
-                      <CommentButton onClick={() => Deletecomment(datas.id)}>
+                      <CommentButton onClick={() => Deletecomment(index)}>
                         삭제
                       </CommentButton>
                     </div>
                   ) : (
                     ''
-                  )} */}
+                  )}
                 </CommentInfo>
                 <CommentContent>
                   <Text>{datas.content}</Text>
@@ -268,9 +270,9 @@ export const CommentDatas = () => {
                       onChange={onChildcomment}
                       value={ChildrenComment}
                     />
-                    {/* <Button onClick={() => sendChildcomment(index+1)}>
+                    <Button onClick={() => sendChildcomment(index+1)}>
                       게시
-                    </Button> */}
+                    </Button>
                   </CommentLayout>
                 )}
                 {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
@@ -361,7 +363,7 @@ const CommentWriter = styled.div`
   overflow: visible;
   display: flex;
   flex-direction: row;
-  width: 10rem;
+  width: 20rem;
   margin-top: 0.5rem;
   font-size: 1.15rem;
 `;
