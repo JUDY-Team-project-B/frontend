@@ -113,12 +113,12 @@ const ContentsWrap = styled.div`
 const ContentsImg = styled.div`
   margin-left: ${(props) => props.marginLeft};
   opacity: 1;
-  width: 8.5rem;
+  width: 7.8rem;
   margin-top: 2rem;
   height: 9rem;
   border-radius: 1rem;
   background-position: center 0;
-  background-size: 8.5rem 7rem;
+  background-size: 8rem 6.5rem;
   background-image: ${(props) => `url(${props.backgroundImg})`};
   background-repeat: no-repeat;
   transition: transform 0.5s;
