@@ -95,6 +95,9 @@ const Main = () => {
               개방적이고 호기심 가득한 마음으로 다양한 사람들과 소통하고
               동행해보세요.
             </TextContainer>
+            <div>
+              helloe
+            </div>
           </ImageContainer>
         ))}
       </Slider>

@@ -46,6 +46,7 @@ const Post = () =>{
   
 
   const {isLoading:PostLoading, error:PostError, data:PostData, isFetching:PostFetching } = useQuery<IPostData>(['Postdata'],() =>
+    
     getPostData(postId)
   );
 

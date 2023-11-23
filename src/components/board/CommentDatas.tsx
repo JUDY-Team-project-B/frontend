@@ -203,10 +203,11 @@ export const CommentDatas = () => {
       );
       console.log(index)  
       console.log(response);
-      
+        
     } catch (error) {
       console.log(error);
     }
+    location.reload();
   };
 
       async function MyData(): Promise<void> {
@@ -247,7 +248,7 @@ export const CommentDatas = () => {
               <Comment>
                 <CommentInfo>
                   <CommentWriter>{datas.nickname} {datas.createdAt.slice(0,10)} {datas.createdAt.slice(11,19)} </CommentWriter>
-                  {true ? (
+                  {datas.nickname === userData.nickname ? (
                     <div
                       style={{
                         display: 'flex',
