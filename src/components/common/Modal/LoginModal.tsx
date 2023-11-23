@@ -65,8 +65,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       onClose();
       location.reload();
     }catch(e){
-      console.log(e)
-      alert("아이디 비밀번호가 잘못되었습니다!")
+      alert(e.response.data.message)
     }
   };
 
