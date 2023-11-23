@@ -53,6 +53,7 @@ const Post = () =>{
   const {isLoading, error, data:UserData, isFetching } = useQuery<IUserData>(['Userdata'],() =>
     getUserData()
   )
+  console.log(PostData)
 
   return(
     <Container>
@@ -85,11 +86,11 @@ const Post = () =>{
         </LeftContainer>
         <RightContainer>
           <ProfileImg>
-            <ProfileName>{UserData?.nickname}</ProfileName>
+            <ProfileName>{PostData?.nickname}</ProfileName>
             <ProfileInfo>
-              {UserData?.age}대 {UserData?.gender}
+              {PostData?.age}대 {PostData?.gender}
             </ProfileInfo>
-            <ProfileIntroduce>{UserData?.description}</ProfileIntroduce>
+            <ProfileIntroduce>{PostData?.description}</ProfileIntroduce>
           </ProfileImg>
         </RightContainer>
       </Container>
