@@ -8,6 +8,9 @@ import trip1 from '../../assets/image/trip1.jpg';
 import trip2 from '../../assets/image/trip2.jpg';
 import trip3 from '../../assets/image/trip3.jpg';
 import '../../assets/font/font.css';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+
 
 const items = [
   { id: 1, url: trip1 },
@@ -19,6 +22,8 @@ interface ImageContainerProps {
   imageUrl: string;
 }
 
+
+
 const ImageContainer = styled.div<ImageContainerProps>`
   background-position: center;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
@@ -28,6 +33,9 @@ const ImageContainer = styled.div<ImageContainerProps>`
   width: 100rem;
   height: 33.5rem;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const TitleContainer = styled.div`
@@ -50,6 +58,31 @@ const Highlight = styled.span`
   font-weight: 1000;
 `;
 
+const WriteButton = styled.button`
+  width: 200px;
+  height: 100px;
+  background-color:  #3baaf8;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 20px;
+  border: none;
+  &:hover{
+    background-color: #1e5780;
+  }
+  z-index: 999;
+
+`
+
+const WriteLayout = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+`
+
 const TextContainer = styled.div`
   margin-top: 2rem;
   width: 100%;
@@ -61,9 +94,13 @@ const TextContainer = styled.div`
   color: white;
   font-family: 'SUITE-Regular';
   overflow: visible;
-`;
+`
+
+
 
 const Main = () => {
+  const navigate = useNavigate();
+
   const settings = {
     dots: false,
     infinite: true, //무한 반복 옵션
@@ -74,6 +111,11 @@ const Main = () => {
     autoplay: true,
     autoplaySpeed: 5000,
   };
+
+  const gotoWrite = () =>{
+    console.log('hello')
+    navigate('/create-post')
+  }
 
   const Layout = styled.div`
     height: 100%;
@@ -95,9 +137,11 @@ const Main = () => {
               개방적이고 호기심 가득한 마음으로 다양한 사람들과 소통하고
               동행해보세요.
             </TextContainer>
-            <div>
-              helloe
-            </div>
+            <WriteLayout>
+            <WriteButton onClick={()=>gotoWrite}>
+              동행 찾기
+            </WriteButton>
+            </WriteLayout>
           </ImageContainer>
         ))}
       </Slider>
