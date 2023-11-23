@@ -61,6 +61,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         //httpOnly : true
       }
     );
+    alert('로그인에 성공하였습니다!')
       navigate('/');
       onClose();
       location.reload();
