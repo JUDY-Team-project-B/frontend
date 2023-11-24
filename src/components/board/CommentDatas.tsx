@@ -63,7 +63,6 @@ export const CommentDatas = () => {
     }
     MyData();
     CommentListData()
-
   },[postId])
 
   const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
@@ -369,7 +368,7 @@ const CommentLayout = styled.div`
 `;
 
 const Comment = styled.div`
-  width: 46rem;
+  width: 45rem;
   border-radius: 1rem;
   border: 1px solid #f2f2f2;
   margin-top: 1rem;
@@ -433,7 +432,7 @@ const CommentContent = styled.div`
 `;
 
 const ChildrenComments = styled.div`
-width: 46rem;
+width: 45rem;
 border-radius: 1rem;
 border: 1px solid #f2f2f2;
 margin-top: 0.1rem;
@@ -459,16 +458,15 @@ const Bg = styled.div`
 //   border-radius: 2rem;
 // `;
 const Container2 = styled.div`
-  width: 70rem;
-  margin-left: 12rem;
   display: flex;
   flex-direction: column;
+  margin-left: 285px;
 `;
 
 const CommentInput = styled.input`
   margin-top: 2rem;
   height: 3rem;
-  width: 40rem;
+  width: 45rem;
   border: 0.1px solid #cdcaca;
   border-radius: 0.7rem;
   padding: 1rem;

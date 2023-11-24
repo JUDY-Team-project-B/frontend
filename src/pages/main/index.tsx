@@ -8,7 +8,7 @@ import trip1 from '../../assets/image/trip1.jpg';
 import trip2 from '../../assets/image/trip2.jpg';
 import trip3 from '../../assets/image/trip3.jpg';
 import '../../assets/font/font.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 
 
@@ -60,7 +60,7 @@ const Highlight = styled.span`
 
 const WriteButton = styled.button`
   width: 200px;
-  height: 100px;
+  height: 120px;
   background-color:  #3baaf8;
   color: white;
   font-size: 24px;
@@ -76,7 +76,7 @@ const WriteButton = styled.button`
 
 const WriteLayout = styled.div`
   width: 100%;
-  height: 50px;
+  height: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,8 +137,8 @@ const Main = () => {
               개방적이고 호기심 가득한 마음으로 다양한 사람들과 소통하고
               동행해보세요.
             </TextContainer>
-            <WriteLayout>
-            <WriteButton onClick={()=>gotoWrite}>
+            <WriteLayout >
+            <WriteButton onClick={()=>gotoWrite()}>
               동행 찾기
             </WriteButton>
             </WriteLayout>
@@ -146,6 +146,7 @@ const Main = () => {
         ))}
       </Slider>
       <Content />
+
     </Layout>
   );
 };

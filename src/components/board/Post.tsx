@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getPostData, getUserData } from '@/api/api';
 import { useParams } from 'react-router-dom';
 import Maps from '@/pages/post/naverMap';
+import { response } from 'msw';
 
 export interface IPostData {
   id?: number | undefined;
@@ -41,28 +42,43 @@ export interface IUserData {
 const Post = () => {
   const [userId, setUserId] = useState<any | undefined>('');
   const [myData, setMyData] = useState<any | undefined>('');  
+  const [PostData, setPostData] = useState<any>('');
 
   const { postId } = useParams();
   console.log(postId);
 
-  const {
-    isLoading: PostLoading,
-    error: PostError,
-    data: PostData,
-    isFetching: PostFetching,
-  } = useQuery<IPostData>(['Postdata'], () => getPostData(postId));
 
-  const {
-    isLoading,
-    error,
-    data: UserData,
-    isFetching,
-  } = useQuery<IUserData>(['Userdata'], () => getUserData());
 
-  if (isLoading || PostLoading) return 'Loading';
+  useEffect(()=>{
+    const PostListData =async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/v1/post/${postId}`,{
+        })
+        console.log(response.data.data)
+        setPostData(response.data.data)
+
+      } catch (error) {
+        console.log(error)
+      }
+      console.log(`엥`)
+
+
+    }
+
+    PostListData();
+  },[])
+
+  // const {
+  //   isLoading: PostLoading,
+  //   error: PostError,
+  //     data: PostData,
+  //   isFetching: PostFetching,
+  // } = useQuery<IPostData>(['Postdata'], () => getPostData(postId));
+
+
 
   return (
-    <>
+    <PostBg>
       <MapContainer>
         <Maps postData={PostData} />
       </MapContainer>
@@ -95,10 +111,10 @@ const Post = () => {
           </ContentsContainer>
           {/* <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer> */}
           <PostContainer>
-            <PostDate>
+            {/* <PostDate>
               {PostData?.createdAt.slice(0, 10)}{' '}
               {PostData?.createdAt.slice(11, 19)}
-            </PostDate>
+            </PostDate> */}
             <PostView>조회수 {PostData?.viewCount}</PostView>
           </PostContainer>
         </LeftContainer>
@@ -112,11 +128,18 @@ const Post = () => {
           </ProfileImg>
         </RightContainer>
       </Container>
-    </>
+    </PostBg>
   );
 };
 
 export default Post;
+
+const PostBg = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 
 const CommentLayout = styled.div`
   margin: 0px;
@@ -204,10 +227,11 @@ const Bg = styled.div`
 `;
 
 const Container = styled.div`
-  width: 70rem;
+  width: 100%;
   height: 30rem;
-  margin-left: 12rem;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 const MapContainer = styled.div`
   width: 100%;
@@ -215,8 +239,7 @@ const MapContainer = styled.div`
   display: flex;
 `;
 const LeftContainer = styled.div`
-  width: 50rem;
-  display: block;
+  width: 45%;
 `;
 const Title = styled.div`
   font-size: 1.4rem;

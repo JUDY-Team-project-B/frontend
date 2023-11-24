@@ -104,6 +104,8 @@ const ChildrenComments = styled.div`
 const Bg = styled.div`
   height: 100%;
   padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Container2 = styled.div`

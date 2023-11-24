@@ -51,7 +51,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
           path : '/',
           expires,
           // secure : true,
-          //httpOnly : true
+          httpOnly : true
         }
       );
       cookie.save('accessToken', accessToken, {
