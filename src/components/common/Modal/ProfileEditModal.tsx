@@ -55,7 +55,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         url: `http://localhost:8080/api/v1/user/${data.id}/image`,
         data: formData,
         headers: {
-          Authorization: `Bearer ${cookie.load('accessTokens')}`,
+          Authorization: `Bearer ${cookie.load('accessToken')}`,
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'multipart/form-data',
         },
@@ -73,7 +73,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           `http://localhost:8080/api/v1/user/me`,
           {
             headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -116,7 +116,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -227,6 +227,7 @@ const Caption = styled.div`
   font-size: 1rem;
   color: #c4c8cb;
   justify-content: space-between;
+  cursor: pointer;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -309,6 +310,7 @@ const NicknameChangeButton = styled.button`
   border: none;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
+  cursor: pointer;
 `;
 
 const ImageChangeButton = styled.button`
@@ -318,4 +320,5 @@ const ImageChangeButton = styled.button`
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   margin-left: 27.1rem;
+  cursor: pointer;
 `;
