@@ -11,7 +11,8 @@ import { PostType } from '@/types/post';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import styled from 'styled-components';
-import backgroundImg from '@/assets/image/Background.jpg'
+import backgroundImg from '@/assets/image/Background.jpg';
+import Maps from '@/pages/post/CreateMap';
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -26,7 +27,7 @@ const CreatePostPage = () => {
   const [userData, setUserData] = useState<any>(); // 유저 정보를 저장
   const [jwt, setjwt] = useState<any>();
   const [listData, setListData] = useState<PostType[] | undefined>();
-  const [nextId, setNextId] = useState<any>();
+  const [nextId, setNextId] = useState<any>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const CreatePostPage = () => {
               searchKeyword: '',
             },
             headers: {
-              Authorization: `Bearer ${cookie.load('refrehsToken')}`,
+              Authorization: `Bearer ${cookie.load('refreshToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -123,6 +124,12 @@ const CreatePostPage = () => {
     }
   }, [travelat]);
 
+  const [mapLatlng, setMapLatlng] = useState(null);
+
+  const handleMapClick = (latlng) => {
+    setMapLatlng(latlng);
+  };
+
   const handleClick = async () => {
     console.log(jwt);
     try {
@@ -142,10 +149,12 @@ const CreatePostPage = () => {
           travelDateStart: date[0],
           travelDateEnd: date[1],
           travelMember: number,
+          latitude: mapLatlng.y, // 좌표값
+          longitude: mapLatlng.x, // 좌표값
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -160,7 +169,7 @@ const CreatePostPage = () => {
             url: `http://localhost:8080/api/v1/post/${nextId}/images`,
             data: formData,
             headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
               'Content-Type': 'multipart/form-data',
             },
@@ -181,7 +190,10 @@ const CreatePostPage = () => {
 
   return (
     <PostLayout>
-      <PostImage></PostImage>;
+      <MapContainer>
+        <Maps onMapClick={handleMapClick} />
+      </MapContainer>
+
       <PostFlex>
         <CreateFlex>
           <PostCardList onValueChange={handleCardList} />
@@ -194,12 +206,7 @@ const CreatePostPage = () => {
             throw new Error('Function not implemented.');
           }}
         /> */}
-          <Button
-            className="ml-auto mt-5"
-            onClick={handleClick}
-            type="submit"
-            children={'작성완료'}
-          />
+          <Btn onClick={handleClick} type="submit" children={'작성완료'} />
         </CreateFlex>
       </PostFlex>
     </PostLayout>
@@ -208,23 +215,29 @@ const CreatePostPage = () => {
 
 export default CreatePostPage;
 
+const MapContainer = styled.div`
+  width: 100%;
+  justify-content: center;
+  display: flex;
+`;
+
 const PostLayout = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-`
+`;
 const PostImage = styled.div`
   height: 200px;
-  background-image:url(${backgroundImg});
-`
+  background-image: url(${backgroundImg});
+`;
 
 const PostFlex = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   display: flex;
-`
+`;
 const CreateFlex = styled.div`
   height: 100%;
   width: 1000px;
@@ -232,4 +245,24 @@ const CreateFlex = styled.div`
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
-`
+`;
+
+const Btn = styled.div`
+  font-family: 'NanumSquareNeo-Variable';
+  height: 3.5rem;
+  width: 100%;
+  border-radius: 1rem;
+  background-color: #5dc1fa;
+  margin-top: 1rem;
+  color: white;
+  font-size: 1.1rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  &:hover {
+    position: center;
+    opacity: 0.85;
+    cursor: pointer;
+  }
+`;

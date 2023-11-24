@@ -294,12 +294,12 @@ const DestinationWrap = styled.div`
 `;
 
 const DestinationText = styled.div`
-  height: 1rem;
+  height: 2rem;
   padding: 0.2rem;
-  width: 12rem;
+  width: 10rem;
   display: flex;
-  text-align: center;
-  border-radius: 0.6rem;
+  text-align: left;
+  align-items: left;
   font-weight: 750;
   color: #0792e3;
   z-index: 99;
@@ -357,6 +357,7 @@ const PlaceLayout = styled.button`
   background-color: #f5f6f6;
   width: 4.5%;
   margin-top: 0.2rem;
+  margin-left: -6rem;
 `;
 
 const TopWarp = styled.div`

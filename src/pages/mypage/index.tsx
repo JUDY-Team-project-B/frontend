@@ -258,7 +258,7 @@ function Profile() {
                       {/* OnclickEvent없음 */}
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelState}</Where>
+                    <Where>{datas.travelCity}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       <Date>
@@ -342,7 +342,7 @@ function Profile() {
                     <PlaceLayout>
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelState}</Where>
+                    <Where>{datas.travelCity}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       {/* //onClickEvent없음 */}
@@ -395,14 +395,12 @@ function Profile() {
 
 export default Profile;
 
-
 const BackgroundWrap = styled.div`
   height: 55rem;
   width: 100%;
   display: flex;
   font-family: 'NanumSquareNeoTTF';
   justify-content: center;
-  margin-top: 3rem;
 `;
 const Bg = styled.div`
   height: 49rem;
@@ -425,7 +423,6 @@ const MypostWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-left: -2rem;
-
 `;
 
 const BgMypost = styled.div`
@@ -448,7 +445,7 @@ const Container = styled.div`
   text-align: center;
   z-index: 90;
   width: 20rem;
-  height: 45rem;
+  height: 40rem;
   border-radius: 1.5rem;
   background-color: #70bffb;
   margin: auto;
@@ -501,16 +498,16 @@ const PostWrap = styled.button`
 const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 15%;
-  margin-top: 2.3rem;
-  margin-left: 1rem;
+  width: 14%;
+  margin-left: 0.5rem;
+  margin-top: 2.1rem;
+  background-color: #f9f7f7;
   z-index: 999;
   border: none;
 `;
 
 const Where = styled.div`
   z-index: 90;
-  margin-left: 0.5rem;
   position: relative;
   overflow: visible;
   width: 9rem;
@@ -518,7 +515,7 @@ const Where = styled.div`
   display: flex;
   text-align: left;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: #0792e3;
 `;
 
@@ -535,7 +532,7 @@ const DateWrap = styled.div`
   display: block;
   height: 4rem;
   width: 12rem;
-  margin-top: 1.3rem;
+  margin-top: 1.1rem;
   margin-left: 0rem;
   text-align: left;
 `;
@@ -559,8 +556,7 @@ const LikeWrap = styled.div`
   height: 4rem;
   width: 95%;
   justify-content: right;
-
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   position: absolute;
 `;
 
@@ -569,7 +565,8 @@ const ImgWrap = styled.div`
   margin-top: 0.8rem;
   height: 9.5rem;
   position: relative;
-  width: 100%;
+  width: 105%;
+  margin-left: -0.3rem;
 `;
 
 const ProfileImgDeleteButton = styled(DeleteIcon)`
@@ -598,6 +595,7 @@ const Img = styled.button`
   background-image: url(${gyeongju});
   background-repeat: no-repeat;
   transition: transform 0.5s;
+  border: none;
 
   &:hover {
     position: center;
@@ -744,9 +742,10 @@ const MyPostList = styled.button`
   height: 3rem;
   width: 100%;
   margin-top: 6rem;
-  border:none;
+  border: none;
   font-size: 1.3rem;
   color: white;
+  cursor: pointer;
   &:hover {
     position: center;
     opacity: 0.8;
@@ -762,7 +761,8 @@ const MyCommentList = styled.button`
   width: 100%;
   font-size: 1.3rem;
   color: white;
-  border:none;
+  border: none;
+  cursor: pointer;
   &:hover {
     position: center;
     opacity: 0.8;
@@ -778,7 +778,8 @@ const MyLikeList = styled.button`
   width: 100%;
   font-size: 1.3rem;
   color: white;
-  border:none;
+  border: none;
+  cursor: pointer;
   &:hover {
     position: center;
     opacity: 0.8;
