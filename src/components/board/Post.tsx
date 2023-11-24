@@ -78,7 +78,7 @@ const Post = () => {
 
 
   return (
-    <>
+    <PostBg>
       <MapContainer>
         <Maps postData={PostData} />
       </MapContainer>
@@ -128,11 +128,18 @@ const Post = () => {
           </ProfileImg>
         </RightContainer>
       </Container>
-    </>
+    </PostBg>
   );
 };
 
 export default Post;
+
+const PostBg = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 
 const CommentLayout = styled.div`
   margin: 0px;
@@ -220,10 +227,11 @@ const Bg = styled.div`
 `;
 
 const Container = styled.div`
-  width: 70rem;
+  width: 100%;
   height: 30rem;
-  margin-left: 12rem;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 const MapContainer = styled.div`
   width: 100%;
@@ -231,8 +239,7 @@ const MapContainer = styled.div`
   display: flex;
 `;
 const LeftContainer = styled.div`
-  width: 50rem;
-  display: block;
+  width: 45%;
 `;
 const Title = styled.div`
   font-size: 1.4rem;

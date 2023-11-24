@@ -12,7 +12,6 @@ const NaverMap = ({ onMapClick }) => {
     const initMap = () => {
       const newMap = new naver.maps.Map('map', {
         center: mapCenter,
-        zoom: 8,
       });
 
       const newMarker = new naver.maps.Marker({
@@ -25,6 +24,7 @@ const NaverMap = ({ onMapClick }) => {
         setMapCenter(e.latlng);
         setMap(newMap);
         setMarker(newMarker);
+        console.log(e.latlng)
       });
     };
 

@@ -185,7 +185,6 @@ const CreatePostPage = () => {
     }
     console.log(title, content);
     alert('게시물이 생성되었습니다!');
-    navigate('/');
   };
 
   return (
