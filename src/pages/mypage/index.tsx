@@ -66,7 +66,7 @@ function Profile() {
       } catch (error) {
         console.log(error);
       }
-      if(cookie.load('refreshToken') === undefined ){
+      if(cookie.load('accessToken') === undefined ){
         alert('로그인이 되어있지 않습니다')
         navigate('/')
       }

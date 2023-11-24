@@ -34,7 +34,7 @@ export const Header = () => {
   };
 
   const IsLogin = () => {
-    const Token = cookie.load('refreshToken');
+    const Token = cookie.load('accessToken');
     if (Token === undefined) {
       setisLogin(false);
     } else {
