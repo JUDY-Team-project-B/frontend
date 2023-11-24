@@ -27,7 +27,7 @@ export const Login = () => {
   };
 
   const IsLogin = () => {
-    const Token = cookie.load('refreshToken');
+    const Token = cookie.load('accessToken');
     if (Token === undefined) {
       setisLogin(false);
     } else {
@@ -46,7 +46,7 @@ export const Login = () => {
     setUserData({
       is_active: false,
     });
-    cookie.remove('refreshToken', { path: '/' });
+    cookie.remove('accessToken', { path: '/' });
     navigate('/');
     
     location.reload();

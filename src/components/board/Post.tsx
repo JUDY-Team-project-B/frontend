@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getPostData, getUserData } from '@/api/api';
 import { useParams } from 'react-router-dom';
 import Maps from '@/pages/post/naverMap';
+import { response } from 'msw';
 
 export interface IPostData {
   id?: number | undefined;
@@ -41,25 +42,40 @@ export interface IUserData {
 const Post = () => {
   const [userId, setUserId] = useState<any | undefined>('');
   const [myData, setMyData] = useState<any | undefined>('');  
+  const [PostData, setPostData] = useState<any>('');
 
   const { postId } = useParams();
   console.log(postId);
 
-  const {
-    isLoading: PostLoading,
-    error: PostError,
-    data: PostData,
-    isFetching: PostFetching,
-  } = useQuery<IPostData>(['Postdata'], () => getPostData(postId));
 
-  const {
-    isLoading,
-    error,
-    data: UserData,
-    isFetching,
-  } = useQuery<IUserData>(['Userdata'], () => getUserData());
 
-  if (isLoading || PostLoading) return 'Loading';
+  useEffect(()=>{
+    const PostListData =async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/v1/post/${postId}`,{
+        })
+        console.log(response.data.data)
+        setPostData(response.data.data)
+
+      } catch (error) {
+        console.log(error)
+      }
+      console.log(`엥`)
+
+
+    }
+
+    PostListData();
+  },[])
+
+  // const {
+  //   isLoading: PostLoading,
+  //   error: PostError,
+  //     data: PostData,
+  //   isFetching: PostFetching,
+  // } = useQuery<IPostData>(['Postdata'], () => getPostData(postId));
+
+
 
   return (
     <>
@@ -95,10 +111,10 @@ const Post = () => {
           </ContentsContainer>
           {/* <HashtagContainer>#맛집투어ㅤ#인생사진</HashtagContainer> */}
           <PostContainer>
-            <PostDate>
+            {/* <PostDate>
               {PostData?.createdAt.slice(0, 10)}{' '}
               {PostData?.createdAt.slice(11, 19)}
-            </PostDate>
+            </PostDate> */}
             <PostView>조회수 {PostData?.viewCount}</PostView>
           </PostContainer>
         </LeftContainer>
