@@ -27,7 +27,7 @@ const CreatePostPage = () => {
   const [userData, setUserData] = useState<any>(); // 유저 정보를 저장
   const [jwt, setjwt] = useState<any>();
   const [listData, setListData] = useState<PostType[] | undefined>();
-  const [nextId, setNextId] = useState<any>();
+  const [nextId, setNextId] = useState<any>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
