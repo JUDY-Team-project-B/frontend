@@ -52,7 +52,7 @@ function Profile() {
           `http://localhost:8080/api/v1/user/me`,
           {
             headers: {
-              Authorization: `Bearer ${cookie.load('refreshToken')}`,
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -82,7 +82,7 @@ function Profile() {
         method: 'delete',
         url: `http://localhost:8080/api/v1/user/${data.id}/image`,
         headers: {
-          Authorization: `Bearer ${cookie.load('refreshToken')}`,
+          Authorization: `Bearer ${cookie.load('accessToken')}`,
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'multipart/form-data',
         },
@@ -103,7 +103,7 @@ function Profile() {
             `http://localhost:8080/api/v1/post/me/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${cookie.load('refreshToken')}`,
+                Authorization: `Bearer ${cookie.load('accessToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -127,7 +127,7 @@ function Profile() {
             `http://localhost:8080/api/v1/comment/me`,
             {
               headers: {
-                Authorization: `Bearer ${cookie.load('refreshToken')}`,
+                Authorization: `Bearer ${cookie.load('accessToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -151,7 +151,7 @@ function Profile() {
             `http://localhost:8080/api/v1/post/me/like/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${cookie.load('refreshToken')}`,
+                Authorization: `Bearer ${cookie.load('accessToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -180,7 +180,7 @@ function Profile() {
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('refreshToken')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },

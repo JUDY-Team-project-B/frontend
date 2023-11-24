@@ -39,7 +39,7 @@ const CreatePostPage = () => {
           `http://localhost:8080/api/v1/user/me`,
           {
             headers: {
-              Authorization: `Bearer ${cookie.load('refreshToken')}`,
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
@@ -55,7 +55,7 @@ const CreatePostPage = () => {
     /// 여기서 처리 추가적으로 처리 가능///
     UserDatas();
 
-    if(cookie.load('refreshToken') === undefined ){
+    if(cookie.load('accessToken') === undefined ){
       alert('로그인이 되어있지 않습니다')
       navigate('/')
     }
@@ -73,7 +73,7 @@ const CreatePostPage = () => {
               searchKeyword: '',
             },
             headers: {
-              Authorization: `Bearer ${cookie.load('refreshToken')}`,
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
               'Access-Control-Allow-Origin': '*',
             },
           },
