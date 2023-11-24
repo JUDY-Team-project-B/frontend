@@ -9,6 +9,19 @@ import cookie from 'react-cookies';
 
 
 export const CommentDatas = () => {
+  const [isFix,setIsFix] = useState<any>(false);
+  const [userData, setUserData] = useState<any>([
+    {
+      id:          '',
+      email:       '',
+      nickname:     '',
+      description: '',
+      imageUrls:   [],
+      gender:       '',
+      age:          '',
+      role:         '',
+    }
+  ])
   const [commentData, setCommentData] = useState<commentType[]|undefined>([
     {
       children: [],
@@ -21,15 +34,40 @@ export const CommentDatas = () => {
     },
   ]);
   const [target, setTarget] = useState<any|undefined>('');
+  
   const { postId } = useParams();
-  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
-  const {isLoading, isError, data: CommentData, error}  = useQuery<commentType[]|undefined>(
-    ['commentData'] ,() => getCommentData(postId)
-  )
 
   useEffect(()=>{
-    setCommentData(CommentData)
-  },[])
+    async function CommentListData(): Promise<void> {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/comment/${postId}`,
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        console.log(response);
+        const responseData = response.data.data;
+        if (responseData) {
+          for (let i = 0; i < responseData.length; i += 1) {
+            responseData[i].isSelect = false;
+          }
+        }
+        console.log(responseData);
+        setCommentData(responseData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    MyData();
+    CommentListData()
+
+  },[postId])
+
+  const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
+
 
   const setIsSelect = (index: number) => {
     console.log('Start setIsSelect')
@@ -57,10 +95,12 @@ export const CommentDatas = () => {
       }
     });
     console.log(commentData);
+    console.log(index+'번째 댓글')
   };
 
 
   const setCommentIsSelect = (index: number) => {
+    setIsFix(true)
     console.log('Start setCommentIsSelect')
     setChildrenComment('');
     setCommentData((prevData) => {
@@ -93,18 +133,19 @@ export const CommentDatas = () => {
   };
 
   const sendComment = async () => {
+
     try {
       const response = await axios.post(
         'http://localhost:8080/api/v1/comment',
         {
-          userId: 1,
+          userId: userData.id,
           postId: postId,
-          parentId: '',
+          parentId: "",
           content: target,
         },
         {
           headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -117,29 +158,57 @@ export const CommentDatas = () => {
     location.reload();
   };
 
-  // const sendChildcomment = async (parentId: number) => {
-  //   try {
-  //     const response = await axios.post(
-  //       'http://localhost:8080/api/v1/comment',
-  //       {
-  //         userId: userData.id,
-  //         postId: searchTerm,
-  //         parentId: parentId,
-  //         content: ChildrenComment,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${cookie.load('accessTokens')}`,
-  //           'Access-Control-Allow-Origin': '*',
-  //         },
-  //       },
-  //     );
-  //     console.log(response);
-  //     alert('작성되었습니다');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
+
+
+
+  const sendChildcomment = async (index: number) => {
+    if(isFix === false){
+      try {
+        const response = await axios.post(
+          'http://localhost:8080/api/v1/comment',
+          {
+            userId: userData.id,
+            postId: postId,
+            parentId: commentData[index].id,
+            content: ChildrenComment,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        console.log(response);
+        console.log(index+'번호에서 작성되었습니다3ㅋ')
+        alert('작성되었습니다');
+      } catch (error) {
+        console.log(error);
+      }
+    }else{
+      try {
+        const response = await axios.put(
+          `http://localhost:8080/api/v1/comment/${commentData[index].id}`,
+          {
+            content: ChildrenComment,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        console.log(response);
+        console.log(index+'번호에서 작성되었습니다3ㅋ')
+        alert('작성되었습니다');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+  };
 
   const onSearch = (e: any) => {
     setTarget(e.target.value);
@@ -150,50 +219,58 @@ export const CommentDatas = () => {
     setChildrenComment(e.target.value);
   };
 
-  // const Deletecomment = async (index: any) => {
-  //   try {
-  //     const response = await axios.delete(
-  //       `http://localhost:8080/api/v1/comment/${index}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${cookie.load('accessTokens')}`,
-  //           'Access-Control-Allow-Origin': '*',
-  //         },
-  //       },
-  //     );
-  //     console.log(response);
-  //     alert('삭제되었습니다');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   location.reload();
-  // };
+  const Deletecomment = async (index: any) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/v1/comment/${commentData[index].id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+      console.log(index)  
+      console.log(response);
+        
+    } catch (error) {
+      console.log(error);
+    }
+    location.reload();
+  };
 
-      // async function MyData(): Promise<void> {
-    //   try {
-    //     const response = await axios.get(
-    //       'http://localhost:8080/api/v1/user/me',
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${cookie.load('accessTokens')}`,
-    //           'Access-Control-Allow-Origin': '*',
-    //         },
-    //       },
-    //     );
-    //     console.log(response);
-    //     const responseData = response.data.data;
-    //     console.log(responseData);
-    //     setMyData(responseData);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // MyData();
-  //   PostListData();
-  // }, []);
+      async function MyData(): Promise<void> {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/v1/user/me',
+          {
+            headers: {
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+          },
+        );
+        console.log(response);
+        const responseData = response.data.data;
+        console.log(responseData);
+        setUserData(responseData);
+        console.log()
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
 
-  if (isLoading) return <div>Loading</div>
+    const ClickComment = (index:any) =>{
+      setIsFix(false)
+      setIsSelect(index)
+    }
+
+    const ClickChildrenComment = (index:any) =>{
+      setIsFix(false)
+      setCommentIsSelect(index)
+    }
+
 
 
   return(
@@ -209,9 +286,8 @@ export const CommentDatas = () => {
             <div>
               <Comment>
                 <CommentInfo>
-                  {/* {datas.nickname} {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                  <CommentWriter>{datas.nickname} </CommentWriter>
-                  {/* {datas.nickname === myData.nickname ? (
+                  <CommentWriter>{datas.nickname} {datas.createdAt.slice(0,10)} {datas.createdAt.slice(11,19)} </CommentWriter>
+                  {datas.nickname === userData.nickname ? (
                     <div
                       style={{
                         display: 'flex',
@@ -222,17 +298,17 @@ export const CommentDatas = () => {
                       <CommentButton onClick={() => setCommentIsSelect(index)}>
                         수정
                       </CommentButton>
-                      <CommentButton onClick={() => Deletecomment(datas.id)}>
+                      <CommentButton onClick={() => Deletecomment(index)}>
                         삭제
                       </CommentButton>
                     </div>
                   ) : (
                     ''
-                  )} */}
+                  )}
                 </CommentInfo>
                 <CommentContent>
                   <Text>{datas.content}</Text>
-                  <CommentButton2 onClick={() => setIsSelect(index)}>
+                  <CommentButton2 onClick={() => ClickComment(index)}>
                     답글
                   </CommentButton2>
                 </CommentContent>
@@ -244,9 +320,9 @@ export const CommentDatas = () => {
                       onChange={onChildcomment}
                       value={ChildrenComment}
                     />
-                    {/* <Button onClick={() => sendChildcomment(index+1)}>
+                    <Button onClick={() => sendChildcomment(index)}>
                       게시
-                    </Button> */}
+                    </Button>
                   </CommentLayout>
                 )}
                 {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
@@ -255,9 +331,9 @@ export const CommentDatas = () => {
                 {datas.children?.map((comment: any, index: any) => (
                   <ChildrenComments>
                     <CommentInfo>
-                      {/*  {data.createdAt.slice(0,10)} {data.createdAt.slice(11,19)} */}
-                      <CommentWriter>{datas.nickname}</CommentWriter>
-                      {/* {comment.nickname === myData.nickname ? (
+                       {comment.createdAt.slice(0,10)} {comment.createdAt.slice(11,19)}
+                      <CommentWriter>{comment.nickname}</CommentWriter>
+                      {comment.nickname === userData.nickname ? (
                         <div
                         style={{
                           display: 'flex',
@@ -265,14 +341,14 @@ export const CommentDatas = () => {
                           justifyContent: 'right',
                         }}
                         >
-                          <Text onClick={() => setCommentIsSelect(index)}>
+                          <Text onClick={() => setCommentIsSelect(datas.index)}>
                             수정
                           </Text>
                           <Text onClick={() => Deletecomment(index)}>삭제</Text>
                         </div>
                       ) : (
                         ''
-                      )} */}
+                      )}
                     </CommentInfo>
                     <CommentContent>
                       <Text>{comment.content}</Text>
@@ -337,7 +413,7 @@ const CommentWriter = styled.div`
   overflow: visible;
   display: flex;
   flex-direction: row;
-  width: 10rem;
+  width: 20rem;
   margin-top: 0.5rem;
   font-size: 1.15rem;
 `;

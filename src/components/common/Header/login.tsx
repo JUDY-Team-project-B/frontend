@@ -5,6 +5,7 @@ import { UUid, User } from '@/atom/atom';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import styled from 'styled-components';
+import axios from 'axios';
 
 export const Login = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
@@ -34,13 +35,20 @@ export const Login = () => {
     }
   };
 
-  const logout = () => {
+  const logout =async (e:any) => {
     console.log('로그아웃');
+    try{
+      const response = await axios.get(`http://localhost:8080/api/v1/auth/logout`);
+      console.log(response)
+    }catch(e){
+
+    }
     setUserData({
       is_active: false,
     });
     cookie.remove('refreshToken', { path: '/' });
     navigate('/');
+    
     location.reload();
   };
 

@@ -62,8 +62,13 @@ function Profile() {
         console.log(responseData);
         setData(responseData);
         setId(responseData.id);
+
       } catch (error) {
         console.log(error);
+      }
+      if(cookie.load('refreshToken') === undefined ){
+        alert('로그인이 되어있지 않습니다')
+        navigate('/')
       }
     };
     /// 여기서 처리 추가적으로 처리 가능///
@@ -187,11 +192,7 @@ function Profile() {
   };
 
   const goto = (num: number): void => {
-    const postnum = String(num);
-    const queryParems = new URLSearchParams();
-    queryParems.set('q', postnum);
-    const queryString = queryParems.toString();
-    navigate(`/board/${queryString}`);
+    navigate(`/board/${num}`);
   };
 
   return (
@@ -309,6 +310,7 @@ function Profile() {
                     textAlign: 'left',
                     justifyContent: 'center',
                   }}
+                  onClick={() => goto(datas.postId)}
                 >
                   <CommentPost> {datas.postTitle}</CommentPost>
                   {datas.content}

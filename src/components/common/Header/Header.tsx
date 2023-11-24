@@ -14,40 +14,6 @@ export const Header = () => {
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [keyword, setKeyword] = useState<any>(null);
 
-  const getToken = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/', {
-        headers: {
-          accept:
-            'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-          'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6',
-          'sec-ch-ua':
-            '"Chromium";v="116", "Not)A;Brand";v="24", "Google Chrome";v="116"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-          'sec-fetch-dest': 'document',
-          'sec-fetch-mode': 'navigate',
-          'sec-fetch-site': 'cross-site',
-          'sec-fetch-user': '?1',
-          'upgrade-insecure-requests': '1',
-        },
-        referrerPolicy: 'strict-origin-when-cross-origin',
-        body: null,
-        method: 'GET',
-        mode: 'cors',
-        credentials: 'include',
-      });
-      const header = response.headers;
-      console.log(header);
-      console.log(response.headers.get('Set-cookie'));
-    } catch (e) {
-      console.log(e);
-    }
-
-    // const refreshToken = response.data.headers['set-cookie']
-    // console.log(refreshToken+'재발급토큰 님님')
-  };
-
   const onSilentRefresh = async () => {
     try {
       const response = await axios.post(
@@ -79,7 +45,6 @@ export const Header = () => {
   useEffect(() => {
     IsLogin();
     console.log(userData);
-    getToken();
   });
 
   const search = (): void => {

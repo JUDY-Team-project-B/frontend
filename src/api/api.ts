@@ -19,7 +19,7 @@ export const getUserData =  () => client.get(
   `user/1`,{
     headers:{
       'Access-Control-Allow-Origin': '*',
-       Authorization: `Bearer ${cookie.load('refreshtoken')}`
+      Authorization: `Bearer ${cookie.load('refreshtoken')}`
     }
   }
 ).then((res) => res.data.data)
