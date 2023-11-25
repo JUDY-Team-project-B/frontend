@@ -57,12 +57,13 @@ function Profile() {
         setId(responseData.id);
 
       } catch (error) {
-        console.log(error);
-      }
-      if(cookie.load('accessToken') === undefined ){
         alert('로그인이 되어있지 않습니다')
         navigate('/')
       }
+      // if(cookie.load('accessToken') === undefined ){
+      //   alert('로그인이 되어있지 않습니다')
+      //   navigate('/')
+      // }
     };
     /// 여기서 처리 추가적으로 처리 가능///
     UserData();
@@ -73,7 +74,7 @@ function Profile() {
     try {
       const res = await axios({
         method: 'delete',
-        url: `${BASE_URL}user/${data.id}/image`,
+        url: `${BASE_URL}/user/${data.id}/image`,
         headers: {
           Authorization: `Bearer ${cookie.load('accessToken')}`,
           'Access-Control-Allow-Origin': '*',
@@ -93,7 +94,7 @@ function Profile() {
       if (activeSection === 'mypost' && id) {
         try {
           const response = await axios.get(
-            `${BASE_URL}post/me/${url}`,
+            `${BASE_URL}/post/me/${url}`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -117,7 +118,7 @@ function Profile() {
       if (activeSection === 'comment' && id) {
         try {
           const response = await axios.get(
-            `${BASE_URL}comment/me`,
+            `${BASE_URL}/comment/me`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -167,7 +168,7 @@ function Profile() {
   const setUnlike = async (postId: number) => {
     try {
       axios.post(
-        `${BASE_URL}post/like`,
+        `${BASE_URL}/post/like`,
         {
           postId: postId,
         },
