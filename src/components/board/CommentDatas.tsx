@@ -195,12 +195,19 @@ export const CommentDatas = () => {
     } catch (error) {
       console.log(error);
     }
+
+    const ClickComment = (index: any) => {
+      setIsFix(false);
+      setIsSelect(index);
+    };
+  
+    const ClickChildrenComment = (index: any) => {
+      setIsFix(false);
+      setCommentIsSelect(index);
+    };
+  
   }
 
-  const ClickComment = (index: any) => {
-    setIsFix(false);
-    setIsSelect(index);
-  };
 
   const ClickChildrenComment = (index: any) => {
     setIsFix(false);
