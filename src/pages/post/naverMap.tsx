@@ -14,7 +14,7 @@ const NaverMap = ({ postData }) => {
 
       map = new naver.maps.Map('map', {
         center: centerLatLng,
-        zoom: 5,
+        zoom: 10,
       });
 
       marker = new naver.maps.Marker({
