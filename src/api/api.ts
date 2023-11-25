@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import cookie from 'react-cookies';
 
+export const BASE_URL = 'http://www.techeerhangout.site/api/v1'
+
 const client = axios.create({
   baseURL: 'http://www.techeerhangout.site/api/v1'
 })

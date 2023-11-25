@@ -1,4 +1,4 @@
-import { getCommentData, getUserData, putCommnetData, sendCommentData, sendData } from "@/api/api";
+import { BASE_URL, getCommentData, getUserData, putCommnetData, sendCommentData, sendData } from "@/api/api";
 import { commentType } from "@/types/post";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -172,7 +172,7 @@ export const CommentDatas = () => {
   const Deletecomment = async (index: any) => {
     try {
       const response = await axios.delete(
-        `http://www.techeerhangout.site/api/v1/comment/${commentData[index].id}`,
+        `${BASE_URL}/comment/${commentData[index].id}`,
         {
           headers: {
             Authorization: `Bearer ${cookie.load('accessToken')}`,
