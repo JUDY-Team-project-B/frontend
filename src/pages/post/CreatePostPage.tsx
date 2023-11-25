@@ -124,7 +124,10 @@ const CreatePostPage = () => {
     }
   }, [travelat]);
 
-  const [mapLatlng, setMapLatlng] = useState(null);
+  const [mapLatlng, setMapLatlng] = useState({
+    x:37.5,
+    y:127.039573
+  });
 
   const handleMapClick = (latlng) => {
     setMapLatlng(latlng);
