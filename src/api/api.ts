@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import cookie from 'react-cookies';
 
-export const BASE_HOST = 'http://localhost:8080'
+export const BASE_HOST = 'http://www.techeerhangout.site'
 const API_VERSION = '/api/v1'
 export const BASE_URL = BASE_HOST + API_VERSION
 
