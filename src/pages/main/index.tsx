@@ -10,8 +10,6 @@ import trip3 from '../../assets/image/trip3.jpg';
 import '../../assets/font/font.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-
-
 const items = [
   { id: 1, url: trip1 },
   { id: 2, url: trip2 },
@@ -21,8 +19,6 @@ const items = [
 interface ImageContainerProps {
   imageUrl: string;
 }
-
-
 
 const ImageContainer = styled.div<ImageContainerProps>`
   background-position: center;
@@ -61,18 +57,20 @@ const Highlight = styled.span`
 const WriteButton = styled.button`
   width: 200px;
   height: 120px;
-  background-color:  #3baaf8;
+  background-color: #3baaf8;
   color: white;
   font-size: 24px;
   font-weight: bold;
   border-radius: 20px;
   border: none;
-  &:hover{
-    background-color: #1e5780;
+  transition: transform 0.7s;
+  &:hover {
+    background-color: #55b2f5;
+    cursor: pointer;
+    transform: scale(1.03);
   }
   z-index: 999;
-
-`
+`;
 
 const WriteLayout = styled.div`
   width: 100%;
@@ -81,7 +79,7 @@ const WriteLayout = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 50px;
-`
+`;
 
 const TextContainer = styled.div`
   margin-top: 2rem;
@@ -94,9 +92,7 @@ const TextContainer = styled.div`
   color: white;
   font-family: 'SUITE-Regular';
   overflow: visible;
-`
-
-
+`;
 
 const Main = () => {
   const navigate = useNavigate();
@@ -112,10 +108,10 @@ const Main = () => {
     autoplaySpeed: 5000,
   };
 
-  const gotoWrite = () =>{
-    console.log('hello')
-    navigate('/create-post')
-  }
+  const gotoWrite = () => {
+    console.log('hello');
+    navigate('/create-post');
+  };
 
   const Layout = styled.div`
     height: 100%;
@@ -137,16 +133,13 @@ const Main = () => {
               개방적이고 호기심 가득한 마음으로 다양한 사람들과 소통하고
               동행해보세요.
             </TextContainer>
-            <WriteLayout >
-            <WriteButton onClick={()=>gotoWrite()}>
-              동행 찾기
-            </WriteButton>
+            <WriteLayout>
+              <WriteButton onClick={() => gotoWrite()}>동행 찾기</WriteButton>
             </WriteLayout>
           </ImageContainer>
         ))}
       </Slider>
       <Content />
-
     </Layout>
   );
 };
