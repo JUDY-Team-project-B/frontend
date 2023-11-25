@@ -35,10 +35,8 @@ const CreatePostPage = () => {
   useEffect(() => {
     const UserDatas = async () => {
       try {
-        setjwt(localStorage.getItem('refreshToken'));
-        console.log(jwt);
         const response = await axios.get(
-          `${BASE_URL}user/me`,
+          `${BASE_URL}/user/me`,
           {
             headers: {
               Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -139,7 +137,7 @@ const CreatePostPage = () => {
       console.log(region);
       console.log(city);
       const response = await axios.post(
-        `${BASE_URL}post`,
+        `${BASE_URL}/post`,
         {
           title: title,
           context: content,
@@ -168,7 +166,7 @@ const CreatePostPage = () => {
         try {
           const res = await axios({
             method: 'post',
-            url: `${BASE_URL}post/${nextId}/images`,
+            url: `${BASE_URL}/post/${nextId}/images`,
             data: formData,
             headers: {
               Authorization: `Bearer ${cookie.load('accessToken')}`,
