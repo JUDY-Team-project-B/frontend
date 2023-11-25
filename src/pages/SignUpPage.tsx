@@ -29,7 +29,7 @@ const SignUpPage: React.FC = () => {
   const emailCheck = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/auth/check/email`,
+        `http://www.techeerhangout.site/api/v1/auth/check/email`,
         {
           email: username,
         },
@@ -48,7 +48,7 @@ const SignUpPage: React.FC = () => {
   const nicknameCheck = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/auth/check/nickname`,
+        `http://www.techeerhangout.site/api/v1/auth/check/nickname`,
         {
           nickname: nickname,
         },
@@ -130,7 +130,7 @@ const SignUpPage: React.FC = () => {
     };
     //회원가입
     axios
-      .post('http://localhost:8080/api/v1/auth/signup', sendData)
+      .post('http://www.techeerhangout.site/api/v1/auth/signup', sendData)
       .then((response) => {
         // 회원가입 성공
         console.log(response.data);

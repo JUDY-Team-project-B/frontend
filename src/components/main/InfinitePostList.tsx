@@ -11,6 +11,7 @@ import axios from 'axios';
 import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
 import cookie from 'react-cookies';
+import { getLikeData, getPostData, getPostListData, postLikeData } from '@/api/api';
 
 const InfinitePostList = (queryString: any) => {
   const url2 = 0;
@@ -32,19 +33,7 @@ const InfinitePostList = (queryString: any) => {
     console.log(Type);
     console.log(keyword)
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/post/all/${page}`,
-        {
-          params: {
-            searchType: Type,
-            searchKeyword1: keyword,
-          },
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
+      const response = await getPostListData(page,Type,keyword)
       const responseData: PostType[] = response.data.data;
       if (listData !== undefined){
         setListData(prev => [...prev, ...responseData]);
@@ -83,15 +72,7 @@ const InfinitePostList = (queryString: any) => {
   useEffect(() => {
     const LikeListData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/post/me/like/${url2}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessTokens')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
+        const response = await getLikeData(0);
         const responseData: PostType[] = response.data.data;
 
         setLikeData(responseData);
@@ -108,18 +89,7 @@ const InfinitePostList = (queryString: any) => {
   const setLike = async (postId: number) => {
     //로그인 안된 경우 코드 수정
     try {
-      axios.post(
-        `http://localhost:8080/api/v1/post/like`,
-        {
-          postId: postId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessTokens')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
+      postLikeData(postId)
       console.log('좋아요 실행 및 취소');
     } catch (error) {
       console.error('Error adding like:', error);

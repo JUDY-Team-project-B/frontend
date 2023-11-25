@@ -17,7 +17,7 @@ export const Header = () => {
   const onSilentRefresh = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/api/v1/auth/refresh-token',
+        'http://www.techeerhangout.site/api/v1/auth/refresh-token',
       );
       const accessToken = response.data.data.accessToken;
       console.log(accessToken);

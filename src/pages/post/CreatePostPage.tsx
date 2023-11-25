@@ -36,7 +36,7 @@ const CreatePostPage = () => {
         setjwt(localStorage.getItem('refreshToken'));
         console.log(jwt);
         const response = await axios.get(
-          `http://localhost:8080/api/v1/user/me`,
+          `http://www.techeerhangout.site/api/v1/user/me`,
           {
             headers: {
               Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -66,7 +66,7 @@ const CreatePostPage = () => {
     const PostListData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/post/all/0`,
+          `http://www.techeerhangout.site/api/v1/post/all/0`,
           {
             params: {
               searchType: '',
@@ -137,7 +137,7 @@ const CreatePostPage = () => {
       console.log(region);
       console.log(city);
       const response = await axios.post(
-        'http://localhost:8080/api/v1/post',
+        'http://www.techeerhangout.site/api/v1/post',
         {
           title: title,
           context: content,
@@ -166,7 +166,7 @@ const CreatePostPage = () => {
         try {
           const res = await axios({
             method: 'post',
-            url: `http://localhost:8080/api/v1/post/${nextId}/images`,
+            url: `http://www.techeerhangout.site/api/v1/post/${nextId}/images`,
             data: formData,
             headers: {
               Authorization: `Bearer ${cookie.load('accessToken')}`,

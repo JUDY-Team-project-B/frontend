@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import cookie from 'react-cookies';
 import user from '../../assets/image/user.png';
 import { useQuery } from '@tanstack/react-query';
-import { getPostData, getUserData } from '@/api/api';
+import { getPostData, getPostListData, getUserData } from '@/api/api';
 import { useParams } from 'react-router-dom';
 import Maps from '@/pages/post/naverMap';
 import { response } from 'msw';
+import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 
 export interface IPostData {
   id?: number | undefined;
@@ -52,30 +53,16 @@ const Post = () => {
   useEffect(()=>{
     const PostListData =async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/post/${postId}`,{
-        })
+        const response = await getPostData(postId);
         console.log(response.data.data)
         setPostData(response.data.data)
-
       } catch (error) {
         console.log(error)
       }
       console.log(`엥`)
-
-
     }
-
     PostListData();
   },[])
-
-  // const {
-  //   isLoading: PostLoading,
-  //   error: PostError,
-  //     data: PostData,
-  //   isFetching: PostFetching,
-  // } = useQuery<IPostData>(['Postdata'], () => getPostData(postId));
-
-
 
   return (
     <PostBg>

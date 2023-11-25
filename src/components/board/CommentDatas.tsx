@@ -1,4 +1,4 @@
-import { getCommentData } from "@/api/api";
+import { getCommentData, getUserData, putCommnetData, sendCommentData, sendData } from "@/api/api";
 import { commentType } from "@/types/post";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -40,14 +40,7 @@ export const CommentDatas = () => {
   useEffect(()=>{
     async function CommentListData(): Promise<void> {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/comment/${postId}`,
-          {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
+        const response = await getCommentData(postId)
         console.log(response);
         const responseData = response.data.data;
         if (responseData) {
@@ -131,77 +124,36 @@ export const CommentDatas = () => {
     console.log(commentData);
   };
 
-  const sendComment = async () => {
 
+
+  const sendComment = async () => {
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/comment',
-        {
-          userId: userData.id,
-          postId: postId,
-          parentId: "",
-          content: target,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessToken')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
+      const response = await sendCommentData(userData.id,postId,'',target)
       console.log(response);
       alert('작성되었습니다');
     } catch (error) {
       console.log(error);
+      alert(error)
     }
     location.reload();
   };
 
-
-
-
-
   const sendChildcomment = async (index: number) => {
     if(isFix === false){
       try {
-        const response = await axios.post(
-          'http://localhost:8080/api/v1/comment',
-          {
-            userId: userData.id,
-            postId: postId,
-            parentId: commentData[index].id,
-            content: ChildrenComment,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
+        const response = await sendCommentData(userData.id,postId,commentData[index].id,target)
         console.log(response);
-        console.log(index+'번호에서 작성되었습니다3ㅋ')
-        alert('작성되었습니다');
+        console.log(index+'번호에서 작성되었습니다')
+        alert('작성되었습니다!');
       } catch (error) {
         console.log(error);
       }
     }else{
       try {
-        const response = await axios.put(
-          `http://localhost:8080/api/v1/comment/${commentData[index].id}`,
-          {
-            content: ChildrenComment,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
+        const response = await putCommnetData(commentData[index].id,ChildrenComment);
         console.log(response);
         console.log(index+'번호에서 작성되었습니다3ㅋ')
-        alert('작성되었습니다');
+        alert('수정되었습니다!');
       } catch (error) {
         console.log(error);
       }
@@ -221,7 +173,7 @@ export const CommentDatas = () => {
   const Deletecomment = async (index: any) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/api/v1/comment/${commentData[index].id}`,
+        `http://www.techeerhangout.site/api/v1/comment/${commentData[index].id}`,
         {
           headers: {
             Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -240,20 +192,10 @@ export const CommentDatas = () => {
 
       async function MyData(): Promise<void> {
       try {
-        const response = await axios.get(
-          'http://localhost:8080/api/v1/user/me',
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
-        console.log(response);
+        const response = await getUserData();
         const responseData = response.data.data;
         console.log(responseData);
         setUserData(responseData);
-        console.log()
       } catch (error) {
         console.log(error);
       }
@@ -466,7 +408,7 @@ const Container2 = styled.div`
 const CommentInput = styled.input`
   margin-top: 2rem;
   height: 3rem;
-  width: 45rem;
+  width: 39rem;
   border: 0.1px solid #cdcaca;
   border-radius: 0.7rem;
   padding: 1rem;
