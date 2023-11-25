@@ -13,7 +13,7 @@ import {
   Button,
   Hidden,
 } from '@mui/material';
-import { getUserData, putUserData } from '@/api/api';
+import { BASE_URL, getUserData, putUserData } from '@/api/api';
 
 interface ProfileEditModalProps {
   open: boolean;
@@ -53,7 +53,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     try {
       const res = await axios({
         method: 'put',
-        url: `http://www.techeerhangout.site/api/v1/user/${data.id}/image`,
+        url: `${BASE_URL}user/${data.id}/image`,
         data: formData,
         headers: {
           Authorization: `Bearer ${cookie.load('accessToken')}`,

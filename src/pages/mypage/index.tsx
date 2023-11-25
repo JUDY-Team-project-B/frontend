@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import '@/assets/font/font.css';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getUserData } from '@/api/api';
+import { BASE_URL, getUserData } from '@/api/api';
 
 export interface UserType {
   age: number;
@@ -73,7 +73,7 @@ function Profile() {
     try {
       const res = await axios({
         method: 'delete',
-        url: `http://www.techeerhangout.site/api/v1/user/${data.id}/image`,
+        url: `${BASE_URL}user/${data.id}/image`,
         headers: {
           Authorization: `Bearer ${cookie.load('accessToken')}`,
           'Access-Control-Allow-Origin': '*',
@@ -93,7 +93,7 @@ function Profile() {
       if (activeSection === 'mypost' && id) {
         try {
           const response = await axios.get(
-            `http://www.techeerhangout.site/api/v1/post/me/${url}`,
+            `${BASE_URL}post/me/${url}`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -117,7 +117,7 @@ function Profile() {
       if (activeSection === 'comment' && id) {
         try {
           const response = await axios.get(
-            `http://www.techeerhangout.site/api/v1/comment/me`,
+            `${BASE_URL}comment/me`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -141,7 +141,7 @@ function Profile() {
       if (activeSection === 'like' && id) {
         try {
           const response = await axios.get(
-            `http://www.techeerhangout.site/api/v1/post/me/like/${url}`,
+            `${BASE_URL}/post/me/like/${url}`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -167,7 +167,7 @@ function Profile() {
   const setUnlike = async (postId: number) => {
     try {
       axios.post(
-        `http://www.techeerhangout.site/api/v1/post/like`,
+        `${BASE_URL}post/like`,
         {
           postId: postId,
         },
