@@ -4,7 +4,7 @@ import axios from "axios";
 import cookie from 'react-cookies';
 
 const client = axios.create({
-  baseURL: 'http://www.techeerhangout.site/'
+  baseURL: 'http://www.techeerhangout.site/api'
 })
 
 
