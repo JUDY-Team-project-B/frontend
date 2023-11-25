@@ -32,9 +32,9 @@ const Preview = (queryString: any) => {
     isError: isListDataError,
   } = useQuery(postListQueryKey, async () => {
     const response = await getPostListData(0,Type,keyword)
+    console.log(response)
     const responseData: PostType[] = response.data.data;
     return responseData;
-    console.log(responseData)
   });
 
   // useQuery를 사용하여 데이터를 가져옴 (좋아요한 게시물 목록)
