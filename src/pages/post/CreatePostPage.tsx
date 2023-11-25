@@ -178,13 +178,12 @@ const CreatePostPage = () => {
           console.log(e);
         }
       }
-      console.log(axios);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
     console.log(title, content);
     alert('게시물이 생성되었습니다!');
+    navigate(`/board/${nextId}`)
   };
 
   return (
