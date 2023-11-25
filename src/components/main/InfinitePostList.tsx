@@ -97,11 +97,7 @@ const InfinitePostList = (queryString: any) => {
   };
 
   const goto = (num: number): void => {
-    const postnum = String(num);
-    const queryParems = new URLSearchParams();
-    queryParems.set('q', postnum);
-    const queryString = queryParems.toString();
-    navigate(`/detail?${queryString}`);
+    navigate(`/detail/${num}`);
   };
 
   return (
