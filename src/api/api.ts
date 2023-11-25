@@ -94,7 +94,7 @@ export const postLogin = async (email:any, password:any) =>  await client.post(
 )
 
 export const getPostListData =async (page:any, Type:any,keyword:any) => await client.get(
-  `/post/all/${page}`,
+  `post/all/${page}`,
   {
     params: {
       searchType: Type,
