@@ -12,7 +12,7 @@ const NaverMap = ({ onMapClick }) => {
     const initMap = () => {
       const newMap = new naver.maps.Map('map', {
         center: mapCenter,
-        zoom: 4,
+        zoom: 10,
       });
 
       const newMarker = new naver.maps.Marker({
