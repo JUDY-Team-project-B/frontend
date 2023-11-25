@@ -13,6 +13,8 @@ import cookie from 'react-cookies';
 import styled from 'styled-components';
 import backgroundImg from '@/assets/image/Background.jpg';
 import Maps from '@/pages/post/CreateMap';
+import { BASE_URL } from '@/api/api';
+import { response } from 'msw';
 
 interface ICreatePostFormData {
   // 여행 지역, 기간,인원
@@ -36,7 +38,7 @@ const CreatePostPage = () => {
         setjwt(localStorage.getItem('refreshToken'));
         console.log(jwt);
         const response = await axios.get(
-          `http://www.techeerhangout.site/api/v1/user/me`,
+          `${BASE_URL}user/me`,
           {
             headers: {
               Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -66,7 +68,7 @@ const CreatePostPage = () => {
     const PostListData = async () => {
       try {
         const response = await axios.get(
-          `http://www.techeerhangout.site/api/v1/post/all/0`,
+          `${BASE_URL}/post/all/0`,
           {
             params: {
               searchType: '',
@@ -137,7 +139,7 @@ const CreatePostPage = () => {
       console.log(region);
       console.log(city);
       const response = await axios.post(
-        'http://www.techeerhangout.site/api/v1/post',
+        `${BASE_URL}post`,
         {
           title: title,
           context: content,
@@ -166,7 +168,7 @@ const CreatePostPage = () => {
         try {
           const res = await axios({
             method: 'post',
-            url: `http://www.techeerhangout.site/api/v1/post/${nextId}/images`,
+            url: `${BASE_URL}post/${nextId}/images`,
             data: formData,
             headers: {
               Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -178,12 +180,14 @@ const CreatePostPage = () => {
           console.log(e);
         }
       }
+      if(response.status === 200){
+        alert('게시물이 생성되었습니다!');
+        navigate(`/board/${nextId}`)
+
+      }
     } catch (error) {
       console.log(error);
     }
-    console.log(title, content);
-    alert('게시물이 생성되었습니다!');
-    navigate(`/board/${nextId}`)
   };
 
   return (
