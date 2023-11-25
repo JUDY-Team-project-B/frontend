@@ -74,7 +74,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   21
   function getGoogleLoginUrl() {
       // Google's OAuth 2.0 endpoint for requesting an access token
-      var oauth2Endpoint = BASE_URL+'auth/oauth2/authorize/google';
+      var oauth2Endpoint = BASE_URL+'/auth/oauth2/authorize/google';
     
       // Create <form> element to submit parameters to OAuth 2.0 endpoint.
       var form = document.createElement('form');
