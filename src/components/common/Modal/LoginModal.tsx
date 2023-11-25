@@ -13,7 +13,7 @@ import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { User, UUid } from '@/atom/atom';
 import cookie from 'react-cookies';
-import { postLogin } from '@/api/api';
+import { postLogin, BASE_URL, BASE_HOST } from '@/api/api';
 
 interface LoginModalProps {
   open: boolean;
@@ -73,7 +73,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 
   const handleGoogleLogin = () => {
     console.log('google login 이동');
-    location.href='http://www.techeerhangout.site/api/v1/auth/oauth2/authorize/google?redirect-uri=http://http://www.techeerhangout.site/';
+    location.href= BASE_URL + '/auth/oauth2/authorize/google?redirect-uri=' + BASE_HOST;
   };
   return (
     <Dialog

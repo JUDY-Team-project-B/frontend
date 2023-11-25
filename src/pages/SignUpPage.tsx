@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import '../assets/font/font.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '@/api/api';
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const SignUpPage: React.FC = () => {
   const emailCheck = async () => {
     try {
       const response = await axios.post(
-        `http://www.techeerhangout.site/api/v1/auth/check/email`,
+        BASE_URL + `/auth/check/email`,
         {
           email: username,
         },
@@ -48,7 +49,7 @@ const SignUpPage: React.FC = () => {
   const nicknameCheck = async () => {
     try {
       const response = await axios.post(
-        `http://www.techeerhangout.site/api/v1/auth/check/nickname`,
+        BASE_URL + `/auth/check/nickname`,
         {
           nickname: nickname,
         },
@@ -130,7 +131,7 @@ const SignUpPage: React.FC = () => {
     };
     //회원가입
     axios
-      .post('http://www.techeerhangout.site/api/v1/auth/signup', sendData)
+      .post(BASE_URL + '/auth/signup', sendData)
       .then((response) => {
         // 회원가입 성공
         console.log(response.data);

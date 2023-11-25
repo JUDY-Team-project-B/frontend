@@ -1,5 +1,6 @@
 import { useQuery, QueryClient } from '@tanstack/react-query';
 import axios, { AxiosRequestConfig } from 'axios';
+import { BASE_HOST } from '@/api/api';
 
 type AnyOBJ = { [key: string]: any };
 
@@ -20,8 +21,6 @@ export const getClient = (() => {
   };
 })();
 
-const BASE_URL = 'http://localhost:8080';
-
 export const restFetcher = async ({
   method,
   path,
@@ -36,7 +35,7 @@ export const restFetcher = async ({
   headers?: AnyOBJ;
 }) => {
   try {
-    let url = `${BASE_URL}${path}`;
+    let url = `${BASE_HOST}${path}`;
     let axiosConfig: AxiosRequestConfig = {
       method,
     };

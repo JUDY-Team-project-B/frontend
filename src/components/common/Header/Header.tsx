@@ -7,6 +7,7 @@ import { Login } from './login';
 import axios from 'axios';
 import cookie from 'react-cookies';
 import styled from 'styled-components';
+import { BASE_URL } from '@/api/api';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const Header = () => {
   const onSilentRefresh = async () => {
     try {
       const response = await axios.post(
-        'http://www.techeerhangout.site/api/v1/auth/refresh-token',
+        BASE_URL + '/auth/refresh-token',
       );
       const accessToken = response.data.data.accessToken;
       console.log(accessToken);
