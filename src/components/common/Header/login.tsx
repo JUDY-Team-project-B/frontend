@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import styled from 'styled-components';
 import axios from 'axios';
+import { getLogout } from '@/api/api';
 
 export const Login = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
@@ -38,7 +39,7 @@ export const Login = () => {
   const logout =async (e:any) => {
     console.log('로그아웃');
     try{
-      const response = await axios.get(`http://localhost:8080/api/v1/auth/logout`);
+      const response = await getLogout()
       console.log(response)
     }catch(e){
 

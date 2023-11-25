@@ -11,6 +11,7 @@ import axios from 'axios';
 import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
 import cookie from 'react-cookies';
+import { getLikeData, getPostListData, postLikeData } from '@/api/api';
 
 const Preview = (queryString: any) => {
   const url = queryString.queryString;
@@ -30,20 +31,7 @@ const Preview = (queryString: any) => {
     isLoading: isListDataLoading,
     isError: isListDataError,
   } = useQuery(postListQueryKey, async () => {
-    const response = await axios.get(
-      `http://localhost:8080/api/v1/post/all/0`,
-      {
-        params: {
-          searchType: Type,
-          searchKeyword1: keyword,
-        },
-        headers: {
-          Authorization: `Bearer ${cookie.load('accessToken')}`,
-          'Access-Control-Allow-Origin': '*',
-        },
-      },
-    );
-
+    const response = await getPostListData(0,Type,keyword)
     const responseData: PostType[] = response.data.data;
     return responseData;
   });
@@ -56,15 +44,7 @@ const Preview = (queryString: any) => {
   } = useQuery(
     likeDataQueryKey,
     async () => {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/post/me/like/${url2}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessToken')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
+      const response = await getLikeData(0);
 
       const responseData: PostType[] = response.data.data;
 
@@ -81,22 +61,13 @@ const Preview = (queryString: any) => {
   const setLike = async (postId: number) => {
     //로그인 안된 경우 코드 수정
     try {
-      axios.post(
-        `http://localhost:8080/api/v1/post/like`,
-        {
-          postId: postId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessToken')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
-
+      postLikeData(postId);
       console.log('좋아요 실행 및 취소');
     } catch (error) {
-      console.error('Error adding like:', error);
+      console.log(error);
+      if(error.response.status === 401){
+        alert('로그인을 진행해주세요!')
+      }
     }
   };
 

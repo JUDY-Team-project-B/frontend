@@ -13,6 +13,7 @@ import {
   Button,
   Hidden,
 } from '@mui/material';
+import { getUserData, putUserData } from '@/api/api';
 
 interface ProfileEditModalProps {
   open: boolean;
@@ -52,7 +53,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     try {
       const res = await axios({
         method: 'put',
-        url: `http://localhost:8080/api/v1/user/${data.id}/image`,
+        url: `http://www.techeerhangout.site/api/v1/user/${data.id}/image`,
         data: formData,
         headers: {
           Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -69,16 +70,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   useEffect(() => {
     const UserData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/user/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
-
+        const response = await getUserData();
         const responseData = response.data.data;
         console.log(responseData);
         setData(responseData);
@@ -109,18 +101,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 
   const handleNicknameSubmit = async (nickname: string) => {
     try {
-      await axios.put(
-        `http://localhost:8080/api/v1/user/me`,
-        {
-          nickname: nickname,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessToken')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
+      putUserData(nickname)
       alert('닉네임이 변경되었습니다');
       window.location.reload();
       console.log('성공');

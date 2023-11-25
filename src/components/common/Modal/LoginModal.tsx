@@ -13,6 +13,7 @@ import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { User, UUid } from '@/atom/atom';
 import cookie from 'react-cookies';
+import { postLogin } from '@/api/api';
 
 interface LoginModalProps {
   open: boolean;
@@ -39,7 +40,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     console.log('Login with useremail:', email);
     console.log('Login with password:', password);
     try{
-      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
+      const response = await postLogin(email,password)
       const accessToken  = response.data.data.accessToken;
       const refreshToken = response.data.data.refreshToken;
       console.log(accessToken)
@@ -72,7 +73,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 
   const handleGoogleLogin = () => {
     console.log('google login 이동');
-    location.href='http://localhost:8080/api/v1/auth/oauth2/authorize/google?redirect-uri=http://localhost:3000';
+    location.href='http://www.techeerhangout.site/api/v1/auth/oauth2/authorize/google?redirect-uri=http://http://www.techeerhangout.site/';
   };
   return (
     <Dialog

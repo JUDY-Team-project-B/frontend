@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import '@/assets/font/font.css';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { getUserData } from '@/api/api';
 
 export interface UserType {
   age: number;
@@ -48,15 +49,7 @@ function Profile() {
   useEffect(() => {
     const UserData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/user/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
+        const response = await getUserData();
         console.log(response);
         const responseData = response.data.data;
         console.log(responseData);
@@ -80,7 +73,7 @@ function Profile() {
     try {
       const res = await axios({
         method: 'delete',
-        url: `http://localhost:8080/api/v1/user/${data.id}/image`,
+        url: `http://www.techeerhangout.site/api/v1/user/${data.id}/image`,
         headers: {
           Authorization: `Bearer ${cookie.load('accessToken')}`,
           'Access-Control-Allow-Origin': '*',
@@ -100,7 +93,7 @@ function Profile() {
       if (activeSection === 'mypost' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/post/me/${url}`,
+            `http://www.techeerhangout.site/api/v1/post/me/${url}`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -124,7 +117,7 @@ function Profile() {
       if (activeSection === 'comment' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/comment/me`,
+            `http://www.techeerhangout.site/api/v1/comment/me`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -148,7 +141,7 @@ function Profile() {
       if (activeSection === 'like' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/post/me/like/${url}`,
+            `http://www.techeerhangout.site/api/v1/post/me/like/${url}`,
             {
               headers: {
                 Authorization: `Bearer ${cookie.load('accessToken')}`,
@@ -174,7 +167,7 @@ function Profile() {
   const setUnlike = async (postId: number) => {
     try {
       axios.post(
-        `http://localhost:8080/api/v1/post/like`,
+        `http://www.techeerhangout.site/api/v1/post/like`,
         {
           postId: postId,
         },
