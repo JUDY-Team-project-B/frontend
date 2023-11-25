@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
 export const BASE_URL = 'http://www.techeerhangout.site/api/v1'
 
 const client = axios.create({
-  baseURL: 'http://www.techeerhangout.site/api/v1'
+  baseURL: 'http://www.techeerhangout.site/api/v1/'
 })
 
 
