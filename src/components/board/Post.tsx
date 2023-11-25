@@ -48,21 +48,19 @@ const Post = () => {
   const { postId } = useParams();
   console.log(postId);
 
-
-
-  useEffect(()=>{
-    const PostListData =async () => {
+  useEffect(() => {
+    const PostListData = async () => {
       try {
         const response = await getPostData(postId);
         console.log(response.data.data)
         setPostData(response.data.data)
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
       console.log(`엥`)
     }
     PostListData();
-  },[])
+  }, []);
 
   return (
     <PostBg>
@@ -126,7 +124,7 @@ const PostBg = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const CommentLayout = styled.div`
   margin: 0px;
