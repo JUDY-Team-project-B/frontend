@@ -141,9 +141,8 @@ export const CommentDatas = () => {
   const sendChildcomment = async (index: number) => {
     if(isFix === false){
       try {
-        const response = await sendCommentData(userData.id,postId,commentData[index].id,target)
+        const response = await sendCommentData(userData.id,postId,commentData[index].id,ChildrenComment)
         console.log(response);
-        console.log(index+'번호에서 작성되었습니다')
         alert('작성되었습니다!');
       } catch (error) {
         console.log(error);
@@ -152,13 +151,12 @@ export const CommentDatas = () => {
       try {
         const response = await putCommnetData(commentData[index].id,ChildrenComment);
         console.log(response);
-        console.log(index+'번호에서 작성되었습니다3ㅋ')
         alert('수정되었습니다!');
       } catch (error) {
         console.log(error);
       }
     }
-    
+    location.reload();
   };
 
   const onSearch = (e: any) => {
@@ -168,6 +166,7 @@ export const CommentDatas = () => {
 
   const onChildcomment = (e: any) => {
     setChildrenComment(e.target.value);
+    console.log(e.target.value);
   };
 
   const Deletecomment = async (index: any) => {
@@ -211,8 +210,6 @@ export const CommentDatas = () => {
       setIsFix(false)
       setCommentIsSelect(index)
     }
-
-
 
   return(
     <Container2>

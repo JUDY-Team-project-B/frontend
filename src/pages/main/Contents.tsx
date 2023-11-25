@@ -65,7 +65,7 @@ const Content = () => {
       </ContentsWrap>
       <PostList
         queryString={url}
-        searchType={'title'}
+        searchType={'stateAndCity'}
         searchKeyword={selectedLocation}
       />
     </Background>
