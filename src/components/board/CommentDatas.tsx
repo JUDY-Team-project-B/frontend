@@ -186,15 +186,14 @@ export const CommentDatas = () => {
     location.reload();
   };
 
-      async function MyData(): Promise<void> {
-      try {
-        const response = await getUserData();
-        const responseData = response.data.data;
-        console.log(responseData);
-        setUserData(responseData);
-      } catch (error) {
-        console.log(error);
-      }
+  async function MyData(): Promise<void> {
+    try {
+      const response = await getUserData();
+      const responseData = response.data.data;
+      console.log(responseData);
+      setUserData(responseData);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -207,13 +206,8 @@ export const CommentDatas = () => {
     setIsFix(false);
     setCommentIsSelect(index);
   };
-
-    const ClickChildrenComment = (index:any) =>{
-      setIsFix(false)
-      setCommentIsSelect(index)
-    }
-
-  return(
+  
+  return (
     <Container2>
       <CommentLayout>
         <CommentInput onChange={onSearch} value={target}></CommentInput>
@@ -310,7 +304,7 @@ export const CommentDatas = () => {
       </div>
     </Container2>
   );
-};
+}
 
 const CommentLayout = styled.div`
   margin: 0px;

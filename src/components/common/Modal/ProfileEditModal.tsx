@@ -53,7 +53,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     try {
       const res = await axios({
         method: 'put',
-        url: `${BASE_URL}user/${data.id}/image`,
+        url: `${BASE_URL}/user/${data.id}/image`,
         data: formData,
         headers: {
           Authorization: `Bearer ${cookie.load('accessToken')}`,
