@@ -24,7 +24,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>
       <App/>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </RecoilRoot>,
 );
