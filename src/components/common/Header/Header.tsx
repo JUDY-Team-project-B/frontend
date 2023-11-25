@@ -95,9 +95,6 @@ export const Header = () => {
       <HeaderLayout>
         <SpacebetweenLayout>
           <Title onClick={gotoMain}>HANGOUT</Title>
-          {isLogin === true ? (
-            <ILayout onClick={gotoWrite}>동행찾기 </ILayout>
-          ) : null}
           <Inputlayout>
             <Searchselect onChange={handleSelect} value={Selected}>
               {selectList.map((item) => (
@@ -167,25 +164,6 @@ const Title = styled.button`
 
   @media (max-width: 700px) {
     display: none;
-  }
-`;
-
-const ILayout = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 0.5rem;
-  width: 5.5rem;
-  background-color: #4ab8f7;
-  color: white;
-  border-radius: 1rem;
-  font-weight: bolder;
-  font-family: 'NanumSquareNeo-Variable';
-  margin-top: 4px;
-  margin-bottom: 4px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
   }
 `;
 

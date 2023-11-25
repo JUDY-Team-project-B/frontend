@@ -6,23 +6,23 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import cookie from 'react-cookies';
-
+import { backgroundImg } from '@/assets/image/Background.jpg';
 
 export const CommentDatas = () => {
-  const [isFix,setIsFix] = useState<any>(false);
+  const [isFix, setIsFix] = useState<any>(false);
   const [userData, setUserData] = useState<any>([
     {
-      id:          '',
-      email:       '',
-      nickname:     '',
+      id: '',
+      email: '',
+      nickname: '',
       description: '',
-      imageUrls:   [],
-      gender:       '',
-      age:          '',
-      role:         '',
-    }
-  ])
-  const [commentData, setCommentData] = useState<commentType[]|undefined>([
+      imageUrls: [],
+      gender: '',
+      age: '',
+      role: '',
+    },
+  ]);
+  const [commentData, setCommentData] = useState<commentType[] | undefined>([
     {
       children: [],
       content: '',
@@ -33,11 +33,11 @@ export const CommentDatas = () => {
       nickname: '',
     },
   ]);
-  const [target, setTarget] = useState<any|undefined>('');
-  
+  const [target, setTarget] = useState<any | undefined>('');
+
   const { postId } = useParams();
 
-  useEffect(()=>{
+  useEffect(() => {
     async function CommentListData(): Promise<void> {
       try {
         const response = await getCommentData(postId)
@@ -55,14 +55,13 @@ export const CommentDatas = () => {
       }
     }
     MyData();
-    CommentListData()
-  },[postId])
+    CommentListData();
+  }, [postId]);
 
   const [ChildrenComment, setChildrenComment] = useState<any | undefined>();
 
-
   const setIsSelect = (index: number) => {
-    console.log('Start setIsSelect')
+    console.log('Start setIsSelect');
     setChildrenComment('');
     setCommentData((prevData) => {
       const newData = [...prevData];
@@ -87,13 +86,12 @@ export const CommentDatas = () => {
       }
     });
     console.log(commentData);
-    console.log(index+'번째 댓글')
+    console.log(index + '번째 댓글');
   };
 
-
   const setCommentIsSelect = (index: number) => {
-    setIsFix(true)
-    console.log('Start setCommentIsSelect')
+    setIsFix(true);
+    console.log('Start setCommentIsSelect');
     setChildrenComment('');
     setCommentData((prevData) => {
       const newData = [...prevData]; // 기존 데이터 가져오기
@@ -139,7 +137,7 @@ export const CommentDatas = () => {
   };
 
   const sendChildcomment = async (index: number) => {
-    if(isFix === false){
+    if (isFix === false) {
       try {
         const response = await sendCommentData(userData.id,postId,commentData[index].id,ChildrenComment)
         console.log(response);
@@ -147,7 +145,7 @@ export const CommentDatas = () => {
       } catch (error) {
         console.log(error);
       }
-    }else{
+    } else {
       try {
         const response = await putCommnetData(commentData[index].id,ChildrenComment);
         console.log(response);
@@ -180,9 +178,8 @@ export const CommentDatas = () => {
           },
         },
       );
-      console.log(index)  
+      console.log(index);
       console.log(response);
-        
     } catch (error) {
       console.log(error);
     }
@@ -199,12 +196,17 @@ export const CommentDatas = () => {
         console.log(error);
       }
     }
+  }
 
+  const ClickComment = (index: any) => {
+    setIsFix(false);
+    setIsSelect(index);
+  };
 
-    const ClickComment = (index:any) =>{
-      setIsFix(false)
-      setIsSelect(index)
-    }
+  const ClickChildrenComment = (index: any) => {
+    setIsFix(false);
+    setCommentIsSelect(index);
+  };
 
     const ClickChildrenComment = (index:any) =>{
       setIsFix(false)
@@ -213,93 +215,102 @@ export const CommentDatas = () => {
 
   return(
     <Container2>
-        <CommentLayout>
-          <CommentInput onChange={onSearch} value={target}></CommentInput>
-          <Button onClick={sendComment}>게시</Button>
-        </CommentLayout>
-        {/* 일반적인 댓글 작성 */}
+      <CommentLayout>
+        <CommentInput onChange={onSearch} value={target}></CommentInput>
+        <Button onClick={sendComment}>게시</Button>
+      </CommentLayout>
+      {/* 일반적인 댓글 작성 */}
 
-        <div>
-          {commentData?.map((datas: any, index: any) => (
-            <div>
-              <Comment>
-                <CommentInfo>
-                  <CommentWriter>{datas.nickname} {datas.createdAt.slice(0,10)} {datas.createdAt.slice(11,19)} </CommentWriter>
-                  {datas.nickname === userData.nickname ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        width: '90%',
-                        justifyContent: 'right',
-                      }}  
-                    >
-                      <CommentButton onClick={() => setCommentIsSelect(index)}>
-                        수정
-                      </CommentButton>
-                      <CommentButton onClick={() => Deletecomment(index)}>
-                        삭제
-                      </CommentButton>
-                    </div>
-                  ) : (
-                    ''
-                  )}
-                </CommentInfo>
-                <CommentContent>
-                  <Text>{datas.content}</Text>
-                  <CommentButton2 onClick={() => ClickComment(index)}>
-                    답글
-                  </CommentButton2>
-                </CommentContent>
-                {datas.isSelect === false ? (
-                  ''
+      <div>
+        {commentData?.map((datas: any, index: any) => (
+          <div>
+            <Comment>
+              <CommentInfo>
+                <CommentInfo2>
+                  <CommentWriter>{datas.nickname}</CommentWriter>
+                  <CreateTime>
+                    {datas.createdAt.slice(0, 10)}{' '}
+                    {datas.createdAt.slice(11, 19)}{' '}
+                  </CreateTime>
+                </CommentInfo2>
+                {datas.nickname === userData.nickname ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      width: '90%',
+                      justifyContent: 'right',
+                    }}
+                  >
+                    <CommentButton onClick={() => setCommentIsSelect(index)}>
+                      수정
+                    </CommentButton>
+                    <CommentButton onClick={() => Deletecomment(index)}>
+                      삭제
+                    </CommentButton>
+                  </div>
                 ) : (
-                  <CommentLayout>
-                    <CommentInput
-                      onChange={onChildcomment}
-                      value={ChildrenComment}
-                    />
-                    <Button onClick={() => sendChildcomment(index)}>
-                      게시
-                    </Button>
-                  </CommentLayout>
+                  ''
                 )}
-                {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
-              </Comment>
-              <div>
-                {datas.children?.map((comment: any, index: any) => (
-                  <ChildrenComments>
-                    <CommentInfo>
-                       {comment.createdAt.slice(0,10)} {comment.createdAt.slice(11,19)}
-                      <CommentWriter>{comment.nickname}</CommentWriter>
-                      {comment.nickname === userData.nickname ? (
-                        <div
+              </CommentInfo>
+              <CommentContent>
+                <Text>{datas.content}</Text>
+                <CommentButton2 onClick={() => ClickComment(index)}>
+                  답글
+                </CommentButton2>
+              </CommentContent>
+              {datas.isSelect === false ? (
+                ''
+              ) : (
+                <CommentLayout>
+                  <CommentInput2
+                    onChange={onChildcomment}
+                    value={ChildrenComment}
+                  />
+                  <Button onClick={() => sendChildcomment(index)}>게시</Button>
+                </CommentLayout>
+              )}
+              {/* 답글 코멘트  수정과 삭제를 다르게 관리*/}
+            </Comment>
+            <div>
+              {datas.children?.map((comment: any, index: any) => (
+                <ChildrenComments>
+                  <CommentInfo>
+                    <CommentInfo2>
+                      <CommentWriter>{datas.nickname}</CommentWriter>
+                      <CreateTime2>
+                        {datas.createdAt.slice(0, 10)}{' '}
+                        {datas.createdAt.slice(11, 19)}{' '}
+                      </CreateTime2>
+                    </CommentInfo2>
+                    {comment.nickname === userData.nickname ? (
+                      <div
                         style={{
                           display: 'flex',
                           width: '90%',
                           justifyContent: 'right',
                         }}
-                        >
-                          <Text onClick={() => setCommentIsSelect(datas.index)}>
-                            수정
-                          </Text>
-                          <Text onClick={() => Deletecomment(index)}>삭제</Text>
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </CommentInfo>
-                    <CommentContent>
-                      <Text>{comment.content}</Text>
-                    </CommentContent>
-                  </ChildrenComments>
-                ))}
-              </div>
+                      >
+                        <Text onClick={() => setCommentIsSelect(datas.index)}>
+                          수정
+                        </Text>
+                        <Text onClick={() => Deletecomment(index)}>삭제</Text>
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </CommentInfo>
+                  <CommentContent>
+                    <Text>{comment.content}</Text>
+                  </CommentContent>
+                </ChildrenComments>
+              ))}
             </div>
-          ))}
-        </div>
-      </Container2>
-  )
-}
+          </div>
+        ))}
+      </div>
+    </Container2>
+  );
+};
 
 const CommentLayout = styled.div`
   margin: 0px;
@@ -307,11 +318,11 @@ const CommentLayout = styled.div`
 `;
 
 const Comment = styled.div`
-  width: 45rem;
+  width: 49.5rem;
   border-radius: 1rem;
   border: 1px solid #f2f2f2;
   margin-top: 1rem;
-  padding: 8px;
+  padding: 15px;
   background-color: #ffffff;
   font-family: 'NanumSquareNeo-Variable';
 `;
@@ -346,14 +357,39 @@ const Text = styled.div`
 
   margin-left: 0.55rem;
 `;
+const CommentInfo2 = styled.div`
+  overflow: visible;
+  display: flex;
+  flex-direction: row;
+  width: 30rem;
+  margin-top: 0.5rem;
+  font-size: 1.15rem;
+`;
 
 const CommentWriter = styled.div`
   overflow: visible;
   display: flex;
   flex-direction: row;
-  width: 20rem;
+  width: 80rem;
   margin-top: 0.5rem;
   font-size: 1.15rem;
+  color: #6baef6;
+`;
+
+const CreateTime = styled.div`
+  overflow: visible;
+  display: flex;
+  justify-content: right;
+  width: 47rem;
+  font-size: 1rem;
+`;
+
+const CreateTime2 = styled.div`
+  overflow: visible;
+  display: flex;
+  justify-content: right;
+  width: 50rem;
+  font-size: 1rem;
 `;
 
 const CommentInfo = styled.div`
@@ -361,6 +397,7 @@ const CommentInfo = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 1rem;
+  width: 90%;
 `;
 
 const CommentContent = styled.div`
@@ -371,13 +408,14 @@ const CommentContent = styled.div`
 `;
 
 const ChildrenComments = styled.div`
-width: 45rem;
-border-radius: 1rem;
-border: 1px solid #f2f2f2;
-margin-top: 0.1rem;
-padding: 8px;
-background-color: #f7f7f7;
-font-family: 'NanumSquareNeo-Variable';
+  width: 47rem;
+  border-radius: 1rem;
+  border: 1px solid #f2f2f2;
+  margin-top: 0.5rem;
+  margin-left: 2.5rem;
+  padding: 8px;
+  background-color: #f7f7f7;
+  font-family: 'NanumSquareNeo-Variable';
 `;
 
 const Bg = styled.div`
@@ -399,13 +437,22 @@ const Bg = styled.div`
 const Container2 = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 285px;
+  margin-left: 10rem;
 `;
 
 const CommentInput = styled.input`
   margin-top: 2rem;
   height: 3rem;
   width: 39rem;
+  border: 0.1px solid #cdcaca;
+  border-radius: 0.7rem;
+  padding: 1rem;
+`;
+
+const CommentInput2 = styled.input`
+  margin-top: 2rem;
+  height: 3rem;
+  width: 43rem;
   border: 0.1px solid #cdcaca;
   border-radius: 0.7rem;
   padding: 1rem;
@@ -427,4 +474,3 @@ const Button = styled.button`
     cursor: pointer;
   }
 `;
-
