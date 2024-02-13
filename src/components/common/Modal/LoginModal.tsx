@@ -49,6 +49,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       const expires = new Date()
       expires.setMinutes(expires.getMinutes() + 60)
       cookie.save('refreshToken', refreshToken, {
+
           path : '/',
           expires,
           // secure : true,

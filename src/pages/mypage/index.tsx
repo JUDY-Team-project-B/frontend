@@ -50,6 +50,7 @@ function Profile() {
     const UserData = async () => {
       try {
         const response = await getUserData();
+
         console.log(response);
         const responseData = response.data.data;
         console.log(responseData);

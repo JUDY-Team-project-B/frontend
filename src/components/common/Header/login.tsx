@@ -48,6 +48,7 @@ export const Login = () => {
       is_active: false,
     });
     cookie.remove('accessToken', { path: '/' });
+
     navigate('/');
     
     location.reload();
