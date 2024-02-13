@@ -1,28 +1,52 @@
 import React, { lazy } from 'react';
 import GlobalLayout from './pages/_layout';
-import { Route } from 'react-router-dom';
+import { Route, createBrowserRouter } from 'react-router-dom';
+import SignUpPage from './pages/SignUpPage';
 import CreatePostPage from './pages/post/CreatePostPage';
+import ErrorPage from './pages/Errorpage';
+import KMap from './pages/Map';
 const Main = lazy(() => import('./pages/main'));
-const Result = lazy(() => import('./pages/result'));
-const Register = lazy(() => import('./pages/register'));
-const Mypage = lazy(() => import('./pages/mypage'));
-const Travel = lazy(() => import('./pages/travel'));
-const Detail = lazy(() => import('./pages/detail/index'));
-export const routes = [
+const Register = lazy(() => import('./pages/SignUpPage'));
+const Mypage = lazy(() => import('./pages/mypage/index'));
+const Travel = lazy(() => import('./pages/Travel'));
+const Detail = lazy(() => import('./pages/Detail'));
+
+export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <GlobalLayout />,
-    children: [
-      { path: '/', element: <Main />, index: true },
-      { path: '/result', element: <Result />, index: true },
-      { path: '/register', element: <Register />, index: true },
-      { path: '/create-post', element: <CreatePostPage />, index: true },
-      { path: '/mypage', element: <Mypage />, index: true },
-      { path: '/travel', element: <Travel />, index: true },
-      { path: '/detail', element: <Detail />, index: true },
-      
+    path:"/",
+    element:<GlobalLayout/>,
+    children:[
+      {
+        path:"/",
+        element:<Main/> // 
+      },
+      {
+        path:"/create-post",
+        element:<CreatePostPage/>// 
+      },
+      {
+        path:"/mypage",
+        element:<Mypage></Mypage> // 
+      },
+      {
+        path:"/board/:postId",
+        element:<Detail></Detail> // 
+      },
+      {
+        path:"/register",
+        element:<SignUpPage/>
+      },
+      {
+        path:"/travel/:SearchType/:Keyword",//search
+        element:<Travel></Travel> // 
+      },
+      {
+        path:"/map",//search
+        element:<KMap></KMap> // 
+      },
     ],
-  },
-];
+    errorElement:<ErrorPage/>
+  }
+])
 
 export const pages = [{ route: '/' }, { route: '/result' }];

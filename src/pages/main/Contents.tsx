@@ -6,7 +6,7 @@ import seoulBtn from '../../assets/image/seoul-btn.png';
 import busanBtn from '../../assets/image/busan-btn.png';
 import jeonraBtn from '../../assets/image/jeonra-btn.png';
 import allBtn from '../../assets/image/all-btn.png';
-import PostList from '@/components/main/postList/postList';
+import PostList from '@/components/main/postList';
 
 const Content = () => {
   const [url, setUrl] = useState('all/0');
@@ -65,7 +65,7 @@ const Content = () => {
       </ContentsWrap>
       <PostList
         queryString={url}
-        searchType={'title'}
+        searchType={'stateAndCity'}
         searchKeyword={selectedLocation}
       />
     </Background>
@@ -88,60 +88,63 @@ const Title = styled.div`
   align-items: center;
   border: none;
   font-weight: 500;
-  /* color: #61a8f5; */
   font-size: 1.5rem;
   font-family: 'SUITE-Regular';
 `;
 
 const ContentsWrap = styled.div`
   width: 100%;
-  height: 11rem;
+  height: 19rem;
   display: flex;
   justify-content: center;
-  align-items: center;
   font-size: 16px;
   flex-wrap: wrap;
   overflow: visible;
+  margin-top: 1rem;
+  transition: transform 0.7s;
 
-  @media (max-width: 1050px) {
-    margin-left: -1.4rem;
+  @media (max-width: 1400px) {
+    margin-left: -2rem;
+    overflow: visible;
+    transform: scale(0.95);
   }
 `;
 
-const ContentsImg = styled.button`
+const ContentsImg = styled.div`
   margin-left: ${(props) => props.marginLeft};
   opacity: 1;
-  width: 8.5rem;
+  width: 7.8rem;
   margin-top: 2rem;
   height: 9rem;
   border-radius: 1rem;
   background-position: center 0;
-  background-size: 8.5rem 7rem;
+  background-size: 8rem 6.5rem;
   background-image: ${(props) => `url(${props.backgroundImg})`};
   background-repeat: no-repeat;
   transition: transform 0.5s;
   justify-content: center;
+  cursor: pointer;
+  overflow: visible;
 
   &:hover {
     position: center;
-    opacity: 0.65;
+    opacity: 0.75;
     transform: scale(1.1); /* 이미지 확대 */
   }
 
   /* 새로 추가한 스타일: 버튼들이 화면 크기에 따라 자동으로 정렬 */
-  @media (max-width: 1050px) {
-    margin-left: 3rem;
-  }
 
-  @media (max-width: 400px) {
-    margin-left: 1rem;
+  @media (max-width: 1400px) {
+    margin-left: 4rem;
+    overflow: visible;
   }
 `;
 
 const BtnName = styled.div`
   margin-top: 7.5rem;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
+  display: flex;
   justify-content: center;
   align-items: center;
   border: none;

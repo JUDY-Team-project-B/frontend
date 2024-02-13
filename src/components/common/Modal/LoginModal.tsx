@@ -13,6 +13,7 @@ import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { User, UUid } from '@/atom/atom';
 import cookie from 'react-cookies';
+import { postLogin, BASE_URL, BASE_HOST } from '@/api/api';
 
 interface LoginModalProps {
   open: boolean;
@@ -39,31 +40,75 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     console.log('Login with useremail:', email);
     console.log('Login with password:', password);
     try{
-      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate',{email,password});
+      const response = await postLogin(email,password)
       const accessToken  = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
       console.log(accessToken)
+      console.log(refreshToken)
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      cookie
       const expires = new Date()
-      expires.setMinutes(expires.getMinutes() + 60000)
-      cookie.save('accessTokens', accessToken, {
+      expires.setMinutes(expires.getMinutes() + 60)
+      cookie.save('refreshToken', refreshToken, {
+
           path : '/',
           expires,
           // secure : true,
-          //httpOnly : true
-        });
-      
+          httpOnly : true
+        }
+      );
+      cookie.save('accessToken', accessToken, {
+        path : '/',
+        expires,
+        // secure : true,
+        //httpOnly : true
+      }
+    );
+    alert('로그인에 성공하였습니다!')
       navigate('/');
       onClose();
       location.reload();
     }catch(e){
-      console.log(e)
+      alert(e.response.data.message)
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log('google login 이동');
-  };
+  21
+  function getGoogleLoginUrl() {
+      // Google's OAuth 2.0 endpoint for requesting an access token
+      var oauth2Endpoint = BASE_URL+'/auth/oauth2/authorize/google';
+    
+      // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+      var form = document.createElement('form');
+      form.setAttribute('method', 'GET'); // Send as a GET request.
+      form.setAttribute('action', oauth2Endpoint);
+      
+    
+      // // // Parameters to pass to OAuth 2.0 endpoint.
+      var params = {'redirect-uri': BASE_HOST};
+  
+      // // Add form parameters as hidden input values.
+      for (var p in params) {
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', p);
+        input.setAttribute('value', params[p]);
+        form.appendChild(input);
+      }
+    
+      // Add form to page and submit it to open the OAuth 2.0 endpoint.
+      document.body.appendChild(form);
+      form.submit();
+    }
+    
+    const handleGoogleLogin = async () => {
+      console.log('google login 이동');
+      try{
+        getGoogleLoginUrl();
+  
+      } catch (error) {
+        console.error('Error adding like:', error);
+      }
+    }
   return (
     <Dialog
       open={open}

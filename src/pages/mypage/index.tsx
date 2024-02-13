@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import user from '../../assets/image/user.png';
+import user from '@/assets/image/user.png';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
@@ -13,6 +13,10 @@ import unlikeIcon from '@mui/icons-material/FavoriteBorder';
 import gyeongju from '@/assets/image/trip3.jpg';
 import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
+import cookie from 'react-cookies';
+import '@/assets/font/font.css';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { BASE_URL, getUserData } from '@/api/api';
 
 export interface UserType {
   age: number;
@@ -35,7 +39,6 @@ function Profile() {
   const [postdata, setPostData] = useState<PostType[] | undefined>();
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
-
   const [liked, setLiked] = useState([]);
   console.log(liked);
 
@@ -46,37 +49,56 @@ function Profile() {
   useEffect(() => {
     const UserData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/user/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessTokens')}`,
-              'Access-Control-Allow-Origin': '*',
-            },
-          },
-        );
+        const response = await getUserData();
+
         console.log(response);
         const responseData = response.data.data;
         console.log(responseData);
         setData(responseData);
         setId(responseData.id);
+
       } catch (error) {
-        console.log(error);
+        alert('로그인이 되어있지 않습니다')
+        navigate('/')
       }
+      // if(cookie.load('accessToken') === undefined ){
+      //   alert('로그인이 되어있지 않습니다')
+      //   navigate('/')
+      // }
     };
     /// 여기서 처리 추가적으로 처리 가능///
     UserData();
   }, []);
+
+  // 프로필 이미지 삭제
+  const deleteProfileImg = async () => {
+    try {
+      const res = await axios({
+        method: 'delete',
+        url: `${BASE_URL}/user/${data.id}/image`,
+        headers: {
+          Authorization: `Bearer ${cookie.load('accessToken')}`,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('프로필 이미지가 삭제되었습니다.');
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // GET : 내가 작성한 게시물
   useEffect(() => {
     const PostListData = async () => {
       if (activeSection === 'mypost' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/post/me/${url}`,
+            `${BASE_URL}/post/me/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -97,10 +119,10 @@ function Profile() {
       if (activeSection === 'comment' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/comment/me`,
+            `${BASE_URL}/comment/me`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -121,10 +143,10 @@ function Profile() {
       if (activeSection === 'like' && id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/post/me/like/${url}`,
+            `${BASE_URL}/post/me/like/${url}`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${cookie.load('accessToken')}`,
                 'Access-Control-Allow-Origin': '*',
               },
             },
@@ -147,13 +169,13 @@ function Profile() {
   const setUnlike = async (postId: number) => {
     try {
       axios.post(
-        `http://localhost:8080/api/v1/post/like`,
+        `${BASE_URL}/post/like`,
         {
           postId: postId,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${cookie.load('accessToken')}`,
             'Access-Control-Allow-Origin': '*',
           },
         },
@@ -165,31 +187,29 @@ function Profile() {
   };
 
   const goto = (num: number): void => {
-    const postnum = String(num);
-    const queryParems = new URLSearchParams();
-    queryParems.set('q', postnum);
-    const queryString = queryParems.toString();
-    navigate(`/detail?${queryString}`);
+    navigate(`/board/${num}`);
   };
 
   return (
     <div>
-      <div>dummy</div>
-      <div>dummy</div>
-      <div>dummy</div>
       <BackgroundWrap>
         <Bg>
           {data && (
             <>
               <Container>
                 <Container1>
-                  {data.imageUrl == '' ? (
-                    <ProfileImg bgImg={data.imageUrls} />
-                  ) : (
-                    <ProfileImg bgImg={user} />
-                  )}
-
-                  <NickName style={{ marginTop: '-2rem' }}>
+                  <ProfileImgWrap>
+                    <ProfileImg
+                      bgImg={data.imageUrls[0] ? data.imageUrls[0] : user}
+                    />
+                    {data.imageUrls && data.imageUrls.length > 0 && (
+                      <ProfileImgDeleteButton
+                        style={{ fontSize: '2rem' }}
+                        onClick={deleteProfileImg}
+                      />
+                    )}
+                  </ProfileImgWrap>
+                  <NickName style={{ marginTop: '2rem' }}>
                     {data.nickname}
                   </NickName>
                   <NickName>
@@ -233,7 +253,7 @@ function Profile() {
                       {/* OnclickEvent없음 */}
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelState}{datas.travelCity}</Where>
+                    <Where>{datas.travelCity}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       <Date>
@@ -243,11 +263,14 @@ function Profile() {
                     </DateWrap>
                   </TopWrap>
                   <ImgWrap>
-                  <Img style={{
-                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
-                    }} 
-                    onClick={() => goto(datas.id)}>
-                  </Img>
+                    <Img
+                      style={{
+                        backgroundImage: !datas.imageUrls[0]
+                          ? gyeongju
+                          : `url(${datas.imageUrls})`,
+                      }}
+                      onClick={() => goto(datas.id)}
+                    ></Img>
                   </ImgWrap>
                   <PostTitle>{datas.title}</PostTitle>
                 </PostWrap>
@@ -273,8 +296,8 @@ function Profile() {
               <div style={{ marginTop: '15rem', marginLeft: '0rem' }}>
                 작성한 댓글이 없습니다.
               </div>
-              //onClickEvent없음
             ) : (
+              //onClickEvent없음
               commentdata?.map((datas: PostType, index: any) => (
                 <Comment
                   key={index}
@@ -282,8 +305,9 @@ function Profile() {
                     textAlign: 'left',
                     justifyContent: 'center',
                   }}
+                  onClick={() => goto(datas.postId)}
                 >
-                  <CommentPost> {datas.title}</CommentPost>
+                  <CommentPost> {datas.postTitle}</CommentPost>
                   {datas.content}
                   <HoverableIcon
                     style={{
@@ -313,7 +337,7 @@ function Profile() {
                     <PlaceLayout>
                       <img src={place} alt="Place" />
                     </PlaceLayout>
-                    <Where>{datas.travelAt}</Where>
+                    <Where>{datas.travelCity}</Where>
                     <DateWrap>
                       <DateTitle>여행 기간</DateTitle>
                       {/* //onClickEvent없음 */}
@@ -343,11 +367,14 @@ function Profile() {
                     />
                   </LikeWrap>
                   <ImgWrap>
-                  <Img style={{
-                    backgroundImage : !datas.imageUrls[0]  ? gyeongju : `url(${datas.imageUrls})`
-                    }} 
-                    onClick={() => goto(datas.id)}>
-                  </Img>
+                    <Img
+                      style={{
+                        backgroundImage: !datas.imageUrls[0]
+                          ? gyeongju
+                          : `url(${datas.imageUrls})`,
+                      }}
+                      onClick={() => goto(datas.id)}
+                    ></Img>
                   </ImgWrap>
 
                   <PostTitle>{datas.title}</PostTitle>
@@ -363,24 +390,18 @@ function Profile() {
 
 export default Profile;
 
-const Dummy = styled.div`
-height: 20rem
-<wight:1rem></wight:1rem>
-
-`
-
 const BackgroundWrap = styled.div`
   height: 55rem;
   width: 100%;
   display: flex;
-  font-family: 'NanumSquareNeo-Variable';
+  font-family: 'NanumSquareNeoTTF';
   justify-content: center;
 `;
 const Bg = styled.div`
   height: 49rem;
   width: 40%;
   margin-left: -15rem;
-  font-family: 'NanumSquareNeo-Variable';
+  font-family: 'NanumSquareNeoTTF';
   flex-direction: row;
 `;
 
@@ -405,7 +426,6 @@ const BgMypost = styled.div`
   margin-top: 2.5rem;
   margin-left: -3rem;
   display: flex;
-
   flex-direction: row; // 추가
 `;
 
@@ -420,7 +440,7 @@ const Container = styled.div`
   text-align: center;
   z-index: 90;
   width: 20rem;
-  height: 45rem;
+  height: 40rem;
   border-radius: 1.5rem;
   background-color: #70bffb;
   margin: auto;
@@ -463,6 +483,8 @@ const PostWrap = styled.button`
   margin-left: 2rem;
   border-radius: 0.7rem;
   margin-bottom: 3rem;
+  justify-content: center;
+  border: none;
   width: 15rem;
   height: 18rem;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.11);
@@ -471,21 +493,24 @@ const PostWrap = styled.button`
 const PlaceLayout = styled.button`
   justify-content: right;
   display: flex;
-  width: 15%;
-  margin-top: 2.3rem;
-  margin-left: 1rem;
+  width: 14%;
+  margin-left: 0.5rem;
+  margin-top: 2.1rem;
+  background-color: #f9f7f7;
   z-index: 999;
+  border: none;
 `;
+
 const Where = styled.div`
   z-index: 90;
   position: relative;
   overflow: visible;
   width: 9rem;
-  height: 6.2rem;
+  height: 5.8rem;
   display: flex;
   text-align: left;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: #0792e3;
 `;
 
@@ -495,13 +520,14 @@ const TopWrap = styled.div`
   width: 15rem;
   margin-top: -2rem;
   overflow: visible;
+  border: none;
 `;
 
 const DateWrap = styled.div`
   display: block;
   height: 4rem;
   width: 12rem;
-  margin-top: 1.3rem;
+  margin-top: 1.1rem;
   margin-left: 0rem;
   text-align: left;
 `;
@@ -525,17 +551,33 @@ const LikeWrap = styled.div`
   height: 4rem;
   width: 95%;
   justify-content: right;
-
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   position: absolute;
 `;
 
 const ImgWrap = styled.div`
   display: flex;
-  margin-top: 1rem;
-  height: 10rem;
+  margin-top: 0.8rem;
+  height: 9.5rem;
   position: relative;
-  width: 100%;
+  width: 105%;
+  margin-left: -0.3rem;
+`;
+
+const ProfileImgDeleteButton = styled(DeleteIcon)`
+  background-color: #a3a3a3;
+  border-radius: 2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #f5f5f5;
+  position: relative;
+  margin-top: 10rem;
+  margin-left: -2.5rem;
+
+  &:hover {
+    position: center;
+    background-color: #ababab;
+  }
 `;
 
 const Img = styled.button`
@@ -543,16 +585,17 @@ const Img = styled.button`
   opacity: 0.9;
   width: 100%;
   overflow: hidden;
-  height: 9.4rem;
+  height: 9.5rem;
   background-size: 100% 100%;
   background-image: url(${gyeongju});
   background-repeat: no-repeat;
   transition: transform 0.5s;
+  border: none;
 
   &:hover {
     position: center;
     opacity: 0.75;
-    transform: scale(1.12); /* 이미지 확대 */
+    transform: scale(1.11); /* 이미지 확대 */
   }
 `;
 
@@ -560,9 +603,9 @@ const PostTitle = styled.div`
   font-size: 0.8rem;
   width: 13rem;
   font-weight: bold;
-  margin-top: 1rem;
+  margin-top: 1.7rem;
   overflow: visible;
-  text-align: left;
+  text-align: center;
   margin-left: 1rem;
   height: 1.2rem;
 `;
@@ -596,6 +639,12 @@ const HoverableIcon = styled(ArrowForwardIosIcon)`
 
 const LikeIcon = styled(likeIcon)`
   position: relative;
+
+  &:hover {
+    position: center;
+    opacity: 0.9;
+    transform: scale(1.11); /* 이미지 확대 */
+  }
 `;
 
 const Comment = styled.button`
@@ -633,16 +682,22 @@ const CommentTitle = styled.div`
   align-items: center;
   font-size: 1.4rem;
 `;
-
+const ProfileImgWrap = styled.div`
+  display: flex;
+  height: 12rem;
+  position: relative;
+  width: 100%;
+`;
 const ProfileImg = styled.div<{ bgImg: string }>`
   background-image: ${(props) => `url(${props.bgImg})`};
-  height: 17rem;
-  background-size: 9rem 9rem;
+  height: 9rem;
+  width: 9rem;
   background-repeat: no-repeat;
   background-position: center;
-  /* margin-top: 20rem; */
-  background-position-x: 5.6rem;
-  background-position-y: 4rem;
+  background-size: cover;
+  margin-left: 5.5rem;
+  margin-top: 3rem;
+  border-radius: 50%; /* 이미지를 둥글게 만듭니다 */
 `;
 
 const NickName = styled.div`
@@ -678,12 +733,14 @@ const MyPostList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-  border-radius: 0.8rem;
+  background-color: #70bffb;
   height: 3rem;
   width: 100%;
   margin-top: 6rem;
+  border: none;
   font-size: 1.3rem;
   color: white;
+  cursor: pointer;
   &:hover {
     position: center;
     opacity: 0.8;
@@ -694,11 +751,13 @@ const MyCommentList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-  border-radius: 0.8rem;
+  background-color: #70bffb;
   height: 3rem;
   width: 100%;
   font-size: 1.3rem;
   color: white;
+  border: none;
+  cursor: pointer;
   &:hover {
     position: center;
     opacity: 0.8;
@@ -709,12 +768,13 @@ const MyLikeList = styled.button`
   z-index: 90;
   position: relative;
   overflow: visible;
-  border-radius: 0.8rem;
+  background-color: #70bffb;
   height: 3rem;
   width: 100%;
   font-size: 1.3rem;
   color: white;
-
+  border: none;
+  cursor: pointer;
   &:hover {
     position: center;
     opacity: 0.8;

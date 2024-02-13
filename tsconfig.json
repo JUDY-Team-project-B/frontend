@@ -21,6 +21,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "postcss.config.js","types.d.ts"],
+  "include": ["src","types.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
