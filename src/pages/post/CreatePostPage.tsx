@@ -133,63 +133,73 @@ const CreatePostPage = () => {
     setMapLatlng(latlng);
   };
 
-  const handleClick = async () => {
-    console.log(jwt);
-    try {
-      console.log(date[1]);
-      console.log(region);
-      console.log(city);
-      const response = await axios.post(
-        `${BASE_URL}/post`,
-        {
-          title: title,
-          context: content,
-          tags: ['여행'],
-          travelGender: '남성', //타입설정
-          travelState: region,
-          travelCity: city,
-          travelAge: userData.age,
-          travelDateStart: date[0],
-          travelDateEnd: date[1],
-          travelMember: number,
-          latitude: mapLatlng.y, // 좌표값
-          longitude: mapLatlng.x, // 좌표값
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessToken')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append('file', imageFile);
+  // const handleClick = async () => {
+  //   console.log(jwt);
+  //   try {
+  //     console.log(date[1]);
+  //     console.log(region);
+  //     console.log(city);
+  //     const response = await axios.post(
+  //       `${BASE_URL}/post`,
+  //       {
+  //         title: title,
+  //         context: content,
+  //         tags: ['여행'],
+  //         travelGender: '남성', //타입설정
+  //         travelState: region,
+  //         travelCity: city,
+  //         travelAge: userData.age,
+  //         travelDateStart: date[0],
+  //         travelDateEnd: date[1],
+  //         travelMember: number,
+  //         latitude: mapLatlng.y, // 좌표값
+  //         longitude: mapLatlng.x, // 좌표값
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${cookie.load('accessToken')}`,
+  //           'Access-Control-Allow-Origin': '*',
+  //         },
+  //       },
+  //     );
+  //     if (imageFile) {
+  //       const sharp = require('sharp');
+  //       (async () => {
+  //         const image = await sharp(imageFile)
+  //           .resize(500, 500, { fit: 'contain' })
+  //           .withMetadata()
+  //           .toFormat('jpeg', { quality: 100 })
+  //           .toFile('resizeIMG.jpeg', (err:any, info:any) => {
+  //             console.log(`리사이징 이미지 info : ${JSON.stringify(info, null, 2)}`);
+  //           });
+      
+  //         const formData = new FormData();
+  //         formData.append('file', image);
+  //         try {
+  //           const res = await axios({
+  //             method: 'post',
+  //             url: `${BASE_URL}/post/${nextId}/images`,
+  //             data: formData,
+  //             headers: {
+  //               Authorization: `Bearer ${cookie.load('accessToken')}`,
+  //               'Access-Control-Allow-Origin': '*',
+  //               'Content-Type': 'multipart/form-data',
+  //             },
+  //           });
+  //         } catch (e) {
+  //           console.log(e);
+  //         }
+  //       })();
+  //     }
+  //     if(response.status === 200){
+  //       alert('게시물이 생성되었습니다!');
+  //       navigate(`/board/${nextId}`)
 
-        try {
-          const res = await axios({
-            method: 'post',
-            url: `${BASE_URL}/post/${nextId}/images`,
-            data: formData,
-            headers: {
-              Authorization: `Bearer ${cookie.load('accessToken')}`,
-              'Access-Control-Allow-Origin': '*',
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      if(response.status === 200){
-        alert('게시물이 생성되었습니다!');
-        navigate(`/board/${nextId}`)
-
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <PostLayout>
@@ -209,7 +219,7 @@ const CreatePostPage = () => {
             throw new Error('Function not implemented.');
           }}
         /> */}
-          <Btn onClick={handleClick} type="submit" children={'작성완료'} />
+          {/* <Btn onClick={handleClick} type="submit" children={'작성완료'} /> */}
         </CreateFlex>
       </PostFlex>
     </PostLayout>

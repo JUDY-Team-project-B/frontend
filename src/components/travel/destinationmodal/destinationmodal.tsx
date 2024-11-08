@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import './destinationmodal.scss'
 import { restFetcher } from '@/queryClient'
-import { destination } from '@/mocks/handlers'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
@@ -31,7 +30,7 @@ const Destinationmodal = () =>{
 
   console.log(data);
 
-  const destinationdetaillist: destination[] = [
+  const destinationdetaillist: any[] = [
     {
         destination: '천안시'
     },
@@ -73,14 +72,14 @@ const Destinationmodal = () =>{
     return(
         <div  className="destinationmodallayout">
             <div className='destinationlist'>
-                {data?.map((datas:destination,index:any)=>(
+                {data?.map((datas:any,index:any)=>(
                     <button className='destinationliststyle' value={datas.destination} onClick={handlerDestination} >
                         {datas.destination}
                     </button>
                 ))}
             </div>
             <div className='destinationdetaillist'>
-                {destinationdetaillist?.map((datas2:destination,index:any)=>(
+                {destinationdetaillist?.map((datas2:any,index:any)=>(
                     <button className='destinationdetailliststyle' value={datas2.destination} onClick={handlerDestinationDetail}>
                         {datas2.destination}
                     </button>
