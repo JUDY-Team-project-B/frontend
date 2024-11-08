@@ -1,4 +1,4 @@
-import { BASE_URL, getCommentData, getUserData, putCommnetData, sendCommentData, sendData } from "@/api/api";
+import { BASE_URL, getCommentData, getUserData, putCommnetData, sendCommentData } from "@/api/api";
 import { commentType } from "@/types/post";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import cookie from 'react-cookies';
-import { backgroundImg } from '@/assets/image/Background.jpg';
 
 export const CommentDatas = () => {
   const [isFix, setIsFix] = useState<any>(false);
@@ -255,7 +254,8 @@ export const CommentDatas = () => {
               </CommentInfo>
               <CommentContent>
                 <Text>{datas.content}</Text>
-                <CommentButton2 onClick={() => ClickComment(index)}>
+                {/* <CommentButton2 onClick={() => ClickComment(index)}> */}
+                <CommentButton2>
                   답글
                 </CommentButton2>
               </CommentContent>

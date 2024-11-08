@@ -8,7 +8,7 @@ import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
 import axios from 'axios';
-import gyeongju from '@/assets/image/trip3.jpg';
+import gyeongju from '@/assets/image/trip3.webp';
 import user from '@/assets/image/user.png';
 import cookie from 'react-cookies';
 import { getLikeData, getPostData, getPostListData, postLikeData } from '@/api/api';
@@ -104,7 +104,7 @@ const InfinitePostList = (queryString: any) => {
     <PreviewBackground>
       <ContentLayout>
         <GridLayout>
-          {listData?.map((datas: PostType, index: any) => (
+          {listData?.map((datas: any, index: any) => (
             <Content key={index}>
               <TopWarp>
                 <ProfileWrap>

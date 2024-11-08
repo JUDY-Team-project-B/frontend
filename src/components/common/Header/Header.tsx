@@ -128,7 +128,7 @@ const Layout = styled.div`
 `;
 
 const HeaderLayout = styled.div`
-  width: 85rem;
+  width: 1200px;
   height: 60px;
   background-color: white;
   display: flex;
