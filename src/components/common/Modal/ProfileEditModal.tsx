@@ -24,11 +24,10 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   open,
   onClose,
 }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<any | null>(null);
   const [fileImage, setFileImage] = useState('');
   const [nickname, setNickname] = useState('');
-  const [data, setData] = useState(''); //프로필 수정 유저 정보
-  console.log(data.imageUrls);
+  const [data, setData] = useState<any>(''); //프로필 수정 유저 정보
 
   const handleThumbnailUpload = (
     event: React.ChangeEvent<HTMLInputElement>,

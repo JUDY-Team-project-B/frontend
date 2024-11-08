@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import LoginModal from '../Modal/LoginModal';
 import { useRecoilState } from 'recoil';
 import { UUid, User } from '@/atom/atom';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { getLogout } from '@/api/api';
 
+const LoginModal = React.lazy(() => import('../Modal/LoginModal'));
+
+
 export const Login = () => {
+
+
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State variable for login modal
   const [userData, setUserData] = useRecoilState<User>(UUid);
   const [isLogin, setisLogin] = useState<boolean>(false);
