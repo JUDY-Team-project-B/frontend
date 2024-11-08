@@ -17,7 +17,7 @@ import '@/assets/font/font.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BASE_URL, getUserData } from '@/api/api';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
-
+//TODO : mypage 기능 누락 수정
 
 // const ProfileEditModal = lazy(() => import('@/components/common/Modal/ProfileEditModal'));
 

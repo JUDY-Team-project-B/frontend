@@ -8,6 +8,8 @@ import jeonraBtn from '../../assets/image/jeonra-btn.webp';
 import allBtn from '../../assets/image/all-btn.webp';
 import PostList from '@/components/main/postList';
 
+//TODO:> png webp 변환
+
 interface ContentsImgProps {
   backgroundImg: string;
   marginLeft: string;
