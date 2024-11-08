@@ -1,4 +1,3 @@
-import { c } from 'msw/lib/glossary-de6278a9';
 import React, { useEffect, useState } from 'react';
 import '@/components/post/DatePicker.css';
 import styled from 'styled-components';

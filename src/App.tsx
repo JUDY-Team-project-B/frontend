@@ -28,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     vertical-align: baseline;
     border: none;
+    font-display: swap;
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure,
@@ -81,3 +82,5 @@ function App() {
 }
 
 export default App;
+
+

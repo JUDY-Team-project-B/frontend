@@ -224,7 +224,6 @@ const SignUpPage: React.FC = () => {
         <Select
           value={Number(age)}
           onChange={(e) => setAge(e.target.value)}
-          invalid={!isValidAge}
         >
           <Option value="">나이</Option>
           <Option value="10">10대</Option>
@@ -253,8 +252,14 @@ const SignUpForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 `;
-const Select = styled.select`
+
+interface SelectProps {
+  invalid?: boolean;
+}
+
+const Select = styled.select<SelectProps>`
   margin-bottom: 10px;
   padding: 0.9rem;
   width: 25rem;
@@ -299,7 +304,11 @@ const InputWrap = styled.form`
   align-items: center;
 `;
 
-const Input = styled.input`
+interface InputProps {
+  invalid?: boolean;
+}
+
+const Input = styled.input<InputProps>`  
   margin-bottom: 10px;
   padding: 0.9rem;
   width: 25rem;

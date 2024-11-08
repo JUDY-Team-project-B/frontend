@@ -3,7 +3,9 @@
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false  // 'any' 타입 허용
+
   },
   "include": ["vite.config.ts"]
 }

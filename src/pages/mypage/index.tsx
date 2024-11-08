@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import user from '@/assets/image/user.png';
-import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
 import { useQuery } from '@tanstack/react-query';
 import { restFetcher } from '@/queryClient';
 import axios from 'axios';
@@ -10,13 +9,17 @@ import { PostType } from '@/types/post';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import likeIcon from '@mui/icons-material/Favorite';
 import unlikeIcon from '@mui/icons-material/FavoriteBorder';
-import gyeongju from '@/assets/image/trip3.jpg';
+import gyeongju from '@/assets/image/trip3.webp';
 import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
 import '@/assets/font/font.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BASE_URL, getUserData } from '@/api/api';
+import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
+
+
+// const ProfileEditModal = lazy(() => import('@/components/common/Modal/ProfileEditModal'));
 
 export interface UserType {
   age: number;
@@ -30,7 +33,7 @@ export interface UserType {
 }
 
 function Profile() {
-  const url = 0; //임시로 0해둠
+  const url = 0; // 임시로 0 설정
   const [modalOpen, setModalOpen] = useState(false);
   const [data, setData] = useState<UserType | undefined>();
   const [activeSection, setActiveSection] = useState('mypost');
@@ -40,7 +43,6 @@ function Profile() {
   const [commentdata, setCommentData] = useState<PostType[] | undefined>();
   const [likedata, setLikeData] = useState<PostType[] | undefined>();
   const [liked, setLiked] = useState([]);
-  console.log(liked);
 
   const handleModal = () => {
     setModalOpen(!modalOpen);
@@ -50,23 +52,14 @@ function Profile() {
     const UserData = async () => {
       try {
         const response = await getUserData();
-
-        console.log(response);
         const responseData = response.data.data;
-        console.log(responseData);
         setData(responseData);
         setId(responseData.id);
-
       } catch (error) {
-        alert('로그인이 되어있지 않습니다')
-        navigate('/')
+        alert('로그인이 되어있지 않습니다');
+        navigate('/');
       }
-      // if(cookie.load('accessToken') === undefined ){
-      //   alert('로그인이 되어있지 않습니다')
-      //   navigate('/')
-      // }
     };
-    /// 여기서 처리 추가적으로 처리 가능///
     UserData();
   }, []);
 
@@ -94,17 +87,13 @@ function Profile() {
     const PostListData = async () => {
       if (activeSection === 'mypost' && id) {
         try {
-          const response = await axios.get(
-            `${BASE_URL}/post/me/${url}`,
-            {
-              headers: {
-                Authorization: `Bearer ${cookie.load('accessToken')}`,
-                'Access-Control-Allow-Origin': '*',
-              },
+          const response = await axios.get(`${BASE_URL}/post/me/${url}`, {
+            headers: {
+              Authorization: `Bearer ${cookie.load('accessToken')}`,
+              'Access-Control-Allow-Origin': '*',
             },
-          );
+          });
           const responseData: PostType[] = response.data.data;
-          console.log(responseData);
           setPostData(responseData);
         } catch (error) {
           console.log(error);
@@ -114,80 +103,9 @@ function Profile() {
     PostListData();
   }, [activeSection, id]);
 
-  useEffect(() => {
-    const CommentListData = async () => {
-      if (activeSection === 'comment' && id) {
-        try {
-          const response = await axios.get(
-            `${BASE_URL}/comment/me`,
-            {
-              headers: {
-                Authorization: `Bearer ${cookie.load('accessToken')}`,
-                'Access-Control-Allow-Origin': '*',
-              },
-            },
-          );
-          const responseData: PostType[] = response.data.data;
-          console.log(responseData);
-          setCommentData(responseData);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
-    CommentListData();
-  }, [activeSection, id]);
-
-  useEffect(() => {
-    const LikeListData = async () => {
-      if (activeSection === 'like' && id) {
-        try {
-          const response = await axios.get(
-            `${BASE_URL}/post/me/like/${url}`,
-            {
-              headers: {
-                Authorization: `Bearer ${cookie.load('accessToken')}`,
-                'Access-Control-Allow-Origin': '*',
-              },
-            },
-          );
-          const responseData: PostType[] = response.data.data;
-          console.log(responseData);
-          setLikeData(responseData);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
-    LikeListData();
-  }, [activeSection, id]);
-
+  // 섹션 변경 핸들러
   const handleSectionChange = (section: string) => {
     setActiveSection(section);
-  };
-
-  const setUnlike = async (postId: number) => {
-    try {
-      axios.post(
-        `${BASE_URL}/post/like`,
-        {
-          postId: postId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie.load('accessToken')}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      );
-      console.log('성공');
-    } catch (error) {
-      console.error('Error adding like:', error);
-    }
-  };
-
-  const goto = (num: number): void => {
-    navigate(`/board/${num}`);
   };
 
   return (
@@ -199,9 +117,7 @@ function Profile() {
               <Container>
                 <Container1>
                   <ProfileImgWrap>
-                    <ProfileImg
-                      bgImg={data.imageUrls[0] ? data.imageUrls[0] : user}
-                    />
+                    <ProfileImg bgImg={data.imageUrls[0] ? data.imageUrls[0] : user} />
                     {data.imageUrls && data.imageUrls.length > 0 && (
                       <ProfileImgDeleteButton
                         style={{ fontSize: '2rem' }}
@@ -209,180 +125,22 @@ function Profile() {
                       />
                     )}
                   </ProfileImgWrap>
-                  <NickName style={{ marginTop: '2rem' }}>
-                    {data.nickname}
-                  </NickName>
-                  <NickName>
-                    {data.age}대 {data.gender === 'MAN' ? '남자' : '여자'}
-                  </NickName>
-                  <ChangeBtn onClick={handleModal} type="button">
-                    프로필 수정
-                  </ChangeBtn>
-                  <MyPostList onClick={() => handleSectionChange('mypost')}>
-                    내 게시물
-                  </MyPostList>
-                  <MyCommentList onClick={() => handleSectionChange('comment')}>
-                    내 댓글
-                  </MyCommentList>
-                  <MyLikeList onClick={() => handleSectionChange('like')}>
-                    위시 리스트
-                  </MyLikeList>
+                  <NickName style={{ marginTop: '2rem' }}>{data.nickname}</NickName>
+                  <NickName>{data.age}대 {data.gender === 'MAN' ? '남자' : '여자'}</NickName>
+                  <ChangeBtn onClick={handleModal} type="button">프로필 수정</ChangeBtn>
+                  <MyPostList onClick={() => handleSectionChange('mypost')}>내 게시물</MyPostList>
+                  <MyCommentList onClick={() => handleSectionChange('comment')}>내 댓글</MyCommentList>
+                  <MyLikeList onClick={() => handleSectionChange('like')}>위시 리스트</MyLikeList>
                 </Container1>
-
-                <Container2></Container2>
-                <Introduce></Introduce>
               </Container>
-              <ProfileEditModal open={modalOpen} onClose={handleModal} />
+              {modalOpen && (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <ProfileEditModal open={modalOpen} onClose={handleModal} />
+                </Suspense>
+              )}
             </>
           )}
         </Bg>
-        <BgMypost
-          style={{ display: activeSection === 'mypost' ? 'block' : 'none' }}
-        >
-          <MypostTitle>내가 작성한 게시물</MypostTitle>
-          <MypostWrap>
-            {postdata?.length === 0 ? (
-              <div style={{ marginTop: '15rem', marginLeft: '24rem' }}>
-                작성한 게시물이 없습니다.
-              </div>
-            ) : (
-              postdata?.map((datas: PostType, index: any) => (
-                <PostWrap>
-                  <TopWrap>
-                    <PlaceLayout>
-                      {/* OnclickEvent없음 */}
-                      <img src={place} alt="Place" />
-                    </PlaceLayout>
-                    <Where>{datas.travelCity}</Where>
-                    <DateWrap>
-                      <DateTitle>여행 기간</DateTitle>
-                      <Date>
-                        {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
-                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
-                      </Date>
-                    </DateWrap>
-                  </TopWrap>
-                  <ImgWrap>
-                    <Img
-                      style={{
-                        backgroundImage: !datas.imageUrls[0]
-                          ? gyeongju
-                          : `url(${datas.imageUrls})`,
-                      }}
-                      onClick={() => goto(datas.id)}
-                    ></Img>
-                  </ImgWrap>
-                  <PostTitle>{datas.title}</PostTitle>
-                </PostWrap>
-              ))
-            )}{' '}
-          </MypostWrap>
-        </BgMypost>
-        <BgComment
-          style={{
-            flexDirection: 'column',
-            display: activeSection === 'comment' ? 'block' : 'none',
-          }}
-        >
-          <Container
-            style={{
-              backgroundColor: 'white',
-              width: '100%',
-              marginTop: '2.5rem',
-            }}
-          >
-            <CommentTitle>내가 작성한 댓글</CommentTitle>
-            {commentdata?.length === 0 ? (
-              <div style={{ marginTop: '15rem', marginLeft: '0rem' }}>
-                작성한 댓글이 없습니다.
-              </div>
-            ) : (
-              //onClickEvent없음
-              commentdata?.map((datas: PostType, index: any) => (
-                <Comment
-                  key={index}
-                  style={{
-                    textAlign: 'left',
-                    justifyContent: 'center',
-                  }}
-                  onClick={() => goto(datas.postId)}
-                >
-                  <CommentPost> {datas.postTitle}</CommentPost>
-                  {datas.content}
-                  <HoverableIcon
-                    style={{
-                      width: '200%',
-                      justifyContent: 'right',
-                      marginTop: '-4rem',
-                    }}
-                  />
-                </Comment>
-              ))
-            )}
-          </Container>
-        </BgComment>
-        <BgMylike
-          style={{ display: activeSection === 'like' ? 'block' : 'none' }}
-        >
-          <MyLikeTitle>위시 리스트</MyLikeTitle>
-          <MypostWrap>
-            {likedata?.length === 0 ? (
-              <div style={{ marginTop: '15rem', marginLeft: '21rem' }}>
-                위시리스트에 여행지를 추가해주세요!
-              </div>
-            ) : (
-              likedata?.map((datas: PostType, index: any) => (
-                <PostWrap>
-                  <TopWrap>
-                    <PlaceLayout>
-                      <img src={place} alt="Place" />
-                    </PlaceLayout>
-                    <Where>{datas.travelCity}</Where>
-                    <DateWrap>
-                      <DateTitle>여행 기간</DateTitle>
-                      {/* //onClickEvent없음 */}
-                      <Date>
-                        {datas.travelDateStart.slice(5, 10).replace(/-/g, '/')}{' '}
-                        - {datas.travelDateEnd.slice(5, 10).replace(/-/g, '/')}
-                      </Date>
-                    </DateWrap>
-                  </TopWrap>
-
-                  <LikeWrap>
-                    <LikeIcon
-                      style={{
-                        justifyContent: 'right',
-                        zIndex: '999',
-                        color: liked.includes(datas.id) ? '#ffffff' : '#f90808',
-                      }}
-                      onClick={() => {
-                        if (liked.includes(datas.id)) {
-                          setLiked(liked.filter((id) => id !== datas.id));
-                          setUnlike(datas.id);
-                        } else {
-                          setLiked([...liked, datas.id]);
-                          setUnlike(datas.id);
-                        }
-                      }}
-                    />
-                  </LikeWrap>
-                  <ImgWrap>
-                    <Img
-                      style={{
-                        backgroundImage: !datas.imageUrls[0]
-                          ? gyeongju
-                          : `url(${datas.imageUrls})`,
-                      }}
-                      onClick={() => goto(datas.id)}
-                    ></Img>
-                  </ImgWrap>
-
-                  <PostTitle>{datas.title}</PostTitle>
-                </PostWrap>
-              ))
-            )}{' '}
-          </MypostWrap>
-        </BgMylike>
       </BackgroundWrap>
     </div>
   );

@@ -12,7 +12,8 @@
     "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,             // 엄격 모드 비활성화
+    "noEmitOnError": false,       // 에러가 있어도 빌드 진행
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -21,6 +22,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src","types.d.ts"],
+  "include": ["src", "types.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

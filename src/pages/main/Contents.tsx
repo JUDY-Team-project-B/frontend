@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import jejuBtn from '../../assets/image/jeju-btn.png';
-import gyeongjuBtn from '../../assets/image/gyeongju-btn.png';
-import seoulBtn from '../../assets/image/seoul-btn.png';
-import busanBtn from '../../assets/image/busan-btn.png';
-import jeonraBtn from '../../assets/image/jeonra-btn.png';
-import allBtn from '../../assets/image/all-btn.png';
+import jejuBtn from '../../assets/image/jeju-btn.webp';
+import gyeongjuBtn from '../../assets/image/gyeongju-btn.webp';
+import seoulBtn from '../../assets/image/seoul-btn.webp';
+import busanBtn from '../../assets/image/busan-btn.webp';
+import jeonraBtn from '../../assets/image/jeonra-btn.webp';
+import allBtn from '../../assets/image/all-btn.webp';
 import PostList from '@/components/main/postList';
+
+interface ContentsImgProps {
+  backgroundImg: string;
+  marginLeft: string;
+}
 
 const Content = () => {
   const [url, setUrl] = useState('all/0');
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  const handleLocationClick = (location: any) => {
+  const handleLocationClick = (location: string) => {
     setSelectedLocation(location);
   };
 
@@ -110,7 +115,7 @@ const ContentsWrap = styled.div`
   }
 `;
 
-const ContentsImg = styled.div`
+const ContentsImg = styled.div<ContentsImgProps>`
   margin-left: ${(props) => props.marginLeft};
   opacity: 1;
   width: 7.8rem;
@@ -132,8 +137,6 @@ const ContentsImg = styled.div`
     transform: scale(1.1); /* 이미지 확대 */
   }
 
-  /* 새로 추가한 스타일: 버튼들이 화면 크기에 따라 자동으로 정렬 */
-
   @media (max-width: 1400px) {
     margin-left: 4rem;
     overflow: visible;
@@ -152,44 +155,3 @@ const BtnName = styled.div`
   font-size: 1.2rem;
   font-family: 'SUITE-Regular';
 `;
-
-// const ContentsProfile = styled.div`
-//   background-image: url(${user});
-//   position: relative;
-//   height: 5rem;
-//   width: 5rem;
-//   margin-top: -3rem;
-//   margin-left: 6rem;
-//   border-radius: 3rem;
-//   background-size: 5rem 5rem;
-//   background-repeat: no-repeat;
-
-//   z-index: 999;
-//   /* margin-top: 20rem; */
-// `;
-
-// const ContentsTitle = styled.button`
-//   margin-top: 1rem;
-//   width: 100%;
-//   height: 1.4rem;
-//   overflow: hidden;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   border: none;
-//   color: black;
-//   font-size: 1.2rem;
-//   font-weight: bold;
-// `;
-// const ContentsText = styled.div`
-//   margin-top: 1rem;
-//   width: 100%;
-//   height: 1.4rem;
-//   overflow: hidden;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   border: none;
-//   color: #333;
-//   font-size: 1rem;
-// `;
