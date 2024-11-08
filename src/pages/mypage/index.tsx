@@ -9,7 +9,7 @@ import { PostType } from '@/types/post';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import likeIcon from '@mui/icons-material/Favorite';
 import unlikeIcon from '@mui/icons-material/FavoriteBorder';
-import gyeongju from '@/assets/image/trip3.webp';
+import gyeongju from '@/assets/image/trip3.jpg';
 import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
 import cookie from 'react-cookies';
@@ -17,7 +17,7 @@ import '@/assets/font/font.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BASE_URL, getUserData } from '@/api/api';
 import ProfileEditModal from '@/components/common/Modal/ProfileEditModal';
-
+//TODO : mypage 기능 누락 수정
 
 // const ProfileEditModal = lazy(() => import('@/components/common/Modal/ProfileEditModal'));
 

@@ -10,55 +10,55 @@ const client = axios.create({
 })
 
 
-const refreshAccessToken = async () => {
-  try {
-    const response = await axios.post(`${BASE_URL}/auth/refresh-token`, null, {
-      headers: {
-        Authorization: `Bearer ${cookie.load("refreshToken")}`,
-      },
-    });
+// const refreshAccessToken = async () => {
+//   try {
+//     const response = await axios.post(`${BASE_URL}/auth/refresh-token`, null, {
+//       headers: {
+//         Authorization: `Bearer ${cookie.load("refreshToken")}`,
+//       },
+//     });
     
-    const newAccessToken = response.data.accessToken;
-    cookie.save("accessToken", newAccessToken, { path: "/" });
-    return newAccessToken;
-  } catch (error) {
-    console.error("토큰 갱신 실패:", error);
-    window.location.href = "/";
-    throw error;
-  }
-};
+//     const newAccessToken = response.data.accessToken;
+//     cookie.save("accessToken", newAccessToken, { path: "/" });
+//     return newAccessToken;
+//   } catch (error) {
+//     console.error("토큰 갱신 실패:", error);
+//     window.location.href = "/";
+//     throw error;
+//   }
+// };
 
-client.interceptors.request.use((config) => {
-  const accessToken = cookie.load("accessToken");
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-  config.headers["Content-Type"] = "application/json";
-  return config;
-});
+// client.interceptors.request.use((config) => {
+//   const accessToken = cookie.load("accessToken");
+//   if (accessToken) {
+//     config.headers.Authorization = `Bearer ${accessToken}`;
+//   }
+//   config.headers["Content-Type"] = "application/json";
+//   return config;
+// });
 
 
-client.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+// client.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // 무한 루프 방지
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true; // 무한 루프 방지
       
-      try {
-        const newAccessToken = await refreshAccessToken();
+//       try {
+//         const newAccessToken = await refreshAccessToken();
 
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return client(originalRequest);
-      } catch (refreshError) {
-        return Promise.reject(refreshError);
-      }
-    }
+//         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+//         return client(originalRequest);
+//       } catch (refreshError) {
+//         return Promise.reject(refreshError);
+//       }
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   } 
+// );
 
 
 

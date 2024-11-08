@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { restFetcher } from '@/queryClient';
 import likeIcon from '@mui/icons-material/Favorite';
-import Comment from '@/assets/image/detailcomment.png';
 import place from '@/assets/image/placeholder.png';
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '@/types/post';
-import axios from 'axios';
-import gyeongju from '@/assets/image/trip3.webp';
+import gyeongju from '@/assets/image/trip3.jpg';
 import user from '@/assets/image/user.png';
 import cookie from 'react-cookies';
 import { getLikeData, getPostListData, postLikeData } from '@/api/api';
@@ -59,47 +56,62 @@ const Preview = (queryString: any) => {
   );
 
 
-  const likeMutation = useMutation(
-    async (postId: number) => {
-      await postLikeData(postId);
-    },
-    {
-      onMutate: async (postId: number) => {
-        await queryClient.cancelQueries(likeDataQueryKey);
-        
-        const previousLiked = queryClient.getQueryData<PostType[]>(likeDataQueryKey);
-        
-        setLiked((prevLiked) => 
-          prevLiked.includes(postId) 
-            ? prevLiked.filter((id) => id !== postId)
-            : [...prevLiked, postId]
-        );
 
-        return { previousLiked };
-      },
-      onError: (error:any, postId, context) => {
-        console.log(error);
-        if (context?.previousLiked) {
-          setLiked(context.previousLiked);
-        }
-        if (error.response && error.response.status === 401) {
-          alert('로그인을 진행해주세요!');
-        }
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(likeDataQueryKey);
-      },
+  const setLike = async (postId: number) => {
+    //로그인 안된 경우 코드 수정
+    try {
+      postLikeData(postId);
+      console.log('좋아요 실행 및 취소');
+    } catch (error) {
+      console.log(error);
+      if(error.response.status === 401){
+        alert('로그인을 진행해주세요!')
+      }
     }
-  );
+  }
 
 
-  const setLike = (postId: number) => {
-    if (!cookie.load('accessToken')) {
-      alert('로그인을 진행해주세요!');
-      return;
-    }
-    likeMutation.mutate(postId);
-  };
+  // const likeMutation = useMutation(
+  //   async (postId: number) => {
+  //     await postLikeData(postId);
+  //   },
+  //   {
+  //     onMutate: async (postId: number) => {
+  //       await queryClient.cancelQueries(likeDataQueryKey);
+        
+  //       const previousLiked = queryClient.getQueryData<PostType[]>(likeDataQueryKey);
+        
+  //       setLiked((prevLiked) => 
+  //         prevLiked.includes(postId) 
+  //           ? prevLiked.filter((id) => id !== postId)
+  //           : [...prevLiked, postId]
+  //       );
+
+  //       return { previousLiked };
+  //     },
+  //     onError: (error:any, postId, context) => {
+  //       console.log(error);
+  //       if (context?.previousLiked) {
+  //         setLiked(context.previousLiked);
+  //       }
+  //       if (error.response && error.response.status === 401) {
+  //         alert('로그인을 진행해주세요!');
+  //       }
+  //     },
+  //     onSettled: () => {
+  //       queryClient.invalidateQueries(likeDataQueryKey);
+  //     },
+  //   }
+  // );
+
+
+  // const setLike = (postId: number) => {
+  //   if (!cookie.load('accessToken')) {
+  //     alert('로그인을 진행해주세요!');
+  //     return;
+  //   }
+  //   likeMutation.mutate(postId);
+  // };
 
   const goto = (num: number): void => {
     const postnum = String(num);
