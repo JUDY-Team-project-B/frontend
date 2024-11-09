@@ -8,7 +8,6 @@ import { getPostData, getPostListData, getUserData } from '@/api/api';
 import { useParams } from 'react-router-dom';
 import Maps from '@/pages/post/naverMap';
 import { response } from 'msw';
-import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 
 export interface IPostData {
   id?: number | undefined;
