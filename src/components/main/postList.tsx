@@ -113,6 +113,7 @@ const Preview = (queryString: any) => {
   //   likeMutation.mutate(postId);
   // };
 
+  
   const goto = (num: number): void => {
     const postnum = String(num);
     navigate(`board/${postnum}`);

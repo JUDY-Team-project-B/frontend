@@ -8,7 +8,7 @@ import jeonraBtn from '../../assets/image/jeonra-btn.png';
 import allBtn from '../../assets/image/all-btn.png';
 import PostList from '@/components/main/postList';
 
-//TODO:> png webp 변환
+//TODO:> png webp 
 
 interface ContentsImgProps {
   backgroundImg: string;
